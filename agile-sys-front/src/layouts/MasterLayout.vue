@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
+  <div>
     <v-app id="inspire">
-      <v-app id="inspire">
         <v-navigation-drawer v-model="drawer" clipped app>
           <v-list>
             <v-list-item>
@@ -17,8 +16,8 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-        
-              <v-divider></v-divider>
+
+          <v-divider></v-divider>
 
           <v-list dense>
             <template v-for="item in items">
@@ -36,7 +35,7 @@
           </v-list>
         </v-navigation-drawer>
 
-        <v-app-bar :clipped-left="true" app color="blue darken-3" dark>
+        <v-app-bar :clipped-left="true" app class="appBar" dark>
           <v-app-bar-nav-icon
             @click.stop="drawer = !drawer"
           ></v-app-bar-nav-icon>
@@ -50,10 +49,9 @@
           </v-btn>
         </v-app-bar>
 
-        <v-main>
+        <v-container>
           <router-view></router-view>
-        </v-main>
-      </v-app>
+        </v-container>
     </v-app>
   </div>
 </template>
@@ -75,4 +73,7 @@ export default {
 </script>
 
 <style>
+.appBar {
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(1,147,241,1) 0%, rgba(6,79,167,1) 0%, rgba(1,147,241,1) 100%, rgba(0,212,255,1) 100%) !important;
+}
 </style>

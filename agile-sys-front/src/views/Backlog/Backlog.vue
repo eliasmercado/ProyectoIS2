@@ -1,6 +1,6 @@
 <template>
   <div>
-      Backlog
+        <v-row justify="center" class="align-center">backlog</v-row>
   </div>
 </template>
 

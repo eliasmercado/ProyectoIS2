@@ -1,13 +1,10 @@
 <template>
-  <v-app id="inspire">
-    <div class="ripple-background">
-      <div class="circle xxlarge shade1"></div>
-      <div class="circle xlarge shade2"></div>
-      <div class="circle large shade3"></div>
-      <div class="circle mediun shade4"></div>
-      <div class="circle small shade5"></div>
+  <v-app>
+    <div id="contenedor">
+      <v-main>
+        <router-view />
+      </v-main>
     </div>
-    <router-view></router-view>
   </v-app>
 </template>
 
@@ -16,10 +13,23 @@ export default {};
 </script>
 
 <style>
-#inspire {
-  background-color: #3399ff;
+#app {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 0%,
+    rgba(6, 79, 167, 1) 0%,
+    rgba(0, 212, 255, 1) 100%,
+    rgba(9, 9, 119, 1) 100%
+  );
   overflow: hidden;
   align-items: center;
+}
+
+#contenedor {
+  width: 100%;
+  position: absolute;
 }
 
 .circle {
