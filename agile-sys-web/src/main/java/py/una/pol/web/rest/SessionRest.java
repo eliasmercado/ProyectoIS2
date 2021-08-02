@@ -11,6 +11,7 @@ import py.una.pol.ejb.bean.SessionBean;
 import py.una.pol.ejb.dto.LoginDto;
 import py.una.pol.ejb.dto.LoginResponseDto;
 import py.una.pol.ejb.dto.ResponseDto;
+import py.una.pol.ejb.dto.MessageDto;
 
 @Path("/login")
 public class SessionRest {
@@ -27,19 +28,19 @@ public class SessionRest {
     @POST
     @Produces("application/json")
     @Consumes("application/json")
-    public ResponseDto <LoginResponseDto> login(LoginDto loginDto){
-        ResponseDto<LoginResponseDto> response = new ResponseDto<>();
+    public ResponseDto login(LoginDto loginDto){
+        ResponseDto response;
         LoginResponseDto loginResponseDto = sessionBean.login(loginDto);
 
         if(loginResponseDto != null){
+            response = new ResponseDto<LoginResponseDto>();
             response.setData(loginResponseDto);
-            response.setMessage("Login Exitoso");
-            response.setError(false);
         }else{
-            response.setMessage("Login Fallido");
-            response.setError(true);
+            response = new ResponseDto<Error>();
+            MessageDto msg = new MessageDto();
+            msg.setMessage("Login Fallido");
+            response.setError(msg);
         }
-
 
         return response;
     }

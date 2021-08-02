@@ -56,7 +56,7 @@ public class LoginResponseDto {
         return idProyecto;
     }
 
-    public void setIdProyecto(Integer idProyecto) {
+    public void setIdProyecto(int idProyecto) {
         this.idProyecto = idProyecto;
     }
 
