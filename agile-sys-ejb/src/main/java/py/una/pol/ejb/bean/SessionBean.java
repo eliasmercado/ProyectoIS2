@@ -4,10 +4,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import py.una.pol.ejb.dao.UsuarioDao;
+import py.una.pol.ejb.dao.UsuarioProyectoDao;
 import py.una.pol.ejb.dto.LoginDto;
 import py.una.pol.ejb.dto.LoginResponseDto;
-import py.una.pol.ejb.dto.ResponseDto;
 import py.una.pol.ejb.model.Usuarios;
+import py.una.pol.ejb.model.UsuarioProyecto;
 
 @Stateless
 public class SessionBean {
@@ -15,9 +16,12 @@ public class SessionBean {
     @EJB
     UsuarioDao usuarioDao;
 
+    @EJB
+    UsuarioProyectoDao usuarioProyectoDao;
+
     public LoginResponseDto login(LoginDto loginDto){
         LoginResponseDto response = null;
-        Usuarios usuario = usuarioDao.findByUsuario(loginDto.getUsuario());
+        Usuarios usuario = usuarioDao.findByUsuarioPassword(loginDto.getUsuario(), loginDto.getPassword());
 
         if(usuario != null){
             response = new LoginResponseDto();
@@ -27,6 +31,11 @@ public class SessionBean {
             response.setApellidos(usuario.getApellidos());
             response.setEmail(usuario.getEmail());
             response.setEsAdmin(usuario.getAdministrador());
+            UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoByIdUsuario(usuario.getIdUsuario());
+            if(usuarioProyecto != null)
+                response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());
+            else
+                response.setIdProyecto(0);
         }
         
         return response;

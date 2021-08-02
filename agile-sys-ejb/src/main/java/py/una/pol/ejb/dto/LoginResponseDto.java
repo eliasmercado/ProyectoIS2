@@ -51,12 +51,15 @@ public class LoginResponseDto {
     public void setEsAdmin(Boolean esAdmin) {
         this.esAdmin = esAdmin;
     }
+    
     public Integer getIdProyecto() {
         return idProyecto;
     }
+
     public void setIdProyecto(Integer idProyecto) {
         this.idProyecto = idProyecto;
     }
+
     @Override
     public String toString() {
         return "LoginResponseDto [apellidos=" + apellidos + ", email=" + email + ", esAdmin=" + esAdmin
@@ -64,5 +67,7 @@ public class LoginResponseDto {
                 + usuario + "]";
     }
 
+   
+    
     
 }
