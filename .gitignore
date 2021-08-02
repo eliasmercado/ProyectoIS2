@@ -1,0 +1,7 @@
+.project
+.settings/
+agile-sys-ear/target/
+agile-sys-ejb/target/
+agile-sys-web/target/
+*.classpath
+*.MF
