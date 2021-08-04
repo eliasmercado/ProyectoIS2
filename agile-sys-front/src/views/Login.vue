@@ -70,7 +70,7 @@ export default {
     ...mapActions(["authUser"]),
     login() {
       var credentials = {
-        user: this.user,
+        usuario: this.user,
         password: this.password,
       };
 
