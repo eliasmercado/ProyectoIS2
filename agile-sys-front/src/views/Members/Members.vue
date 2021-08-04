@@ -1,5 +1,5 @@
 <template>
-  <div>Members</div>
+  <div></div>
 </template>
 
 <script src="./Members.js"></script>

@@ -51,6 +51,14 @@
             </v-col>
           </v-row>
         </v-container>
+
+        <v-snackbar
+          color="error"
+          v-model="$store.state.LoginStore.error"
+          :timeout="timeout"
+        >
+          {{ $store.state.LoginStore.errorMessage }}
+        </v-snackbar>
       </v-main>
     </v-app>
   </div>
@@ -64,6 +72,7 @@ export default {
     user: null,
     password: null,
     response: null,
+    timeout: 2000,
   }),
 
   methods: {
