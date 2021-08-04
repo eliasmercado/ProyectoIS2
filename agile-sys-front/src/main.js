@@ -3,16 +3,22 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import Vuex from "vuex";
 import axios from "axios";
-import VueAxios from "vue-axios";
-import router from "./router";
+import Vueaxios from "vue-axios";
+import router from "@/router/index";
+import store from "./store/index";
 
 Vue.use(Vuex);
-Vue.use(VueAxios, axios);
+Vue.use(Vueaxios, axios);
+
+const baseURL = "http://localhost:8080/agile-sys-web";
+
+axios.defaults.baseURL = baseURL;
 
 Vue.config.productionTip = false;
 
 new Vue({
   vuetify,
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");
