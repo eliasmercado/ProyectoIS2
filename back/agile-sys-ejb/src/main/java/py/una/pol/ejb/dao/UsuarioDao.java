@@ -24,17 +24,24 @@ public class UsuarioDao extends GenericDao<Usuarios> {
         super(Usuarios.class);
     }
 
-
-    public Usuarios findByUsuarioPassword(String usuario, String password){
+    public Usuarios findByUsuarioPassword(String usuario, String password) {
         TypedQuery<Usuarios> query = em.createNamedQuery("Usuarios.findByUsuarioPassword", Usuarios.class)
-            .setParameter("usuario", usuario)
-            .setParameter("password", password);
+                .setParameter("usuario", usuario).setParameter("password", password);
         List<Usuarios> results = query.getResultList();
-        if(results.size() > 0)
+        if (results.size() > 0)
             return results.get(0);
         else
             return null;
-    }    
+    }
 
-   
+    public Usuarios findByUsuario(String usuario) {
+        TypedQuery<Usuarios> query = em.createNamedQuery("Usuarios.findByUsuario", Usuarios.class)
+                .setParameter("usuario", usuario);
+        List<Usuarios> results = query.getResultList();
+        if (results.size() > 0)
+            return results.get(0);
+        else
+            return null;
+    }
+
 }

@@ -1,5 +1,8 @@
 package py.una.pol.ejb.dto;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Null;
+
 public class LoginResponseDto {
 
     private Integer idUsuario;
@@ -8,6 +11,7 @@ public class LoginResponseDto {
     private String apellidos;
     private String email;
     private Boolean esAdmin;
+    @Column(nullable = true)
     private Integer idProyecto;
 
     
@@ -56,7 +60,7 @@ public class LoginResponseDto {
         return idProyecto;
     }
 
-    public void setIdProyecto(int idProyecto) {
+    public void setIdProyecto(Integer idProyecto) {
         this.idProyecto = idProyecto;
     }
 

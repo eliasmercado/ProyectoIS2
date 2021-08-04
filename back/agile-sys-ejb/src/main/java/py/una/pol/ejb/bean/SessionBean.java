@@ -7,7 +7,9 @@ import py.una.pol.ejb.dao.UsuarioDao;
 import py.una.pol.ejb.dao.UsuarioProyectoDao;
 import py.una.pol.ejb.dto.LoginDto;
 import py.una.pol.ejb.dto.LoginResponseDto;
+import py.una.pol.ejb.enums.GenericMessage;
 import py.una.pol.ejb.model.Usuarios;
+import py.una.pol.ejb.utils.AgileSysException;
 import py.una.pol.ejb.model.UsuarioProyecto;
 
 @Stateless
@@ -19,11 +21,13 @@ public class SessionBean {
     @EJB
     UsuarioProyectoDao usuarioProyectoDao;
 
-    public LoginResponseDto login(LoginDto loginDto){
+    public LoginResponseDto login(LoginDto loginDto) throws AgileSysException {
         LoginResponseDto response = null;
         Usuarios usuario = usuarioDao.findByUsuarioPassword(loginDto.getUsuario(), loginDto.getPassword());
 
-        if(usuario != null){
+        if (usuario != null) {
+            if (!usuario.getEstado())
+                throw new AgileSysException(GenericMessage.USER_DISABLE);
             response = new LoginResponseDto();
             response.setUsuario(usuario.getUsuario());
             response.setIdUsuario(usuario.getIdUsuario());
@@ -32,12 +36,15 @@ public class SessionBean {
             response.setEmail(usuario.getEmail());
             response.setEsAdmin(usuario.getAdministrador());
             UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoByIdUsuario(usuario.getIdUsuario());
-            if(usuarioProyecto != null)
+            if (usuarioProyecto != null)
                 response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());
             else
                 response.setIdProyecto(0);
-        }
-        
+        } else if (usuarioDao.findByUsuario(loginDto.getUsuario()) == null) {
+            throw new AgileSysException(GenericMessage.USER_NOT_FOUND);
+        } else
+            throw new AgileSysException(GenericMessage.PASSWORD_INVALID);
+
         return response;
     }
 }
