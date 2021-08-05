@@ -69,9 +69,5 @@ public class LoginResponseDto {
         return "LoginResponseDto [apellidos=" + apellidos + ", email=" + email + ", esAdmin=" + esAdmin
                 + ", idProyecto=" + idProyecto + ", idUsuario=" + idUsuario + ", nombres=" + nombres + ", usuario="
                 + usuario + "]";
-    }
-
-   
-    
-    
+    }    
 }
