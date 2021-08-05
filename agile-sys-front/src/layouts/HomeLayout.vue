@@ -3,7 +3,12 @@
     <v-app id="inspire">
       <v-app-bar :clipped-left="true" app class="appBar" dark>
         <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-          <span class="hidden-sm-and-down">Agile-Sys</span>
+          <v-avatar tile>
+              <img
+                src="@/assets/logo-AS.png"
+              />
+          </v-avatar>
+          <span class="ml-2 textStyle text-h5 font-weight-bold">Agile Sys</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
 
@@ -44,7 +49,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .appBar {
   background: linear-gradient(
     90deg,
@@ -55,5 +60,9 @@ export default {
     rgba(1, 147, 241, 1) 100%,
     rgba(0, 212, 255, 1) 100%
   ) !important;
+}
+
+.textStyle {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 </style>

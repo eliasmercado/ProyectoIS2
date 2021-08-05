@@ -36,12 +36,21 @@
             </v-list-item>
           </template>
         </v-list>
+
+        <template v-slot:append>
+          <div class="pa-12">
+            <v-btn class="primary" to="/">Volver al inicio</v-btn>
+          </div>
+        </template>
       </v-navigation-drawer>
 
       <v-app-bar :clipped-left="true" app class="appBar" dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
-          <span class="hidden-sm-and-down">Agile-Sys</span>
+          <v-avatar tile>
+            <img src="@/assets/logo-AS.png" />
+          </v-avatar>
+          <span class="text-h5 textStyle font-weight-bold ml-2">Agile Sys</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
 
@@ -94,5 +103,9 @@ export default {
     rgba(1, 147, 241, 1) 100%,
     rgba(0, 212, 255, 1) 100%
   ) !important;
+}
+
+.textStyle {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 </style>
