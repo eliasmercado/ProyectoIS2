@@ -4,16 +4,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import py.una.pol.ejb.dao.ProyectoDao;
-import py.una.pol.ejb.dao.UsuarioDao;
-import py.una.pol.ejb.dao.UsuarioProyectoDao;
-import py.una.pol.ejb.dto.LoginDto;
-import py.una.pol.ejb.dto.LoginResponseDto;
 import py.una.pol.ejb.dto.ProyectoResponseDto;
 import py.una.pol.ejb.enums.GenericMessage;
-import py.una.pol.ejb.model.Usuarios;
 import py.una.pol.ejb.utils.AgileSysException;
 import py.una.pol.ejb.model.Proyectos;
-import py.una.pol.ejb.model.UsuarioProyecto;
 
 @Stateless
 public class ProyectoBean {
@@ -25,10 +19,15 @@ public class ProyectoBean {
         Proyectos proyecto = proyectoDao.findByProyecto(idProyecto);
 
         if (proyecto != null) {
+            if (proyecto.getIdEstados().getIdEstados() == 2)
+                throw new AgileSysException(GenericMessage.PROYECTO_FINALIZADO);
+            if (proyecto.getIdEstados().getIdEstados() == 3)
+                throw new AgileSysException(GenericMessage.PROYECTO_CANCELADO);
             response = new ProyectoResponseDto();
             response.setNombre(proyecto.getNombreProyecto());
             response.setDescripcion(proyecto.getDescripcionProyecto());
             response.setFechaInicio(proyecto.getFechaInicio());
+
         } else {
             throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
         }

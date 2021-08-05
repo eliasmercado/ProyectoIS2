@@ -1,30 +1,31 @@
 package py.una.pol.web.rest;
 
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import py.una.pol.ejb.utils.AgileSysException;
-import py.una.pol.ejb.bean.ProyectoBean;
 import py.una.pol.ejb.dto.ProyectoResponseDto;
 import py.una.pol.ejb.dto.ResponseDto;
+import py.una.pol.ejb.bean.GestionProyectoBean;
+import py.una.pol.ejb.dto.GestionProyectoResponseDto;
 import py.una.pol.ejb.dto.MessageDto;
 
-@Path("/proyecto/{idProyecto}")
-public class ProyectoRest {
+@Path("/rol-proyecto/{id-proyecto}/{id-usuario}")
+public class GestionProyectoRest {
     @EJB
-    ProyectoBean proyectoBean;
+    GestionProyectoBean proyectoBean;
 
     @GET
     @Produces("application/json")
-    @Consumes("application/json")
-    public ResponseDto enviarProyecto(@PathParam("idProyecto") Integer idProyecto) {
+    public ResponseDto enviarProyecto(@PathParam("id-proyecto") Integer idProyecto,
+            @PathParam("id-usuario") Integer idUsuario) {
         ResponseDto response;
         try {
-            ProyectoResponseDto proyectoResponse = proyectoBean.enviarProyecto(idProyecto);
+            GestionProyectoResponseDto proyectoResponse = proyectoBean.enviarGestionProyecto(idProyecto, idUsuario);
             response = new ResponseDto<ProyectoResponseDto>();
             response.setData(proyectoResponse);
         } catch (AgileSysException e) {

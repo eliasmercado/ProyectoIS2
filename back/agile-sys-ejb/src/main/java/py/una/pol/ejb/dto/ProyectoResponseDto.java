@@ -1,7 +1,5 @@
 package py.una.pol.ejb.dto;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Null;
 import java.util.Date;
 
 public class ProyectoResponseDto {

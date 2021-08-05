@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "usuario_proyecto")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UsuarioProyecto.findAll", query = "SELECT u FROM UsuarioProyecto u"),
-    @NamedQuery(name = "UsuarioProyecto.findByIdUsuarioProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuarioProyecto = :idUsuarioProyecto"),
-    @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuario", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario")})
+@NamedQueries({ @NamedQuery(name = "UsuarioProyecto.findAll", query = "SELECT u FROM UsuarioProyecto u"),
+        @NamedQuery(name = "UsuarioProyecto.findByIdUsuarioProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuarioProyecto = :idUsuarioProyecto"),
+        @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuario", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario"),
+        @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuarioIdProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario and u.idProyecto.idProyecto = :idProyecto") })
 public class UsuarioProyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -100,7 +100,8 @@ public class UsuarioProyecto implements Serializable {
             return false;
         }
         UsuarioProyecto other = (UsuarioProyecto) object;
-        if ((this.idUsuarioProyecto == null && other.idUsuarioProyecto != null) || (this.idUsuarioProyecto != null && !this.idUsuarioProyecto.equals(other.idUsuarioProyecto))) {
+        if ((this.idUsuarioProyecto == null && other.idUsuarioProyecto != null)
+                || (this.idUsuarioProyecto != null && !this.idUsuarioProyecto.equals(other.idUsuarioProyecto))) {
             return false;
         }
         return true;
@@ -110,5 +111,5 @@ public class UsuarioProyecto implements Serializable {
     public String toString() {
         return "py.una.pol.ejb.model.UsuarioProyecto[ idUsuarioProyecto=" + idUsuarioProyecto + " ]";
     }
-    
+
 }
