@@ -19,12 +19,12 @@
       <v-col md="5" xl="4">
         <v-card max-width="500" class="rounded-xl" elevation="3">
           <div class="white--text align-end" style="background: #1976d2">
-            <v-card-title>Sistema de Gestion de Proyectos</v-card-title>
+            <v-card-title>{{ nombreProyecto }}</v-card-title>
           </div>
           <v-card-text>
-            <p>04-08-2021</p>
+            <p>{{new Date().toISOString(fechaInicioProyecto).slice(0, 10) }}</p>
             <div class="text--primary text-body-1">
-              Sistema para gestion de proyectos con metodologias agiles
+              {{ descripcionProyecto }}
             </div>
           </v-card-text>
           <v-card-actions>
@@ -75,7 +75,6 @@
     <div class="btn-flotante">
       <v-btn color="primary">Crear Proyecto</v-btn>
     </div>
-
   </div>
 </template>
 

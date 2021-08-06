@@ -13,9 +13,7 @@
                 {{ $store.state.LoginStore.nombres.split(" ")[0] }}
                 {{ $store.state.LoginStore.apellidos.split(" ")[0] }}
               </v-list-item-title>
-              <v-list-item-subtitle>{{
-                $store.state.LoginStore.rol
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ rolUsuario }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -73,6 +71,8 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
+    idRol: 0,
+    rolUsuario: "",
     items: [
       { icon: "mdi-clipboard-text", text: "Backlog", to: "/backlog" },
       { icon: "mdi-view-week-outline", text: "Tablero", to: "/board" },
@@ -88,6 +88,21 @@ export default {
     logoutUser() {
       this.logout();
     },
+
+    cargarRolUsuario() {
+      let idProyecto = this.$store.state.LoginStore.idProyecto;
+      let idUsuario = this.$store.state.LoginStore.idUsuario;
+      let url = `/v1/rol-proyecto/${idProyecto}/${idUsuario}`;
+
+      this.axios.get(url).then((result) => {
+        this.rolUsuario = result.data.data.descripcionRol;
+        this.idRol = result.data.data.idRol;
+      });
+    },
+  },
+
+  mounted() {
+    this.cargarRolUsuario();
   },
 };
 </script>
