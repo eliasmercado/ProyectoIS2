@@ -10,7 +10,7 @@ import store from "./store/index";
 Vue.use(Vuex);
 Vue.use(Vueaxios, axios);
 
-const baseURL = "http://localhost:8080/agile-sys-web";
+const baseURL = "http://localhost:8080/agile-sys-web/api";
 
 axios.defaults.baseURL = baseURL;
 
