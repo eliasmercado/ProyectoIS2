@@ -94,10 +94,15 @@ export default {
       let idUsuario = this.$store.state.LoginStore.idUsuario;
       let url = `/v1/rol-proyecto/${idProyecto}/${idUsuario}`;
 
-      this.axios.get(url).then((result) => {
-        this.rolUsuario = result.data.data.descripcionRol;
-        this.idRol = result.data.data.idRol;
-      });
+      this.axios
+        .get(url)
+        .then((result) => {
+          this.rolUsuario = result.data.data.descripcionRol;
+          this.idRol = result.data.data.idRol;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 
