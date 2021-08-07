@@ -2,23 +2,9 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 500;
     font-size: 30px;
+    color: #ffff;
 }
-
-.btn-flotante {
-	color: transparent; /* Color del texto */
-	letter-spacing: 2px; /* Espacio entre letras */
-	background-color: transparent; /* Color de fondo */
-	padding: 18px 30px; /* Relleno del boton */
-	position: fixed;
-	bottom: 40px;
-	right: 40px;
-	z-index: 99;
+.div-1 {
+    background-color: #1976d2;
+    height: 20%;
 }
-@media only screen and (max-width: 600px) {
- 	.btn-flotante {
-		font-size: 14px;
-		padding: 12px 20px;
-		bottom: 20px;
-		right: 20px;
-	}
-} 
