@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <v-row class="mt-3">
+  <div class="div-1">
+    <br />
+    <br />
+    <v-row justify="center">
       <span class="welcomeStyle">
         Bienvenido
         {{ $store.state.LoginStore.nombres }}
@@ -17,45 +19,57 @@
       "
     >
       <v-col md="5" xl="4">
-        <v-card max-width="500" class="rounded-xl" elevation="3">
-          <div class="white--text align-end" style="background: #1976d2">
-            <v-card-title>{{ nombreProyecto }}</v-card-title>
-          </div>
-          <v-card-text>
-            <p>{{new Date().toISOString(fechaInicioProyecto).slice(0, 10) }}</p>
-            <div class="text--primary text-body-1">
-              {{ descripcionProyecto }}
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text color="primary accent-4" to="/backlog">
-              IR AL PROYECTO
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <v-hover>
+          <template v-slot="{ hover }">
+            <v-card :elevation="hover ? 10 : 3" max-width="500">
+              <div class="white--text align-end" style="background: #ff9800">
+                <v-card-title>{{ nombreProyecto }}</v-card-title>
+              </div>
+              <v-card-text>
+                <p>
+                  {{ new Date().toISOString(fechaInicioProyecto).slice(0, 10) }}
+                </p>
+                <div class="text--primary text-body-1">
+                  {{ descripcionProyecto }}
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text color="primary accent-4" to="/backlog">
+                  IR AL PROYECTO
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-hover>
       </v-col>
 
       <v-col md="5" xl="4">
-        <v-card max-width="600" height="300" class="rounded-xl">
-          <div class="white--text align-end" style="background: #1976d2">
-            <v-card-title>Mis asignaciones</v-card-title>
-          </div>
-          <v-card-text>
-            <div class="text--primary"></div>
-          </v-card-text>
-        </v-card>
+        <v-hover>
+          <template v-slot="{ hover }">
+            <v-card :elevation="hover ? 10 : 3" max-width="600" height="300">
+              <div class="white--text align-end" style="background: #009688">
+                <v-card-title>Mis asignaciones</v-card-title>
+              </div>
+              <v-card-text>
+                <div class="text--primary"></div>
+              </v-card-text>
+            </v-card>
+          </template>
+        </v-hover>
       </v-col>
     </v-row>
 
-    <v-row v-else class="mt-12">
-      <div class="text-h4">No tenes proyectos en curso</div>
+    <v-row justify="center">
+      <div class="text-h4 font-weight-medium" style="color: #ffff">
+        No tenes proyectos activos
+      </div>
     </v-row>
 
     <br />
     <br />
     <br />
     <v-row justify="center">
-      <v-card width="100%" class="rounded-xl">
+      <v-card width="90%" class="rounded-xl">
         <v-tabs v-model="tab" background-color="primary" dark>
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
@@ -71,10 +85,6 @@
         </v-tabs-items>
       </v-card>
     </v-row>
-
-    <div class="btn-flotante">
-      <v-btn color="primary">Crear Proyecto</v-btn>
-    </div>
   </div>
 </template>
 
