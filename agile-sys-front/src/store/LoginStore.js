@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from "@/router/index";
 
-let apiUrl = "http://localhost:8080/agile-sys-web";
+let apiUrl = "http://localhost:8180/agile-sys-web";
 
 const state = {
   idUsuario: null,
