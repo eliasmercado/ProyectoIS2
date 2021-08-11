@@ -1,11 +1,15 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
 import Home from "@/views/Home/Home.vue";
-import Backlog from "@/views/Backlog/Backlog.vue";
-import Board from "@/views/Board/Board.vue";
-import Members from "@/views/Members/Members.vue";
-import Settings from "@/views/Settings/Settings.vue";
+import Backlog from "@/views/ModuloDesarrollo/Backlog/Backlog.vue";
+import Board from "@/views/ModuloDesarrollo/Board/Board.vue";
+import Members from "@/views/ModuloDesarrollo/Members/Members.vue";
+import Settings from "@/views/ModuloDesarrollo/Settings/Settings.vue";
 import Login from "@/views/Login.vue";
+import Usuarios from "@/views/ModuloSeguridad/Usuarios/Usuarios.vue";
+import AsignarRoles from "@/views/ModuloSeguridad/AsignarRoles/AsignarRoles.vue";
+import Permisos from "@/views/ModuloSeguridad/Permisos/Permisos.vue";
+import Roles from "@/views/ModuloSeguridad/Roles/Roles.vue";
 import MasterLayout from "@/layouts/MasterLayout.vue";
 import LoginLayout from "@/layouts/LoginLayout.vue";
 import HomeLayout from "@/layouts/HomeLayout.vue";
@@ -31,6 +35,30 @@ const routes = [
     path: "/",
     component: MasterLayout,
     children: [
+      {
+        path: "/seguridad/usuarios",
+        name: "Usuarios",
+        component: Usuarios,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/seguridad/permisos",
+        name: "Permisos",
+        component: Permisos,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/seguridad/roles",
+        name: "Roles",
+        component: Roles,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/seguridad/asignarRoles",
+        name: "Usuarios",
+        component: Usuarios,
+        meta: { requiresAuth: true },
+      },
       {
         path: "/backlog",
         name: "Backlog",

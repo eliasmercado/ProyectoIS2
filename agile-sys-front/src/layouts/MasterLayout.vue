@@ -59,7 +59,6 @@
         </v-navigation-drawer>
 
         <v-toolbar
-          app
           extended
           extension-height="40"
           color="appBarMasterLayout"
@@ -105,10 +104,18 @@ export default {
         id: 1,
         title: "SEGURIDAD",
         childItems: [
-          { icon: "mdi-account", text: "Usuarios", to: "" },
-          { icon: "mdi-account-key", text: "Permisos", to: "" },
-          { icon: "mdi-account-cog", text: "Roles", to: "" },
-          { icon: "mdi-account-plus", text: "Asignar Roles", to: "" },
+          { icon: "mdi-account", text: "Usuarios", to: "/seguridad/usuarios" },
+          {
+            icon: "mdi-account-key",
+            text: "Permisos",
+            to: "/seguridad/permisos",
+          },
+          { icon: "mdi-account-cog", text: "Roles", to: "/seguridad/roles" },
+          {
+            icon: "mdi-account-plus",
+            text: "Asignar Roles",
+            to: "/seguridad/asignarRoles",
+          },
         ],
       },
 
