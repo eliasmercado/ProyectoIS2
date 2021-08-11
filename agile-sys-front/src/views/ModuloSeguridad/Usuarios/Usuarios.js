@@ -13,6 +13,7 @@ export default {
     ],
     users: [],
     editedIndex: -1,
+    deletedIndex: -1,
     editedItem: {
       nombre: "",
       apellido: "",
@@ -76,8 +77,14 @@ export default {
       this.dialog = true;
     },
 
-    deleteItem(item) {
-      const index = this.users.indexOf(item);
+    getDeleteItemIndex(item) {
+      this.deletedIndex = this.users.indexOf(item);
+      this.dialogEliminar = true;
+    },
+
+    deleteItem() {
+      var itemTable = this.users[this.deletedIndex];
+      const index = this.users.indexOf(itemTable);
       this.users.splice(index, 1);
       this.dialogEliminar = false;
     },

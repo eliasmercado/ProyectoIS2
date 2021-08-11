@@ -55,8 +55,8 @@ const routes = [
       },
       {
         path: "/seguridad/asignarRoles",
-        name: "Usuarios",
-        component: Usuarios,
+        name: "AsignarRoles",
+        component: AsignarRoles,
         meta: { requiresAuth: true },
       },
       {

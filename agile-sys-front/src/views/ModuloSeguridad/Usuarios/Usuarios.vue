@@ -79,7 +79,7 @@
 
       <v-dialog v-model="dialogEliminar" persistent width="560">
         <template v-slot:activator="{ on, attrs }">
-          <v-icon small v-bind="attrs" v-on="on" >
+          <v-icon small v-bind="attrs" v-on="on" @click="getDeleteItemIndex(item)">
             mdi-delete
           </v-icon>
         </template>
@@ -89,7 +89,7 @@
           >
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="deleteItem(item)"
+            <v-btn color="green darken-1" text @click="deleteItem"
               >Aceptar</v-btn
             >
             <v-btn color="green darken-1" text @click="dialogEliminar = false"
