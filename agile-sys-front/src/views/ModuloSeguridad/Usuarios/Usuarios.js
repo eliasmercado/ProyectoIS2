@@ -9,7 +9,7 @@ export default {
       { text: "Email", align: "start", value: "email" },
       { text: "Teléfono", align: "start", value: "telefono" },
       { text: "Usuario", align: "start", value: "usuario" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Acciones", value: "actions", sortable: false },
     ],
     users: [],
     editedIndex: -1,
