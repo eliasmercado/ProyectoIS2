@@ -22,7 +22,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         autocomplete="off"
-                        v-model="editedItem.nombre"
+                        v-model="editedItem.nombres"
                         label="Nombres"
                         :rules="nameRules"
                       ></v-text-field>
@@ -30,7 +30,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         autocomplete="off"
-                        v-model="editedItem.apellido"
+                        v-model="editedItem.apellidos"
                         label="Apellidos"
                         :rules="lastNameRules"
                       ></v-text-field>
@@ -58,6 +58,19 @@
                         label="Teléfono"
                       ></v-text-field>
                     </v-col>
+
+                    <v-col cols="12" sm="6" md="6">
+                      <v-select
+                        :items="roles"
+                        v-model="editedItem.rol"
+                        label="Rol"
+                        item-text="descripcion"
+                        item-value="idRol"
+                        return-object
+                        clearable
+                      >
+                      </v-select>
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -79,7 +92,12 @@
 
       <v-dialog v-model="dialogEliminar" persistent width="560">
         <template v-slot:activator="{ on, attrs }">
-          <v-icon small v-bind="attrs" v-on="on" @click="getDeleteItemIndex(item)">
+          <v-icon
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="getDeleteItemIndex(item)"
+          >
             mdi-delete
           </v-icon>
         </template>

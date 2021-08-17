@@ -4,14 +4,16 @@ export default {
     dialogEliminar: false,
     validForm: true,
     headers: [
-      { text: "Nombres", align: "start", value: "nombre" },
-      { text: "Apellidos", align: "start", value: "apellido" },
+      { text: "Nombres", align: "start", value: "nombres" },
+      { text: "Apellidos", align: "start", value: "apellidos" },
+      { text: "Rol", align: "start", value: "rol.descripcion" },
       { text: "Email", align: "start", value: "email" },
       { text: "Teléfono", align: "start", value: "telefono" },
       { text: "Usuario", align: "start", value: "usuario" },
       { text: "Acciones", value: "actions", sortable: false },
     ],
     users: [],
+    roles: [],
     editedIndex: -1,
     deletedIndex: -1,
     editedItem: {
@@ -20,6 +22,7 @@ export default {
       email: "",
       telefono: "",
       usuario: "",
+      rol: {},
     },
     defaultItem: {
       nombre: "",
@@ -27,6 +30,7 @@ export default {
       email: "",
       telefono: "",
       usuario: "",
+      rol: {},
     },
     emailRules: [
       (v) => !!v || "Email es requerido",
@@ -62,12 +66,22 @@ export default {
     initialize() {
       this.users = [
         {
-          nombre: "Elias Valentin",
-          apellido: "Mercado Lopez",
+          idUsuario: 1,
+          nombres: "Elias Valentin",
+          apellidos: "Mercado Lopez",
           email: "eliasmerc23@gmail.com",
           telefono: "0972250212",
           usuario: "emercado",
+          rol: {
+            idRol: 1,
+            descripcion: "Developer",
+          },
         },
+      ];
+
+      this.roles = [
+        { idRol: 1, descripcion: "Analista de Sistemas" },
+        { idRol: 2, descripcion: "Desarrollador" },
       ];
     },
 
