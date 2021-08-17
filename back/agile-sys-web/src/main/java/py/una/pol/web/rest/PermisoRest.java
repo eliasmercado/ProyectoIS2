@@ -1,7 +1,7 @@
 package py.una.pol.web.rest;
 
 
-import py.una.pol.ejb.bean.UsuarioBean;
+import py.una.pol.ejb.bean.PermisoBean;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
 
@@ -9,21 +9,21 @@ import javax.ejb.EJB;
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/usuario")
-public class UsuarioRest {
+@Path("/permiso")
+public class PermisoRest {
     @EJB
-    UsuarioBean usuarioBean;
+    PermisoBean permisoBean;
 
     @GET
     @Produces("application/json")
-    public ResponseDto getUsuarios() {
+    public ResponseDto getPermisos() {
 
         ResponseDto response;
 
         try {
-            List<UsuarioResponseDto> listaUsuarios = usuarioBean.getUsuarios();
+            List<PermisoResponseDto> listaPermisos = permisoBean.getPermisos();
             response = new ResponseDto<List<UsuarioResponseDto>>();
-            response.setData(listaUsuarios);
+            response.setData(listaPermisos);
 
         } catch (AgileSysException e) {
             response = new ResponseDto<>();
@@ -38,37 +38,35 @@ public class UsuarioRest {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public ResponseDto postUsuarios(UsuarioRequestDto usuarioRequestDto) {
+    public ResponseDto postPermisos(PermisoRequestDto permisoRequestDto) {
 
         ResponseDto response;
 
         try {
-            UsuarioPostResponseDto usuarioPostResponseDto = usuarioBean.postUsuario(usuarioRequestDto);
-            response = new ResponseDto<UsuarioPostResponseDto>();
-            response.setData(usuarioPostResponseDto);
+            PermisoPostResponseDto permisoResponseDto = permisoBean.postPermiso(permisoRequestDto);
+            response = new ResponseDto<PermisoPostResponseDto>();
+            response.setData(permisoResponseDto);
 
         } catch (AgileSysException e) {
             response = new ResponseDto<>();
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
             response.setError(msg);
-
         }
-
         return response;
     }
 
     @PUT
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("{idUsuario}")
-    public ResponseDto updateUsuario(@PathParam("idUsuario") Integer idUsuario, UsuarioRequestDto usuarioRequestDto) {
+    @Path("{idPermiso}")
+    public ResponseDto updateUsuario(@PathParam("idPermiso") Integer idPermiso, PermisoRequestDto permisoRequestDto) {
 
         ResponseDto response;
         MessageDto messageDto;
 
         try {
-            messageDto = usuarioBean.updateUsuario(idUsuario, usuarioRequestDto);
+            messageDto = permisoBean.updatePermiso(idPermiso, permisoRequestDto);
             response = new ResponseDto<MessageDto>();
             response.setData(messageDto);
 
@@ -78,20 +76,19 @@ public class UsuarioRest {
             messageDto.setMessage(e.getDescripcion());
             response.setError(messageDto);
         }
-
         return response;
     }
 
     @DELETE
     @Produces("application/json")
-    @Path("{idUsuario}")
-    public ResponseDto deleteUsuario(@PathParam("idUsuario") Integer idUsuario) {
+    @Path("{idPermiso}")
+    public ResponseDto deleteUsuario(@PathParam("idPermiso") Integer idPermiso) {
 
         ResponseDto response;
         MessageDto message;
 
         try {
-            message = usuarioBean.deleteUsuario(idUsuario);
+            message = permisoBean.deletePermiso(idPermiso);
             response = new ResponseDto<UsuarioPostResponseDto>();
             response.setData(message);
 

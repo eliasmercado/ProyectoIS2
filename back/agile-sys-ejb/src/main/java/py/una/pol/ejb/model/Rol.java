@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author isaux
  */
 @Entity
-@Table(name = "roles")
+@Table(name = "rol")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Roles.findAll", query = "SELECT r FROM Roles r"),
-    @NamedQuery(name = "Roles.findByIdRol", query = "SELECT r FROM Roles r WHERE r.idRol = :idRol"),
-    @NamedQuery(name = "Roles.findByDescripcionRol", query = "SELECT r FROM Roles r WHERE r.descripcionRol = :descripcionRol")})
-public class Roles implements Serializable {
+    @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r"),
+    @NamedQuery(name = "Rol.findByIdRol", query = "SELECT r FROM Rol r WHERE r.idRol = :idRol"),
+    @NamedQuery(name = "Rol.findByDescripcionRol", query = "SELECT r FROM Rol r WHERE r.descripcionRol = :descripcionRol")})
+public class Rol implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,18 +48,18 @@ public class Roles implements Serializable {
     @Column(name = "descripcion_rol")
     private String descripcionRol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRol")
-    private Collection<UsuarioProyecto> usuarioProyectoCollection;
+    private Collection<Usuario> usuarioCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRol")
     private Collection<RolPermiso> rolPermisoCollection;
 
-    public Roles() {
+    public Rol() {
     }
 
-    public Roles(Integer idRol) {
+    public Rol(Integer idRol) {
         this.idRol = idRol;
     }
 
-    public Roles(Integer idRol, String descripcionRol) {
+    public Rol(Integer idRol, String descripcionRol) {
         this.idRol = idRol;
         this.descripcionRol = descripcionRol;
     }
@@ -81,12 +81,12 @@ public class Roles implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UsuarioProyecto> getUsuarioProyectoCollection() {
-        return usuarioProyectoCollection;
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
     }
 
-    public void setUsuarioProyectoCollection(Collection<UsuarioProyecto> usuarioProyectoCollection) {
-        this.usuarioProyectoCollection = usuarioProyectoCollection;
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
 
     @XmlTransient
@@ -108,10 +108,10 @@ public class Roles implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Roles)) {
+        if (!(object instanceof Rol)) {
             return false;
         }
-        Roles other = (Roles) object;
+        Rol other = (Rol) object;
         if ((this.idRol == null && other.idRol != null) || (this.idRol != null && !this.idRol.equals(other.idRol))) {
             return false;
         }
@@ -120,7 +120,7 @@ public class Roles implements Serializable {
 
     @Override
     public String toString() {
-        return "py.una.pol.ejb.model.Roles[ idRol=" + idRol + " ]";
+        return "py.una.pol.ejb.model.Rol[ idRol=" + idRol + " ]";
     }
     
 }

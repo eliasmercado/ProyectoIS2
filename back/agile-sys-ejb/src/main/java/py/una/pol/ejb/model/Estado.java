@@ -28,46 +28,46 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author isaux
  */
 @Entity
-@Table(name = "estados")
+@Table(name = "estado")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Estados.findAll", query = "SELECT e FROM Estados e"),
-    @NamedQuery(name = "Estados.findByIdEstados", query = "SELECT e FROM Estados e WHERE e.idEstados = :idEstados"),
-    @NamedQuery(name = "Estados.findByDescripcionEstado", query = "SELECT e FROM Estados e WHERE e.descripcionEstado = :descripcionEstado")})
-public class Estados implements Serializable {
+    @NamedQuery(name = "Estado.findAll", query = "SELECT e FROM Estado e"),
+    @NamedQuery(name = "Estado.findByIdEstado", query = "SELECT e FROM Estado e WHERE e.idEstado = :idEstado"),
+    @NamedQuery(name = "Estado.findByDescripcionEstado", query = "SELECT e FROM Estado e WHERE e.descripcionEstado = :descripcionEstado")})
+public class Estado implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_estados")
-    private Integer idEstados;
+    @Column(name = "id_estado")
+    private Integer idEstado;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
     @Column(name = "descripcion_estado")
     private String descripcionEstado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstados")
-    private Collection<Proyectos> proyectosCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    private Collection<Proyecto> proyectoCollection;
 
-    public Estados() {
+    public Estado() {
     }
 
-    public Estados(Integer idEstados) {
-        this.idEstados = idEstados;
+    public Estado(Integer idEstado) {
+        this.idEstado = idEstado;
     }
 
-    public Estados(Integer idEstados, String descripcionEstado) {
-        this.idEstados = idEstados;
+    public Estado(Integer idEstado, String descripcionEstado) {
+        this.idEstado = idEstado;
         this.descripcionEstado = descripcionEstado;
     }
 
-    public Integer getIdEstados() {
-        return idEstados;
+    public Integer getIdEstado() {
+        return idEstado;
     }
 
-    public void setIdEstados(Integer idEstados) {
-        this.idEstados = idEstados;
+    public void setIdEstado(Integer idEstado) {
+        this.idEstado = idEstado;
     }
 
     public String getDescripcionEstado() {
@@ -79,29 +79,29 @@ public class Estados implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Proyectos> getProyectosCollection() {
-        return proyectosCollection;
+    public Collection<Proyecto> getProyectoCollection() {
+        return proyectoCollection;
     }
 
-    public void setProyectosCollection(Collection<Proyectos> proyectosCollection) {
-        this.proyectosCollection = proyectosCollection;
+    public void setProyectoCollection(Collection<Proyecto> proyectoCollection) {
+        this.proyectoCollection = proyectoCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idEstados != null ? idEstados.hashCode() : 0);
+        hash += (idEstado != null ? idEstado.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Estados)) {
+        if (!(object instanceof Estado)) {
             return false;
         }
-        Estados other = (Estados) object;
-        if ((this.idEstados == null && other.idEstados != null) || (this.idEstados != null && !this.idEstados.equals(other.idEstados))) {
+        Estado other = (Estado) object;
+        if ((this.idEstado == null && other.idEstado != null) || (this.idEstado != null && !this.idEstado.equals(other.idEstado))) {
             return false;
         }
         return true;
@@ -109,7 +109,7 @@ public class Estados implements Serializable {
 
     @Override
     public String toString() {
-        return "py.una.pol.ejb.model.Estados[ idEstados=" + idEstados + " ]";
+        return "py.una.pol.ejb.model.Estado[ idEstado=" + idEstado + " ]";
     }
     
 }

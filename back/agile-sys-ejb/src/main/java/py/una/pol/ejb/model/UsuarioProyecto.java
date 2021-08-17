@@ -9,13 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,27 +26,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "usuario_proyecto")
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "UsuarioProyecto.findAll", query = "SELECT u FROM UsuarioProyecto u"),
-        @NamedQuery(name = "UsuarioProyecto.findByIdUsuarioProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuarioProyecto = :idUsuarioProyecto"),
-        @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuario", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario"),
-        @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuarioIdProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario and u.idProyecto.idProyecto = :idProyecto") })
+@NamedQueries({
+    @NamedQuery(name = "UsuarioProyecto.findAll", query = "SELECT u FROM UsuarioProyecto u"),
+    @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuario", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario"),
+    @NamedQuery(name = "UsuarioProyecto.findProyectoByIdUsuarioIdProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuario.idUsuario = :idUsuario and u.idProyecto.idProyecto = :idProyecto"),
+    @NamedQuery(name = "UsuarioProyecto.findByIdUsuarioProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.idUsuarioProyecto = :idUsuarioProyecto")})
 public class UsuarioProyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id_usuario_proyecto")
     private Integer idUsuarioProyecto;
     @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto")
     @ManyToOne(optional = false)
-    private Proyectos idProyecto;
-    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
-    @ManyToOne(optional = false)
-    private Roles idRol;
+    private Proyecto idProyecto;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
-    private Usuarios idUsuario;
+    private Usuario idUsuario;
 
     public UsuarioProyecto() {
     }
@@ -62,27 +61,19 @@ public class UsuarioProyecto implements Serializable {
         this.idUsuarioProyecto = idUsuarioProyecto;
     }
 
-    public Proyectos getIdProyecto() {
+    public Proyecto getIdProyecto() {
         return idProyecto;
     }
 
-    public void setIdProyecto(Proyectos idProyecto) {
+    public void setIdProyecto(Proyecto idProyecto) {
         this.idProyecto = idProyecto;
     }
 
-    public Roles getIdRol() {
-        return idRol;
-    }
-
-    public void setIdRol(Roles idRol) {
-        this.idRol = idRol;
-    }
-
-    public Usuarios getIdUsuario() {
+    public Usuario getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Usuarios idUsuario) {
+    public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -100,8 +91,7 @@ public class UsuarioProyecto implements Serializable {
             return false;
         }
         UsuarioProyecto other = (UsuarioProyecto) object;
-        if ((this.idUsuarioProyecto == null && other.idUsuarioProyecto != null)
-                || (this.idUsuarioProyecto != null && !this.idUsuarioProyecto.equals(other.idUsuarioProyecto))) {
+        if ((this.idUsuarioProyecto == null && other.idUsuarioProyecto != null) || (this.idUsuarioProyecto != null && !this.idUsuarioProyecto.equals(other.idUsuarioProyecto))) {
             return false;
         }
         return true;
@@ -111,5 +101,5 @@ public class UsuarioProyecto implements Serializable {
     public String toString() {
         return "py.una.pol.ejb.model.UsuarioProyecto[ idUsuarioProyecto=" + idUsuarioProyecto + " ]";
     }
-
+    
 }

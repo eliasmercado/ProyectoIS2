@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,44 +35,43 @@ public class RolPermiso implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Size(min = 1, max = 2147483647)
     @Column(name = "id_rol_permiso")
-    private String idRolPermiso;
-    @JoinColumn(name = "id_permisos", referencedColumnName = "id_permisos")
+    private Integer idRolPermiso;
+    @JoinColumn(name = "id_permiso", referencedColumnName = "id_permiso")
     @ManyToOne(optional = false)
-    private Permisos idPermisos;
+    private Permiso idPermiso;
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne(optional = false)
-    private Roles idRol;
+    private Rol idRol;
 
     public RolPermiso() {
     }
 
-    public RolPermiso(String idRolPermiso) {
+    public RolPermiso(Integer idRolPermiso) {
         this.idRolPermiso = idRolPermiso;
     }
 
-    public String getIdRolPermiso() {
+    public Integer getIdRolPermiso() {
         return idRolPermiso;
     }
 
-    public void setIdRolPermiso(String idRolPermiso) {
+    public void setIdRolPermiso(Integer idRolPermiso) {
         this.idRolPermiso = idRolPermiso;
     }
 
-    public Permisos getIdPermisos() {
-        return idPermisos;
+    public Permiso getIdPermiso() {
+        return idPermiso;
     }
 
-    public void setIdPermisos(Permisos idPermisos) {
-        this.idPermisos = idPermisos;
+    public void setIdPermiso(Permiso idPermiso) {
+        this.idPermiso = idPermiso;
     }
 
-    public Roles getIdRol() {
+    public Rol getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(Roles idRol) {
+    public void setIdRol(Rol idRol) {
         this.idRol = idRol;
     }
 

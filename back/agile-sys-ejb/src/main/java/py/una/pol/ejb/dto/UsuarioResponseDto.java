@@ -1,18 +1,14 @@
 package py.una.pol.ejb.dto;
 
-public class LoginResponseDto {
-
+public class UsuarioResponseDto {
+   
     private Integer idUsuario;
     private String usuario;
     private String nombres;
     private String apellidos;
     private String email;
-    private Integer idProyecto;
-    private Integer idRol;
-    private String rol;
-
-    public LoginResponseDto() {
-    }
+    private String telefono;
+    private RolDto rol;
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -54,33 +50,32 @@ public class LoginResponseDto {
         this.email = email;
     }
 
-    public String getRol() {
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public RolDto getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(RolDto rol) {
         this.rol = rol;
-    }
-
-    public Integer getIdProyecto() {
-        return idProyecto;
-    }
-
-    public void setIdProyecto(Integer idRol) {
-        this.idProyecto = idRol;
-    }
-
-    public Integer getIdRol() {
-        return idRol;
-    }
-
-    public void setIdRol(Integer idRol) {
-        this.idRol = idRol;
     }
 
     @Override
     public String toString() {
-        return "LoginResponseDto [apellidos=" + apellidos + ", email=" + email + ", idProyecto=" + idProyecto + ", idUsuario=" + idUsuario + ", nombres=" + nombres + ", usuario="
-                + usuario + "]";
+        return "UsuarioResponseDto{" +
+                "idUsuario=" + idUsuario +
+                ", usuario='" + usuario + '\'' +
+                ", nombres='" + nombres + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", email='" + email + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", rol=" + rol +
+                '}';
     }
 }

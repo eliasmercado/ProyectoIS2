@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import py.una.pol.ejb.model.Proyectos;
+import py.una.pol.ejb.model.Proyecto;
 
 @Stateless
-public class ProyectoDao extends GenericDao<Proyectos> {
+public class ProyectoDao extends GenericDao<Proyecto> {
 
     @PersistenceContext(unitName = "py.una.pol_agile-sys-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -21,13 +21,13 @@ public class ProyectoDao extends GenericDao<Proyectos> {
     }
 
     public ProyectoDao() {
-        super(Proyectos.class);
+        super(Proyecto.class);
     }
 
-    public Proyectos findByProyecto(Integer idProyecto) {
-        TypedQuery<Proyectos> query = em.createNamedQuery("Proyectos.findByIdProyecto", Proyectos.class)
+    public Proyecto findByProyecto(Integer idProyecto) {
+        TypedQuery<Proyecto> query = em.createNamedQuery("Proyecto.findByIdProyecto", Proyecto.class)
                 .setParameter("idProyecto", idProyecto);
-        List<Proyectos> results = query.getResultList();
+        List<Proyecto> results = query.getResultList();
         if (results.size() > 0)
             return results.get(0);
         else

@@ -28,7 +28,7 @@ public class ProyectoRest {
             response = new ResponseDto<ProyectoResponseDto>();
             response.setData(proyectoResponse);
         } catch (AgileSysException e) {
-            response = new ResponseDto<Error>();
+            response = new ResponseDto<>();
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
             response.setError(msg);
