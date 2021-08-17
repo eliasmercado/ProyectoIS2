@@ -59,7 +59,7 @@
                       ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12" sm="6" md="7">
                       <v-select
                         :items="roles"
                         v-model="editedItem.rol"

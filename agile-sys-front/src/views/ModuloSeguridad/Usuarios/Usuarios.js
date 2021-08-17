@@ -17,6 +17,7 @@ export default {
     editedIndex: -1,
     deletedIndex: -1,
     editedItem: {
+      idUsuario: 0,
       nombre: "",
       apellido: "",
       email: "",
@@ -25,6 +26,7 @@ export default {
       rol: {},
     },
     defaultItem: {
+      idUsuario: 0,
       nombre: "",
       apellido: "",
       email: "",
@@ -64,25 +66,13 @@ export default {
 
   methods: {
     initialize() {
-      this.users = [
-        {
-          idUsuario: 1,
-          nombres: "Elias Valentin",
-          apellidos: "Mercado Lopez",
-          email: "eliasmerc23@gmail.com",
-          telefono: "0972250212",
-          usuario: "emercado",
-          rol: {
-            idRol: 1,
-            descripcion: "Developer",
-          },
-        },
-      ];
+      this.axios
+        .get("/api/v1/usuario/")
+        .then((response) => (this.users = response.data));
 
-      this.roles = [
-        { idRol: 1, descripcion: "Analista de Sistemas" },
-        { idRol: 2, descripcion: "Desarrollador" },
-      ];
+      this.axios
+        .get("/api/v1/rol/")
+        .then((response) => (this.roles = response.data));
     },
 
     editItem(item) {
@@ -96,10 +86,20 @@ export default {
       this.dialogEliminar = true;
     },
 
-    deleteItem() {
+    async deleteItem() {
       var itemTable = this.users[this.deletedIndex];
       const index = this.users.indexOf(itemTable);
-      this.users.splice(index, 1);
+      let idUsuario = index + 1;
+
+      await this.axios
+        .delete("/api/v1/usuario/" + idUsuario.toString())
+        .then((response) => {
+          this.users.splice(index, 1);
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+
       this.dialogEliminar = false;
     },
 
@@ -114,11 +114,54 @@ export default {
     save() {
       if (!this.$refs.form.validate()) return;
       if (this.editedIndex > -1) {
-        Object.assign(this.users[this.editedIndex], this.editedItem);
+        //Edita el usuario
+        this.saveEditItem();
       } else {
-        this.users.push(this.editedItem);
+        //Inserta un usuario
+        this.saveNewItem();
       }
       this.close();
+    },
+
+    async saveEditItem() {
+      let idUsuario = this.editedItem.idUsuario;
+      var data = {
+        usuario: this.editedItem.usuario,
+        nombres: this.editedItem.nombres,
+        apellidos: this.editedItem.apellidos,
+        telefono: this.editedItem.telefono,
+        email: this.editedItem.email,
+        idRol: this.editedItem.rol.idRol,
+      };
+
+      await this.axios
+        .put("/v1/usuario/" + idUsuario.toString(), data)
+        .then((response) => {
+          Object.assign(this.users[this.editedIndex], this.editedItem);
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    async saveNewItem() {
+      var data = {
+        usuario: this.editedItem.usuario,
+        nombres: this.editedItem.nombres,
+        apellidos: this.editedItem.apellidos,
+        telefono: this.editedItem.telefono,
+        email: this.editedItem.email,
+        idRol: this.editedItem.rol.idRol,
+      };
+      await this.axios
+        .post("/v1/usuario/", data)
+        .then((response) => {
+          this.editedItem.idUsuario = response.data.data.idUsuario;
+          this.users.push(this.editedItem);
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
   },
 };
