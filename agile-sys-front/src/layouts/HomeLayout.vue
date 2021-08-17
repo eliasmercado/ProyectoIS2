@@ -98,9 +98,12 @@ export default {
         title: "SEGURIDAD",
         childItems: [
           { icon: "mdi-account", text: "Usuarios", to: "/seguridad/usuarios" },
-          { icon: "mdi-account-key", text: "Permisos", to: "/seguridad/permisos" },
+          {
+            icon: "mdi-account-key",
+            text: "Permisos",
+            to: "/seguridad/permisos",
+          },
           { icon: "mdi-account-cog", text: "Roles", to: "/seguridad/roles" },
-          { icon: "mdi-account-plus", text: "Asignar Roles", to: "/seguridad/asignarRoles" },
         ],
       },
 

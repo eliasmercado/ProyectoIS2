@@ -111,11 +111,6 @@ export default {
             to: "/seguridad/permisos",
           },
           { icon: "mdi-account-cog", text: "Roles", to: "/seguridad/roles" },
-          {
-            icon: "mdi-account-plus",
-            text: "Asignar Roles",
-            to: "/seguridad/asignarRoles",
-          },
         ],
       },
 
