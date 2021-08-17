@@ -121,7 +121,7 @@
             :headers="headersPermiso"
             :items="listaPermisos"
             :single-select="singleSelect"
-            item-key="id"
+            item-key="idPermiso"
             show-select
             class="elevation-1"
             :items-per-page="5"

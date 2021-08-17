@@ -22,9 +22,11 @@ export default {
     deletedIndex: -1,
     rolPermisoIndex: -1,
     editedItem: {
+      idRol: 0,
       descripcion: "",
     },
     defaultItem: {
+      idRol: 0,
       descripcion: "",
     },
 
@@ -52,35 +54,52 @@ export default {
 
   methods: {
     initialize() {
+/*       this.axios
+        .get("/api/v1/rol/")
+        .then((response) => (this.roles = response.data));
+
+      this.axios
+        .get("/api/v1/permiso/")
+        .then((response) => (this.listaPermisos = response.data)); */
+
       this.roles = [
         {
+          idRol: 1,
           descripcion: "Developer",
+          permisos: [
+            {
+              idPermiso: 2,
+              descripcion: "Product Owner",
+            },
+          ],
         },
 
         {
+          idRol: 2,
           descripcion: "Scrum Master",
         },
 
         {
+          idRol: 3,
           descripcion: "Product Owner",
         },
       ];
 
       this.listaPermisos = [
         {
-          id: 1,
+          idPermiso: 1,
           descripcion: "Permisos de Administracion de Proyectos",
         },
         {
-          id: 2,
+          idPermiso: 2,
           descripcion: "Permisos de Administracion de Usuarios",
         },
         {
-          id: 3,
+          idPermiso: 3,
           descripcion: "Permisos de Administracion de Roles",
         },
         {
-          id: 4,
+          idPermiso: 4,
           descripcion: "Permisos de Administracion de Permisos",
         },
       ];
@@ -97,10 +116,20 @@ export default {
       this.dialogEliminar = true;
     },
 
-    deleteItem() {
+    async deleteItem() {
       var itemTable = this.roles[this.deletedIndex];
       const index = this.roles.indexOf(itemTable);
-      this.roles.splice(index, 1);
+      let idRol = index + 1;
+
+      await this.axios
+        .delete("/v1/rol/" + idRol.toString())
+        .then((response) => {
+          this.roles.splice(index, 1);
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+
       this.dialogEliminar = false;
     },
 
@@ -128,11 +157,43 @@ export default {
     save() {
       if (!this.$refs.form.validate()) return;
       if (this.editedIndex > -1) {
-        Object.assign(this.roles[this.editedIndex], this.editedItem);
+        this.saveEditItem();
       } else {
-        this.roles.push(this.editedItem);
+        this.saveNewItem();
       }
       this.close();
+    },
+
+    async saveEditItem() {
+      let idRol = this.editedItem.idRol;
+      var data = {
+        descripcion: this.editedItem.descripcion,
+      };
+
+      await this.axios
+        .put("/v1/rol/" + idRol.toString(), data)
+        .then((response) => {
+          Object.assign(this.roles[this.editedIndex], this.editedItem);
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    async saveNewItem() {
+      var data = {
+        descripcion: this.editedItem.descripcion,
+      };
+
+      await this.axios
+        .post("/v1/rol/", data)
+        .then((response) => {
+          this.editedItem.idUsuario = response.data.data.idRol;
+          this.roles.push(this.editedItem);
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
   },
 };
