@@ -89,10 +89,10 @@
           >
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="deleteItem"
+            <v-btn color="blue darken-1" text @click="deleteItem"
               >Aceptar</v-btn
             >
-            <v-btn color="green darken-1" text @click="dialogEliminar = false"
+            <v-btn color="blue darken-1" text @click="dialogEliminar = false"
               >Cancelar</v-btn
             >
           </v-card-actions>

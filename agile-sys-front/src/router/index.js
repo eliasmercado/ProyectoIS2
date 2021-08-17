@@ -7,7 +7,6 @@ import Members from "@/views/ModuloDesarrollo/Members/Members.vue";
 import Settings from "@/views/ModuloDesarrollo/Settings/Settings.vue";
 import Login from "@/views/Login.vue";
 import Usuarios from "@/views/ModuloSeguridad/Usuarios/Usuarios.vue";
-import AsignarRoles from "@/views/ModuloSeguridad/AsignarRoles/AsignarRoles.vue";
 import Permisos from "@/views/ModuloSeguridad/Permisos/Permisos.vue";
 import Roles from "@/views/ModuloSeguridad/Roles/Roles.vue";
 import MasterLayout from "@/layouts/MasterLayout.vue";
@@ -51,12 +50,6 @@ const routes = [
         path: "/seguridad/roles",
         name: "Roles",
         component: Roles,
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "/seguridad/asignarRoles",
-        name: "AsignarRoles",
-        component: AsignarRoles,
         meta: { requiresAuth: true },
       },
       {
