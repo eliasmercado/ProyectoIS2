@@ -67,11 +67,11 @@ export default {
   methods: {
     initialize() {
       this.axios
-        .get("/api/v1/usuario/")
+        .get("/v1/usuario/")
         .then((response) => (this.users = response.data));
 
       this.axios
-        .get("/api/v1/rol/")
+        .get("/v1/rol/")
         .then((response) => (this.roles = response.data));
     },
 
@@ -92,7 +92,7 @@ export default {
       let idUsuario = index + 1;
 
       await this.axios
-        .delete("/api/v1/usuario/" + idUsuario.toString())
+        .delete("/v1/usuario/" + idUsuario.toString())
         .then((response) => {
           this.users.splice(index, 1);
         })
