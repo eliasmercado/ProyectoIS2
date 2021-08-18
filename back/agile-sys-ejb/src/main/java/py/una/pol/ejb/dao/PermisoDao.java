@@ -35,6 +35,16 @@ public class PermisoDao extends GenericDao<Permiso> {
             return null;
     }
 
+    public Permiso findByDescripcion(String descripcion) {
+        TypedQuery<Permiso> query = em.createNamedQuery("Permiso.findByDescripcion", Permiso.class)
+                .setParameter("descripcion", descripcion);
+        List<Permiso> results = query.getResultList();
+        if (results.size() > 0)
+            return results.get(0);
+        else
+            return null;
+    }
+
 
     public List<Permiso> findPermisos() {
         TypedQuery<Permiso> query = em.createNamedQuery("Permiso.findAll", Permiso.class);

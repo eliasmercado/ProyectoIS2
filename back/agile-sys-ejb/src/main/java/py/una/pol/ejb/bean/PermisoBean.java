@@ -33,6 +33,7 @@ public class PermisoBean {
                 permisoResponseDto.setDescripcion(permiso.getDescripcion());
                 permisoResponseDto.setModulo(new ModuloDto(permiso.getIdModulo().getIdModulo(),
                         permiso.getIdModulo().getNombreModulo()));
+                response.add(permisoResponseDto);
             }
         } else {
             throw new AgileSysException(GenericMessage.PERMISOS_LIST_EMPTY);
@@ -46,6 +47,9 @@ public class PermisoBean {
 
         try{
             Permiso permiso = new Permiso();
+            if(permisoDao.findByDescripcion(permisoRequestDto.getDescripcion()) != null)
+                throw new AgileSysException(GenericMessage.PERMISO_NOT_CREATED,
+                        "Ya existe un permiso con la descripcion ingresada.");
             permiso.setDescripcion(permisoRequestDto.getDescripcion());
             permiso.setIdModulo(new Modulo(permisoRequestDto.getIdModulo()));
             permisoDao.create(permiso);
@@ -60,36 +64,38 @@ public class PermisoBean {
     public MessageDto updatePermiso(Integer idPermiso, PermisoRequestDto permisoRequestDto) throws AgileSysException {
         MessageDto response = new MessageDto();
         Permiso permiso = permisoDao.findByIDPermiso(idPermiso);
-        if(permiso != null){
-           try{
+
+       try {
+           if (permiso != null) {
+               if(permisoDao.findByDescripcion(permisoRequestDto.getDescripcion()) != null)
+                   throw new AgileSysException(GenericMessage.PERMISO_NOT_CREATED,
+                           "Ya existe un permiso con la descripcion ingresada.");
                permiso.setDescripcion(permisoRequestDto.getDescripcion());
                permiso.setIdModulo(new Modulo(permisoRequestDto.getIdModulo()));
-               permisoDao.create(permiso);
+               permisoDao.edit(permiso);
                response.setMessage(GenericMessage.PERMISO_NOT_UPDATED.getDescripcion());
-           }catch (Exception e){
-               throw new AgileSysException(GenericMessage.PERMISO_UPDATED);
-           }
-
-        }else{
-            throw new AgileSysException(GenericMessage.PERMISO_NOT_FOUND);
+           } else
+               throw new AgileSysException(GenericMessage.PERMISO_NOT_FOUND);
+       }catch (Exception e){
+            throw new AgileSysException(GenericMessage.PERMISO_UPDATED);
         }
-        return response;
+       return response;
+
     }
 
     public MessageDto deletePermiso(Integer idPermiso) throws AgileSysException {
         MessageDto response = new MessageDto();
         Permiso permiso = permisoDao.findByIDPermiso(idPermiso);
-        if(permiso != null){
 
-            try{
+        try{
+            if(permiso != null)
                permisoDao.remove(permiso);
+            else
+                throw new AgileSysException(GenericMessage.PERMISO_NOT_FOUND);
             }catch (Exception e){
                 throw new AgileSysException(GenericMessage.PERMISO_NOT_DELETED);
             }
 
-        }else{
-            throw new AgileSysException(GenericMessage.USER_NOT_FOUND);
-        }
         response.setMessage(GenericMessage.PERMISO_DELETED.getDescripcion());
 
         return response;

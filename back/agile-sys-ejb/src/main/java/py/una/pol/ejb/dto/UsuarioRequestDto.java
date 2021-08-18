@@ -7,7 +7,7 @@ public class UsuarioRequestDto {
     private String apellidos;
     private String email;
     private String telefono;
-    private int idRol;
+    private Integer idRol;
 
     public String getUsuario() {
         return usuario;
@@ -49,11 +49,11 @@ public class UsuarioRequestDto {
         this.telefono = telefono;
     }
 
-    public int getIdRol() {
+    public Integer getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(int idRol) {
+    public void setIdRol(Integer idRol) {
         this.idRol = idRol;
     }
 

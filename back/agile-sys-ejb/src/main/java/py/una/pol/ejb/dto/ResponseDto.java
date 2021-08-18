@@ -2,15 +2,9 @@
 package py.una.pol.ejb.dto;
 
 
-import javax.ws.rs.core.*;
-import java.lang.annotation.Annotation;
-import java.net.URI;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.io.Serializable;
 
-public class ResponseDto<T> {
+public class ResponseDto<T> implements Serializable {
   
     private T data;
     private T error;

@@ -2,19 +2,19 @@ package py.una.pol.ejb.dto;
 
 public class RolDto {
 
-    private int idRol;
+    private Integer idRol;
     private String descripcion;
 
-    public RolDto(int idRol, String rol) {
+    public RolDto(Integer idRol, String rol) {
         this.idRol = idRol;
         this.descripcion = rol;
     }
 
-    public int getIdRol() {
+    public Integer getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(int idRol) {
+    public void setIdRol(Integer idRol) {
         this.idRol = idRol;
     }
 

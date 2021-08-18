@@ -25,7 +25,7 @@ public class SessionBean {
     
 
     public LoginResponseDto login(LoginDto loginDto) throws AgileSysException {
-        LoginResponseDto response = null;
+        LoginResponseDto response;
         Usuario usuario = usuarioDao.findByUsuarioPassword(loginDto.getUsuario(), loginDto.getPassword());
 
         if (usuario != null) {

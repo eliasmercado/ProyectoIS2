@@ -1,6 +1,9 @@
 package py.una.pol.ejb.dto;
 
-public class UsuarioResponseDto {
+import javax.validation.constraints.Null;
+import java.io.Serializable;
+
+public class UsuarioResponseDto implements Serializable {
    
     private Integer idUsuario;
     private String usuario;
@@ -8,6 +11,7 @@ public class UsuarioResponseDto {
     private String apellidos;
     private String email;
     private String telefono;
+    @Null
     private RolDto rol;
 
     public Integer getIdUsuario() {

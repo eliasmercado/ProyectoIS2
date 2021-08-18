@@ -5,6 +5,8 @@
  */
 package py.una.pol.ejb.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -87,7 +89,6 @@ public class Usuario implements Serializable {
     @Column(name = "estado")
     private boolean estado;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 2147483647)
     @Column(name = "telefono")
     private String telefono;
@@ -102,7 +103,7 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<UsuarioProyecto> usuarioProyectoCollection;
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Rol idRol;
 
     public Usuario() {
@@ -220,6 +221,8 @@ public class Usuario implements Serializable {
     public void setIdRol(Rol idRol) {
         this.idRol = idRol;
     }
+
+
 
     @Override
     public int hashCode() {

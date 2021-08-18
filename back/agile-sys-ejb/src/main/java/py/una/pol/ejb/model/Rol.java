@@ -64,12 +64,14 @@ public class Rol implements Serializable {
         this.descripcionRol = descripcionRol;
     }
 
-    public Integer getIdRol() {
-        return idRol;
-    }
 
     public void setIdRol(Integer idRol) {
+
         this.idRol = idRol;
+    }
+
+    public Integer getIdRol() {
+        return idRol;
     }
 
     public String getDescripcionRol() {

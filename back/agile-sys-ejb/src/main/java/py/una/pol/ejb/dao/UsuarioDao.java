@@ -44,16 +44,6 @@ public class UsuarioDao extends GenericDao<Usuario> {
             return null;
     }
 
-    public Usuario findByIDUsuario(Integer idUsuario) {
-        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByIdUsuario", Usuario.class)
-                .setParameter("idUsuario", idUsuario);
-        List<Usuario> results = query.getResultList();
-        if (results.size() > 0)
-            return results.get(0);
-        else
-            return null;
-    }
-
     public List<Usuario> findUsuarios() {
         TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findAll", Usuario.class);
         List<Usuario> results = query.getResultList();
