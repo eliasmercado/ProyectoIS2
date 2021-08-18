@@ -94,7 +94,6 @@ public class UsuarioBean {
                     usuario.setIdRol(rolDao.find(usuarioRequestDto.getIdRol()));
                 else
                     usuario.setIdRol(null);
-                System.out.println(usuario.toString());
                 usuarioDao.edit(usuario);
                 response.setMessage(GenericMessage.USER_UPDATED.getDescripcion());
             } catch (Exception e) {

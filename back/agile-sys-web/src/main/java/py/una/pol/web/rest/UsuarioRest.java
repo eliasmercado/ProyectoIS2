@@ -6,6 +6,7 @@ import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
 
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class UsuarioRest {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public ResponseDto postUsuarios(UsuarioRequestDto usuarioRequestDto) {
+    public ResponseDto postUsuario(UsuarioRequestDto usuarioRequestDto) {
 
         ResponseDto response;
 
@@ -46,6 +47,7 @@ public class UsuarioRest {
             UsuarioPostResponseDto usuarioPostResponseDto = usuarioBean.postUsuario(usuarioRequestDto);
             response = new ResponseDto<UsuarioPostResponseDto>();
             response.setData(usuarioPostResponseDto);
+
 
         } catch (AgileSysException e) {
             response = new ResponseDto<>();
