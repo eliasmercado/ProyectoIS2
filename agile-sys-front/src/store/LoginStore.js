@@ -9,8 +9,9 @@ const state = {
   nombres: "",
   apellidos: "",
   email: "",
+  idRol: null,
+  rol: "",
   idProyecto: null,
-  esAdmin: false,
   error: false,
   errorMessage: "",
 };
@@ -22,7 +23,8 @@ const mutations = {
     state.nombres = payload.nombres;
     state.apellidos = payload.apellidos;
     state.email = payload.email;
-    state.esAdmin = payload.esAdmin;
+    state.idRol = payload.idRol;
+    state.rol = payload.rol;
     state.idProyecto = payload.idProyecto;
   },
 
@@ -37,7 +39,8 @@ const mutations = {
     state.nombres = "";
     state.apellidos = "";
     state.email = "";
-    state.esAdmin = false;
+    state.idRol = null;
+    state.rol = "";
     state.idProyecto = null;
     state.error = false;
     state.errorMessage = "";

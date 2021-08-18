@@ -68,11 +68,11 @@ export default {
     initialize() {
       this.axios
         .get("/v1/usuario/")
-        .then((response) => (this.users = response.data));
+        .then((response) => (this.users = response.data.data));
 
       this.axios
         .get("/v1/rol/")
-        .then((response) => (this.roles = response.data));
+        .then((response) => (this.roles = response.data.data));
     },
 
     editItem(item) {
@@ -89,7 +89,7 @@ export default {
     async deleteItem() {
       var itemTable = this.users[this.deletedIndex];
       const index = this.users.indexOf(itemTable);
-      let idUsuario = index + 1;
+      let idUsuario = itemTable.idUsuario;
 
       await this.axios
         .delete("/v1/usuario/" + idUsuario.toString())
@@ -111,14 +111,14 @@ export default {
       });
     },
 
-    save() {
+    async save() {
       if (!this.$refs.form.validate()) return;
       if (this.editedIndex > -1) {
         //Edita el usuario
-        this.saveEditItem();
+        await this.saveEditItem();
       } else {
         //Inserta un usuario
-        this.saveNewItem();
+        await this.saveNewItem();
       }
       this.close();
     },

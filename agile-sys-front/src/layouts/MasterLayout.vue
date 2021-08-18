@@ -14,7 +14,9 @@
                   {{ $store.state.LoginStore.nombres.split(" ")[0] }}
                   {{ $store.state.LoginStore.apellidos.split(" ")[0] }}
                 </v-list-item-title>
-                <v-list-item-subtitle>{{ rolUsuario }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{
+                  $store.state.LoginStore.rol
+                }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -97,9 +99,7 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
-    idRol: 0,
-    rolUsuario: "",
-    items: [
+    modulos: [
       {
         id: 1,
         title: "SEGURIDAD",
@@ -139,6 +139,8 @@ export default {
         ],
       },
     ],
+
+    items: [],
   }),
 
   methods: {
@@ -148,25 +150,28 @@ export default {
       this.logout();
     },
 
-    cargarRolUsuario() {
-      let idProyecto = this.$store.state.LoginStore.idProyecto;
-      let idUsuario = this.$store.state.LoginStore.idUsuario;
-      let url = `/v1/rol-proyecto/${idProyecto}/${idUsuario}`;
-
-      this.axios
-        .get(url)
-        .then((result) => {
-          this.rolUsuario = result.data.data.descripcionRol;
-          this.idRol = result.data.data.idRol;
-        })
-        .catch((error) => {
-          console.error(error);
+    verificarPermisoModulos() {
+      let modulosPermiso = [
+        {
+          idModulo: 2,
+          nombreModulo: "Seguridad",
+        },
+      ];
+      this.modulos.forEach((modulo) => {
+        modulosPermiso.forEach((moduloPermiso) => {
+          if (
+            moduloPermiso.nombreModulo.toUpperCase() ==
+            modulo.title.toUpperCase()
+          ) {
+            this.items.push(modulo);
+          }
         });
+      });
     },
   },
 
   mounted() {
-    this.cargarRolUsuario();
+    this.verificarPermisoModulos();
   },
 };
 </script>
