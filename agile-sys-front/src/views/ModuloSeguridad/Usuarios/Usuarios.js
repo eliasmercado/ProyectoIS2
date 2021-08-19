@@ -94,7 +94,11 @@ export default {
       await this.axios
         .delete("/v1/usuario/" + idUsuario.toString())
         .then((response) => {
-          this.users.splice(index, 1);
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.users.splice(index, 1);
+          }
         })
         .catch((error) => {
           console.error("Ocurrio un error inesperado", error);
@@ -120,6 +124,7 @@ export default {
         //Inserta un usuario
         await this.saveNewItem();
       }
+      this.$refs.form.resetValidation();
       this.close();
     },
 
@@ -137,7 +142,11 @@ export default {
       await this.axios
         .put("/v1/usuario/" + idUsuario.toString(), data)
         .then((response) => {
-          Object.assign(this.users[this.editedIndex], this.editedItem);
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            Object.assign(this.users[this.editedIndex], this.editedItem);
+          }
         })
         .catch((error) => {
           console.error("Ocurrio un error inesperado", error);
@@ -156,8 +165,12 @@ export default {
       await this.axios
         .post("/v1/usuario/", data)
         .then((response) => {
-          this.editedItem.idUsuario = response.data.data.idUsuario;
-          this.users.push(this.editedItem);
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.editedItem.idUsuario = response.data.data.idUsuario;
+            this.users.push(this.editedItem);
+          }
         })
         .catch((error) => {
           console.error("Ocurrio un error inesperado", error);
