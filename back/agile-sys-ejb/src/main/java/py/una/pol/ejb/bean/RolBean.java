@@ -13,12 +13,11 @@ import py.una.pol.ejb.dto.RolPostResponseDto;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.validation.constraints.Null;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@Stateless
 public class RolBean {
     @EJB
     RolDao rolDao;

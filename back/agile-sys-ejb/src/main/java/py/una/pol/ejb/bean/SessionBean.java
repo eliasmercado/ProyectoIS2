@@ -2,7 +2,6 @@ package py.una.pol.ejb.bean;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.PathParam;
 
 import py.una.pol.ejb.dao.UsuarioDao;
 import py.una.pol.ejb.dao.UsuarioProyectoDao;

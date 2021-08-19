@@ -1,9 +1,6 @@
 package py.una.pol.ejb.dao;
 
-import py.una.pol.ejb.model.Rol;
-import py.una.pol.ejb.model.Permiso;
 import py.una.pol.ejb.model.RolPermiso;
-import py.una.pol.ejb.model.RolPermiso_;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -6,7 +6,6 @@ import py.una.pol.ejb.dao.UsuarioDao;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.enums.GenericMessage;
 
-import py.una.pol.ejb.model.Rol;
 import py.una.pol.ejb.model.Usuario;
 import py.una.pol.ejb.utils.AgileSysException;
 
