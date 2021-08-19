@@ -1,6 +1,5 @@
 package py.una.pol.ejb.dao;
 
-import py.una.pol.ejb.model.Proyecto;
 import py.una.pol.ejb.model.Rol;
 
 import javax.ejb.Stateless;
@@ -23,6 +22,24 @@ public class RolDao extends GenericDao<Rol> {
     public RolDao() {
         super(Rol.class);
     }
+    
+    public Rol findByIdRol(Integer idRol) {
+        TypedQuery<Rol> query = em.createNamedQuery("Rol.findByIdRol", Rol.class)
+            .setParameter("idRol", idRol);
+        List<Rol> results = query.getResultList();
+        if (results.size() > 0)
+            return results.get(0);
+        else
+            return null;
+    }
 
-
+    public Rol findByDescripcion(String descripcion) {
+        TypedQuery<Rol> query = em.createNamedQuery("rol.findByDescripcion", Rol.class)
+                .setParameter("descripcion", descripcion);
+        List<Rol> results = query.getResultList();
+        if (results.size() > 0)
+            return results.get(0);
+        else
+            return null;
+    }
 }

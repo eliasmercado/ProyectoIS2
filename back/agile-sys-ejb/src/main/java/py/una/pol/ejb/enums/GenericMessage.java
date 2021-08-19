@@ -21,7 +21,12 @@ public enum GenericMessage {
     USER_DELETED("Usuario eliminado con exito"),
     PROYECTO_FINALIZADO("El proyecto se encuentra finalizado"),
     USER_ALREADY_EXISTS("El usuario ya existe en el sistema"),
-    PROYECTO_CANCELADO("El proyecto se encuentra cancelado");
+    PROYECTO_CANCELADO("El proyecto se encuentra cancelado"),
+    ROLES_LIST_EMPTY("No existe ningun rol"),
+    ROL_CREATED("Se creo correctamente el rol"),
+    ROL_NOT_CREATED("NO se pudo crear el rol"),
+    ROL_NOT_UPDATED("NO se pudo actualizar el rol"),
+    ROL_NOT_FOUND("Rol inexistente");
 
     private final String descripcion;
 

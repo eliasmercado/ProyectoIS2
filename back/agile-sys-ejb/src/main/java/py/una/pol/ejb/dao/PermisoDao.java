@@ -54,6 +54,4 @@ public class PermisoDao extends GenericDao<Permiso> {
         else
             return null;
     }
-
-
 }

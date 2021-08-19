@@ -2,19 +2,15 @@ package py.una.pol.ejb.bean;
 
 
 import py.una.pol.ejb.dao.PermisoDao;
-import py.una.pol.ejb.dao.UsuarioDao;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.enums.GenericMessage;
 import py.una.pol.ejb.model.Modulo;
 import py.una.pol.ejb.model.Permiso;
-import py.una.pol.ejb.model.Rol;
-import py.una.pol.ejb.model.Usuario;
 import py.una.pol.ejb.utils.AgileSysException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Stateless

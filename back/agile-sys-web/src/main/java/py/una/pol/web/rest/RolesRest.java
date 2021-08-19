@@ -1,6 +1,5 @@
 package py.una.pol.web.rest;
 
-
 import py.una.pol.ejb.bean.PermisoBean;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
@@ -9,45 +8,38 @@ import javax.ejb.EJB;
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/permiso")
-public class PermisoRest {
+@Path("/rol")
+public class RolesRest {
     @EJB
-    PermisoBean permisoBean;
-
+    RolBean rolBean;
+    
     @GET
     @Produces("application/json")
-    public ResponseDto getPermisos() {
-
+    public ResponseDto getRoles() {
         ResponseDto response;
-
         try {
-            List<PermisoResponseDto> listaPermisos = permisoBean.getPermisos();
-            response = new ResponseDto<List<PermisoResponseDto>>();
-            response.setData(listaPermisos);
-
-        } catch (AgileSysException e) {
+            List<RolResponseDto> listaRoles = rolBean.getRoles();
+            response = new ResponseDto<List<RolResponseDto>>();
+            response.setData(listaRoles);
+        } catch(AgileSysException e) {
             response = new ResponseDto<>();
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
             response.setError(msg);
         }
-
         return response;
     }
 
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public ResponseDto postPermisos(PermisoRequestDto permisoRequestDto) {
-
+    public ResponseDto createRol(RolRequestDto rolRequestDto) {
         ResponseDto response;
-
         try {
-            PermisoPostResponseDto permisoResponseDto = permisoBean.postPermiso(permisoRequestDto);
-            response = new ResponseDto<PermisoPostResponseDto>();
-            response.setData(permisoResponseDto);
-
-        } catch (AgileSysException e) {
+            RolPostResponseDto rol = rolBean.createRol(rolRequestDto);
+            response = new ResponseDto<RolPostResponseDto>();
+            response.setData(rol);
+        } catch(AgileSysException e) {
             response = new ResponseDto<>();
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
@@ -59,17 +51,14 @@ public class PermisoRest {
     @PUT
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("{idPermiso}")
-    public ResponseDto updateUsuario(@PathParam("idPermiso") Integer idPermiso, PermisoRequestDto permisoRequestDto) {
-
+    @Path("{idRol}")
+    public ResponseDto updateRol(@PathParam("idPermiso") Integer idPermiso, RolRequestDto permisoRequestDto) {
         ResponseDto response;
         MessageDto messageDto;
-
         try {
-            messageDto = permisoBean.updatePermiso(idPermiso, permisoRequestDto);
+            messageDto = rolBean.updateRol(idPermiso, permisoRequestDto);
             response = new ResponseDto<MessageDto>();
             response.setData(messageDto);
-
         } catch (AgileSysException e) {
             response = new ResponseDto<>();
             messageDto = new MessageDto();
@@ -81,26 +70,20 @@ public class PermisoRest {
 
     @DELETE
     @Produces("application/json")
-    @Path("{idPermiso}")
-    public ResponseDto deleteUsuario(@PathParam("idPermiso") Integer idPermiso) {
-
+    @Path("{idRol}")
+    public ResponseDto deleteRol(@PathParam("idPermiso") Integer idPermiso) {
         ResponseDto response;
-        MessageDto message;
-
+        MessageDto messageDto;
         try {
-            message = permisoBean.deletePermiso(idPermiso);
-            response = new ResponseDto<UsuarioPostResponseDto>();
-            response.setData(message);
-
+            messageDto = rolBean.deleteRol(idPermiso);
+            response = new ResponseDto<MessageDto>();
+            response.setData(messageDto);
         } catch (AgileSysException e) {
             response = new ResponseDto<>();
-            message = new MessageDto();
-            message.setMessage(e.getDescripcion());
-            response.setError(message);
+            messageDto = new MessageDto();
+            messageDto.setMessage(e.getDescripcion());
+            response.setError(messageDto);
         }
-
         return response;
     }
-    
-    
 }

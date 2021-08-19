@@ -3,11 +3,11 @@ package py.una.pol.ejb.dto;
 public class RolDto {
 
     private Integer idRol;
-    private String descripcion;
+    private String rol;
 
     public RolDto(Integer idRol, String rol) {
         this.idRol = idRol;
-        this.descripcion = rol;
+        this.rol = rol;
     }
 
     public Integer getIdRol() {
@@ -19,18 +19,18 @@ public class RolDto {
     }
 
     public String getRol() {
-        return descripcion;
+        return rol;
     }
 
     public void setRol(String rol) {
-        this.descripcion = rol;
+        this.rol = rol;
     }
 
     @Override
     public String toString() {
         return "RolDto{" +
                 "idRol=" + idRol +
-                ", rol='" + descripcion + '\'' +
+                ", rol='" + rol + '\'' +
                 '}';
     }
 }
