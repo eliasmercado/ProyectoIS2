@@ -5,7 +5,12 @@ export default {
     validForm: true,
     headers: [
       { text: "Descripción", align: "start", value: "descripcion" },
-      { text: "Módulo", align: "start", value: "modulo.nombreModulo", sortable: false },
+      {
+        text: "Módulo",
+        align: "start",
+        value: "modulo.nombreModulo",
+        sortable: false,
+      },
       { text: "Acciones", value: "actions", sortable: false },
     ],
     permisos: [],
@@ -45,34 +50,9 @@ export default {
 
   methods: {
     initialize() {
-      this.permisos = [
-        {
-          idPermiso: 1,
-          descripcion: "Administracion de Seguridad",
-          modulo: {
-            idModulo: 1,
-            nombreModulo: "Seguridad",
-          },
-        },
-
-        {
-          idPermiso: 2,
-          descripcion: "Administracion de Proyectos",
-          modulo: {
-            idModulo: 2,
-            nombreModulo: "Proyecto",
-          },
-        },
-
-        {
-          idPermiso: 3,
-          descripcion: "Equipo de Desarrollo",
-          modulo: {
-            idModulo: 3,
-            nombreModulo: "Desarrollo",
-          },
-        },
-      ];
+      this.axios
+        .get("/v1/permiso/")
+        .then((response) => (this.permisos = response.data.data));
 
       this.modulos = [
         {
@@ -101,10 +81,24 @@ export default {
       this.dialogEliminar = true;
     },
 
-    deleteItem() {
+    async deleteItem() {
       var itemTable = this.permisos[this.deletedIndex];
       const index = this.permisos.indexOf(itemTable);
-      this.permisos.splice(index, 1);
+      let idPermiso = itemTable.idPermiso;
+
+      await this.axios
+        .delete("/v1/permiso/" + idPermiso.toString())
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.permisos.splice(index, 1);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+
       this.dialogEliminar = false;
     },
 
@@ -116,14 +110,59 @@ export default {
       });
     },
 
-    save() {
+    async save() {
       if (!this.$refs.form.validate()) return;
       if (this.editedIndex > -1) {
-        Object.assign(this.permisos[this.editedIndex], this.editedItem);
+        //Edita el permiso
+        await this.saveEditItem();
       } else {
-        this.permisos.push(this.editedItem);
+        //Agrego un nuevo permiso
+        await this.saveNewItem();
       }
+      this.$refs.form.resetValidation();
       this.close();
+    },
+
+    async saveEditItem() {
+      let idPermiso = this.editedItem.idPermiso;
+      var data = {
+        descripcion: this.editedItem.descripcion,
+        idModulo: this.editedItem.modulo.idModulo,
+      };
+
+      await this.axios
+        .put("/v1/permiso/" + idPermiso.toString(), data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            Object.assign(this.permisos[this.editedIndex], this.editedItem);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    async saveNewItem() {
+      var data = {
+        descripcion: this.editedItem.descripcion,
+        idModulo: this.editedItem.modulo.idModulo,
+      };
+
+      await this.axios
+        .post("/v1/permiso/", data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.editedItem.idPermiso = response.data.data.idPermiso;
+            this.permisos.push(this.editedItem);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
   },
 };

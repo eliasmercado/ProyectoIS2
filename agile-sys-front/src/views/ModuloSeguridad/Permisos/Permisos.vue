@@ -64,35 +64,24 @@
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-
-        <v-dialog v-model="dialogEliminar" persistent width="560">
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              small
-              v-bind="attrs"
-              v-on="on"
-              @click="getDeleteItemIndex(item)"
-            >
-              mdi-delete
-            </v-icon>
-          </template>
-          <v-card>
-            <v-card-title class="headline"
-              >Está seguro que desea eliminar este elemento?</v-card-title
-            >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="deleteItem"
-                >Aceptar</v-btn
-              >
-              <v-btn color="blue darken-1" text @click="dialogEliminar = false"
-                >Cancelar</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <v-icon small @click="getDeleteItemIndex(item)"> mdi-delete </v-icon>
       </template>
     </v-data-table>
+
+    <v-dialog v-model="dialogEliminar" persistent width="560">
+      <v-card>
+        <v-card-title class="headline"
+          >Está seguro que desea eliminar este elemento?</v-card-title
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="deleteItem">Aceptar</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogEliminar = false"
+            >Cancelar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
