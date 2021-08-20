@@ -152,10 +152,20 @@ export default {
 
     async verificarPermisoModulos() {
       let idRol = this.$store.state.LoginStore.idRol;
-      let modulosPermiso = this.$store.state.LoginStore.menuPermiso;
-      if (modulosPermiso.length == 0) {
-        this.getMenuPermiso(idRol);
-      }
+      let modulosPermiso = [];
+
+      await this.axios
+        .get("/v1/modulo-usuario/" + idRol.toString())
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            modulosPermiso = response.data.data;
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
 
       this.modulos.forEach((modulo) => {
         modulosPermiso.forEach((moduloPermiso) => {

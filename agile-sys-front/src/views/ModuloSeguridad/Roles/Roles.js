@@ -108,7 +108,7 @@ export default {
 
           this.axios
             .delete(
-              "/v1/rol-permiso/" + idRol.toString() + "/" + idPermiso.toString()
+              "/v1/rolPermiso/" + idRol.toString() + "/" + idPermiso.toString()
             )
             .then((response) => {
               if ("error" in response.data) {
@@ -148,11 +148,8 @@ export default {
             idRol: idRol,
             idPermiso: permisoSeleccionado.idPermiso,
           };
-          console.log(
-            "Asignar idPermiso=" + data.idPermiso + "y idRol = " + data.idRol
-          );
           this.axios
-            .post("/v1/rol-permiso/", data)
+            .post("/v1/rolPermiso/", data)
             .then((response) => {
               if ("error" in response.data) {
                 console.error(response.data.error.message);
@@ -184,7 +181,7 @@ export default {
 
           this.axios
             .delete(
-              "/v1/rol-permiso/" + idRol.toString() + "/" + idPermiso.toString()
+              "/v1/rolPermiso/" + idRol.toString() + "/" + idPermiso.toString()
             )
             .then((response) => {
               if ("error" in response.data) {

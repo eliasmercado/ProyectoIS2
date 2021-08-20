@@ -49,7 +49,6 @@ const mutations = {
   },
 
   SAVE_MENU(state, payload) {
-    console.log(payload);
     state.menuPermiso = payload;
   },
 };

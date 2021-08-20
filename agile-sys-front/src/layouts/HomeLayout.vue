@@ -145,10 +145,7 @@ export default {
 
     async verificarPermisoModulos() {
       let idRol = this.$store.state.LoginStore.idRol;
-      let modulosPermiso = this.$store.state.LoginStore.menuPermiso;
-      if (modulosPermiso.length == 0) {
-        this.getMenuPermiso(idRol);
-      }
+      let modulosPermiso = [];
 
       await this.axios
         .get("/v1/modulo-usuario/" + idRol.toString())
