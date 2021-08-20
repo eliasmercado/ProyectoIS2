@@ -6,7 +6,7 @@
       class="elevation-1"
       show-expand
       single-expand
-      item-key="descripcion"
+      item-key="rol"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
@@ -30,7 +30,7 @@
                       <v-col cols="12" sm="12" md="12">
                         <v-text-field
                           autocomplete="off"
-                          v-model="editedItem.descripcion"
+                          v-model="editedItem.rol"
                           label="Descripción"
                           :rules="descripcionRules"
                         ></v-text-field>
