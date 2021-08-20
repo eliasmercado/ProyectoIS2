@@ -137,15 +137,18 @@ export default {
   }),
 
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "getMenuPermiso"]),
 
     logoutUser() {
       this.logout();
     },
 
     async verificarPermisoModulos() {
-      let modulosPermiso = [];
       let idRol = this.$store.state.LoginStore.idRol;
+      let modulosPermiso = this.$store.state.LoginStore.menuPermiso;
+      if (modulosPermiso.length == 0) {
+        this.getMenuPermiso(idRol);
+      }
 
       await this.axios
         .get("/v1/modulo-usuario/" + idRol.toString())

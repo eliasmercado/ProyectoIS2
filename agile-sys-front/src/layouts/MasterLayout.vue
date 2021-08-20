@@ -144,28 +144,18 @@ export default {
   }),
 
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "getMenuPermiso"]),
 
     logoutUser() {
       this.logout();
     },
 
     async verificarPermisoModulos() {
-      let modulosPermiso = [];
       let idRol = this.$store.state.LoginStore.idRol;
-
-      await this.axios
-        .get("/v1/modulo-usuario/" + idRol.toString())
-        .then((response) => {
-          if ("error" in response.data) {
-            console.error(response.data.error.message);
-          } else {
-            modulosPermiso = response.data.data;
-          }
-        })
-        .catch((error) => {
-          console.error("Ocurrio un error inesperado", error);
-        });
+      let modulosPermiso = this.$store.state.LoginStore.menuPermiso;
+      if (modulosPermiso.length == 0) {
+        this.getMenuPermiso(idRol);
+      }
 
       this.modulos.forEach((modulo) => {
         modulosPermiso.forEach((moduloPermiso) => {

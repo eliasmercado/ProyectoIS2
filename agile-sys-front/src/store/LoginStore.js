@@ -12,6 +12,7 @@ const state = {
   idRol: null,
   rol: "",
   idProyecto: null,
+  menuPermiso: [],
   error: false,
   errorMessage: "",
 };
@@ -44,11 +45,17 @@ const mutations = {
     state.idProyecto = null;
     state.error = false;
     state.errorMessage = "";
+    state.menuPermiso = [];
+  },
+
+  SAVE_MENU(state, payload) {
+    console.log(payload);
+    state.menuPermiso = payload;
   },
 };
 
 const actions = {
-  authUser({ commit }, credentials) {
+  authUser({ commit, dispatch }, credentials) {
     return new Promise((resolve, reject) => {
       axios
         .post(apiUrl + "/api/v1/login", credentials)
@@ -71,6 +78,25 @@ const actions = {
   logout({ commit }) {
     commit("LOGOUT");
     router.push("/login").catch();
+  },
+
+  getMenuPermiso({ commit }, idRol) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(apiUrl + "/api/v1/modulo-usuario/" + idRol)
+        .then((response) => {
+          if ("error" in response.data) {
+            commit("AUTH_ERROR", response.data.error.message);
+            reject();
+          } else {
+            commit("SAVE_MENU", response.data.data);
+            resolve();
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    });
   },
 };
 
