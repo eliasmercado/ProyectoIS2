@@ -6,7 +6,7 @@ export default {
     headers: [
       { text: "Nombres", align: "start", value: "nombres" },
       { text: "Apellidos", align: "start", value: "apellidos" },
-      { text: "Rol", align: "start", value: "rol.descripcion" },
+      { text: "Rol", align: "start", value: "rol.rol" },
       { text: "Email", align: "start", value: "email" },
       { text: "Teléfono", align: "start", value: "telefono" },
       { text: "Usuario", align: "start", value: "usuario" },
@@ -113,6 +113,8 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
+
+      this.$refs.form.resetValidation();
     },
 
     async save() {

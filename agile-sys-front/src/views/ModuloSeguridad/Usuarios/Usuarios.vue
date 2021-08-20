@@ -65,7 +65,7 @@
                           :items="roles"
                           v-model="editedItem.rol"
                           label="Rol"
-                          item-text="descripcion"
+                          item-text="rol"
                           item-value="idRol"
                           return-object
                           clearable
