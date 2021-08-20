@@ -54,20 +54,9 @@ export default {
         .get("/v1/permiso/")
         .then((response) => (this.permisos = response.data.data));
 
-      this.modulos = [
-        {
-          idModulo: 1,
-          nombreModulo: "Seguridad",
-        },
-        {
-          idModulo: 2,
-          nombreModulo: "Proyecto",
-        },
-        {
-          idModulo: 3,
-          nombreModulo: "Desarrollo",
-        },
-      ];
+      this.axios
+        .get("/v1/modulo/")
+        .then((response) => (this.modulos = response.data.data));
     },
 
     editItem(item) {
@@ -108,6 +97,7 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
+      this.$refs.form.resetValidation();
     },
 
     async save() {
