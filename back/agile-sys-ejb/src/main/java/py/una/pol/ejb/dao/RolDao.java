@@ -34,7 +34,7 @@ public class RolDao extends GenericDao<Rol> {
     }
 
     public Rol findByDescripcion(String descripcion) {
-        TypedQuery<Rol> query = em.createNamedQuery("rol.findByDescripcion", Rol.class)
+        TypedQuery<Rol> query = em.createNamedQuery("Rol.findByDescripcion", Rol.class)
                 .setParameter("descripcion", descripcion);
         List<Rol> results = query.getResultList();
         if (results.size() > 0)

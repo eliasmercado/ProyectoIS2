@@ -61,14 +61,11 @@ public class RolBean {
         RolPostResponseDto response = new RolPostResponseDto();
         try {
             Rol rol = new Rol();
-            if(rolDao.findByDescripcion(rolRequestDto.getDescripcion()) != null)
-                throw new AgileSysException(GenericMessage.PERMISO_NOT_CREATED,
-                        "Ya existe un rol con la descripcion ingresada.");
             rol.setDescripcionRol(rolRequestDto.getDescripcion());
             rolDao.create(rol);
             response.setIdRol(rol.getIdRol());
             response.setMessage("Se creo correctamente el rol");
-        } catch (AgileSysException e) {
+        } catch (Exception e) {
             throw new AgileSysException(GenericMessage.ROL_NOT_CREATED);
         }
         return response;
@@ -80,13 +77,10 @@ public class RolBean {
 
         if (rol != null) {
             try {
-                if(rolDao.findByDescripcion(rolRequestDto.getDescripcion()) != null)
-                    throw new AgileSysException(GenericMessage.PERMISO_NOT_CREATED,
-                        "Ya existe un rol con la descripcion ingresada.");
                 rol.setDescripcionRol(rolRequestDto.getDescripcion());
                 rolDao.edit(rol);
                 response.setMessage("Se actualizo correctamente el rol");
-            } catch (AgileSysException e) {
+            } catch (Exception e) {
                 throw new AgileSysException(GenericMessage.ROL_NOT_UPDATED);
             }
         } else {
