@@ -35,8 +35,13 @@ public class SessionBean {
             response.setIdUsuario(usuario.getIdUsuario());
             response.setNombres(usuario.getNombres());
             response.setApellidos(usuario.getApellidos());
-            response.setIdRol(usuario.getIdRol().getIdRol());
-            response.setRol(usuario.getIdRol().getDescripcionRol());
+            if(usuario.getIdRol() == null){
+                response.setIdRol(0);
+                response.setRol("");
+            }else{
+                response.setIdRol(usuario.getIdRol().getIdRol());
+                response.setRol(usuario.getIdRol().getDescripcionRol());
+            }
             response.setEmail(usuario.getEmail());
             UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoByIdUsuario(usuario.getIdUsuario());
             if (usuarioProyecto != null)

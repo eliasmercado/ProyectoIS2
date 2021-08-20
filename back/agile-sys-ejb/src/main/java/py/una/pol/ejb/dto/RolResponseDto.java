@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RolResponseDto {
     private Integer idRol;
-    private String descripcion;
+    private String rol;
     private List<PermisoResponseDto> permisos;
     public Integer getIdRol() {
         return idRol;
@@ -13,10 +13,10 @@ public class RolResponseDto {
         this.idRol = idRol;
     }
     public String getDescripcion() {
-        return descripcion;
+        return rol;
     }
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.rol = descripcion;
     }
     public List<PermisoResponseDto> getPermisos() {
         return permisos;
@@ -27,6 +27,6 @@ public class RolResponseDto {
 
     @Override
     public String toString() {
-        return "RolResponseDto [descripcion=" + descripcion + ", idRol=" + idRol + ", permisos=" + permisos + "]";
+        return "RolResponseDto [descripcion=" + rol + ", idRol=" + idRol + ", permisos=" + permisos + "]";
     }    
 }

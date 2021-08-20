@@ -1,6 +1,7 @@
 package py.una.pol.ejb.bean;
 
 
+import py.una.pol.ejb.dao.ModuloDao;
 import py.una.pol.ejb.dao.PermisoDao;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.enums.GenericMessage;
@@ -17,6 +18,8 @@ import java.util.List;
 public class PermisoBean {
     @EJB
     PermisoDao permisoDao;
+    @EJB
+    ModuloDao moduloDao;
 
     public List<PermisoResponseDto> getPermisos() throws AgileSysException {
         List<PermisoResponseDto> response = new ArrayList<>();
@@ -67,7 +70,11 @@ public class PermisoBean {
                     throw new AgileSysException(GenericMessage.PERMISO_NOT_CREATED,
                             "Ya existe un permiso con la descripcion ingresada.");
                 permiso.setDescripcion(permisoRequestDto.getDescripcion());
-                permiso.setIdModulo(new Modulo(permisoRequestDto.getIdModulo()));
+                if(moduloDao.findModuloByIdModulo(permisoRequestDto.getIdModulo()) == null)
+                    throw new AgileSysException(GenericMessage.PERMISO_NOT_UPDATED, "No existe el modulo en el sistema");
+                else
+                    permiso.setIdModulo(new Modulo(permisoRequestDto.getIdModulo()));
+
                 permisoDao.edit(permiso);
                 response.setMessage(GenericMessage.PERMISO_UPDATED.getDescripcion());
 

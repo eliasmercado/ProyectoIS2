@@ -3,7 +3,7 @@ package py.una.pol.ejb.dto;
 public class PermisoRequestDto {
 
     private String descripcion;
-    private int idModulo;
+    private Integer idModulo;
 
     public String getDescripcion() {
         return descripcion;
@@ -13,11 +13,11 @@ public class PermisoRequestDto {
         this.descripcion = descripcion;
     }
 
-    public int getIdModulo() {
+    public Integer getIdModulo() {
         return idModulo;
     }
 
-    public void setIdModulo(int idModulo) {
+    public void setIdModulo(Integer idModulo) {
         this.idModulo = idModulo;
     }
 
