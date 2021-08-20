@@ -19,14 +19,21 @@
                 dark
               >
                 <br />
+                <br />
+                <br />
                 <v-toolbar color="transparent" flat>
-                  <v-toolbar-title class="font-weight-bold text-h5"
-                    >Iniciar sesión</v-toolbar-title
-                  >
+                  <v-row justify="center">
+                    <v-toolbar-title class="font-weight-bold text-h4"
+                      ><div class="fuenteTitulo">
+                        Bienvenido
+                      </div></v-toolbar-title
+                    >
+                  </v-row>
                 </v-toolbar>
                 <v-card-text>
                   <v-form>
                     <v-text-field
+                      @keyup.enter="login"
                       label="Usuario"
                       v-model="user"
                       prepend-icon="mdi-account"
@@ -35,6 +42,7 @@
                     ></v-text-field>
 
                     <v-text-field
+                      @keyup.enter="login"
                       id="password"
                       v-model="password"
                       label="Contraseña"
@@ -45,7 +53,9 @@
                   </v-form>
                 </v-card-text>
                 <v-card-actions class="justify-center">
-                  <v-btn @click="login" color="primary">Iniciar sesion</v-btn>
+                  <v-btn outlined @click="login" class="white--text"
+                    >Iniciar sesion</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -90,4 +100,8 @@ export default {
 </script>
 
 <style>
+.fuenteTitulo {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+}
 </style>
