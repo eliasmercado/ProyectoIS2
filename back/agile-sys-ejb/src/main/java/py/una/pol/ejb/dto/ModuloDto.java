@@ -10,6 +10,10 @@ public class ModuloDto {
         this.nombreModulo = nombreModulo;
     }
 
+    public ModuloDto() {
+
+    }
+
     public int getIdModulo() {
         return idModulo;
     }

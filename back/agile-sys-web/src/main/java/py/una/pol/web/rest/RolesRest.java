@@ -1,6 +1,7 @@
 package py.una.pol.web.rest;
 
 import py.una.pol.ejb.bean.PermisoBean;
+import py.una.pol.ejb.bean.RolBean;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
 
@@ -52,7 +53,7 @@ public class RolesRest {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("{idRol}")
-    public ResponseDto updateRol(@PathParam("idPermiso") Integer idPermiso, RolRequestDto permisoRequestDto) {
+    public ResponseDto updateRol(@PathParam("idRol") Integer idPermiso, RolRequestDto permisoRequestDto) {
         ResponseDto response;
         MessageDto messageDto;
         try {
@@ -71,7 +72,7 @@ public class RolesRest {
     @DELETE
     @Produces("application/json")
     @Path("{idRol}")
-    public ResponseDto deleteRol(@PathParam("idPermiso") Integer idPermiso) {
+    public ResponseDto deleteRol(@PathParam("idRol") Integer idPermiso) {
         ResponseDto response;
         MessageDto messageDto;
         try {

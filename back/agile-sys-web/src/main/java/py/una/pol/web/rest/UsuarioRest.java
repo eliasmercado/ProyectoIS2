@@ -6,7 +6,6 @@ import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
 
 import javax.ejb.EJB;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import java.util.List;
 

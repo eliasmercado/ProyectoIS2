@@ -32,4 +32,15 @@ public class RolPermisoDao extends GenericDao<RolPermiso> {
         else
             return null;
     }
+
+    public RolPermiso findRolPermiso(Integer idRol, Integer idPermiso) {
+        TypedQuery<RolPermiso> query = em.createNamedQuery(
+                "RolPermiso.findByIdRolIdPermiso", RolPermiso.class
+        ).setParameter("idRol", idRol).setParameter("idPermiso", idPermiso);
+        List<RolPermiso> results = query.getResultList();
+        if (results.size() > 0)
+            return results.get(0);
+        else
+            return null;
+    }
 }
