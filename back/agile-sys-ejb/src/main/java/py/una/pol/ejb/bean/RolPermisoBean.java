@@ -22,19 +22,20 @@ public class RolPermisoBean {
     public MessageDto asignarPermiso(RolPermisoRequestDto rolPermisoRequestDto) throws AgileSysException {
         RolPermiso rolPermiso = rolpermisoDao.findRolPermiso(rolPermisoRequestDto.getIdRol(), rolPermisoRequestDto.getIdPermiso());
         MessageDto messageDto = new MessageDto();
-        try {
-           if (rolPermiso == null) {
+
+        if (rolPermiso == null) {
+            try {
                rolPermiso = new RolPermiso();
                rolPermiso.setIdRol(new Rol(rolPermisoRequestDto.getIdRol()));
-               rolPermiso.setIdPermiso(new Permiso(rolPermisoRequestDto.getIdRol()));
+               rolPermiso.setIdPermiso(new Permiso(rolPermisoRequestDto.getIdPermiso()));
                rolpermisoDao.create(rolPermiso);
                messageDto.setMessage(GenericMessage.ROLPERMISO_CREATED.getDescripcion());
-           } else
-               throw new AgileSysException(GenericMessage.ROLPERMISO_ALREADY_EXISTS);
 
-        }catch (AgileSysException e){
-           throw new AgileSysException(GenericMessage.ROLPERMISO_ALREADY_EXISTS);
-        }
+            }catch (Exception e){
+               throw new AgileSysException(GenericMessage.ROLPERMISO_ALREADY_EXISTS);
+            }
+        } else
+            throw new AgileSysException(GenericMessage.ROLPERMISO_ALREADY_EXISTS);
 
         return messageDto;
     }

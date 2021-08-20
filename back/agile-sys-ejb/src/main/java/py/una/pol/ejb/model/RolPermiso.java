@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "RolPermiso.findAll", query = "SELECT r FROM RolPermiso r"),
     @NamedQuery(name = "RolPermiso.findByIdRolPermiso", query = "SELECT r FROM RolPermiso r WHERE r.idRolPermiso = :idRolPermiso"),
-        @NamedQuery(name = "RolPermiso.findByIdRolIdPermiso", query = "SELECT r FROM RolPermiso r WHERE r.idRol = :idRol and r.idPermiso = :idPermiso"),
+        @NamedQuery(name = "RolPermiso.findByIdRolIdPermiso", query = "SELECT r FROM RolPermiso r WHERE r.idRol.idRol = :idRol and r.idPermiso.idPermiso = :idPermiso"),
     @NamedQuery(name = "RolPermiso.findByIdRol", query = "SELECT r FROM RolPermiso r WHERE r.idRol.idRol = :idRol")})
 public class RolPermiso implements Serializable {
 
@@ -76,6 +76,8 @@ public class RolPermiso implements Serializable {
     public void setIdRol(Rol idRol) {
         this.idRol = idRol;
     }
+
+
 
     @Override
     public int hashCode() {
