@@ -34,7 +34,7 @@ public class RolBean {
             for (Rol rol : roles) {
                 RolResponseDto rolResponseDto = new RolResponseDto();
                 rolResponseDto.setIdRol(rol.getIdRol());
-                rolResponseDto.setDescripcion(rol.getDescripcionRol());
+                rolResponseDto.setRol(rol.getDescripcionRol());
                 List<PermisoResponseDto> permisos = new ArrayList<>();
                 List<RolPermiso> permisosDB = rolPermisoDao.findPermisos(rol.getIdRol());
                 if (permisosDB != null) {

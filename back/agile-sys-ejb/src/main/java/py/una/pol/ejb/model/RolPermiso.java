@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RolPermiso.findAll", query = "SELECT r FROM RolPermiso r"),
     @NamedQuery(name = "RolPermiso.findByIdRolPermiso", query = "SELECT r FROM RolPermiso r WHERE r.idRolPermiso = :idRolPermiso"),
         @NamedQuery(name = "RolPermiso.findByIdRolIdPermiso", query = "SELECT r FROM RolPermiso r WHERE r.idRol = :idRol and r.idPermiso = :idPermiso"),
-    @NamedQuery(name = "RolPermiso.findByIdRol", query = "SELECT r FROM RolPermiso r WHERE r.idRol = :idRol")})
+    @NamedQuery(name = "RolPermiso.findByIdRol", query = "SELECT r FROM RolPermiso r WHERE r.idRol.idRol = :idRol")})
 public class RolPermiso implements Serializable {
 
     private static final long serialVersionUID = 1L;

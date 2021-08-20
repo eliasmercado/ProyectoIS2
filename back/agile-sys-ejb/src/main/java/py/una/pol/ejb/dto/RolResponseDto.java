@@ -12,10 +12,10 @@ public class RolResponseDto {
     public void setIdRol(Integer idRol) {
         this.idRol = idRol;
     }
-    public String getDescripcion() {
+    public String getRol() {
         return rol;
     }
-    public void setDescripcion(String descripcion) {
+    public void setRol(String descripcion) {
         this.rol = descripcion;
     }
     public List<PermisoResponseDto> getPermisos() {
@@ -27,6 +27,6 @@ public class RolResponseDto {
 
     @Override
     public String toString() {
-        return "RolResponseDto [descripcion=" + rol + ", idRol=" + idRol + ", permisos=" + permisos + "]";
+        return "RolResponseDto [rol=" + rol + ", idRol=" + idRol + ", permisos=" + permisos + "]";
     }    
 }
