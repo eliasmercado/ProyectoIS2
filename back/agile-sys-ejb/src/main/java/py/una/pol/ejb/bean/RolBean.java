@@ -1,6 +1,6 @@
 package py.una.pol.ejb.bean;
 
-import py.una.pol.ejb.dao.PermisoDao;
+
 import py.una.pol.ejb.dao.RolDao;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.enums.GenericMessage;
@@ -25,8 +25,6 @@ public class RolBean {
     @EJB
     RolPermisoDao rolPermisoDao;
 
-    @EJB
-    PermisoDao permisoDao;
 
     public List<RolResponseDto> getRoles() throws AgileSysException {
         List<RolResponseDto> response = new ArrayList<>();

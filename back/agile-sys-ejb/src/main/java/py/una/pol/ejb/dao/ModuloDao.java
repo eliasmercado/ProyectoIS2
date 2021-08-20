@@ -2,13 +2,14 @@ package py.una.pol.ejb.dao;
 
 import py.una.pol.ejb.model.Modulo;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-
+@Stateless
 public class ModuloDao extends GenericDao{
 
     private static String QUERY_FINDMODULOS = "select " +

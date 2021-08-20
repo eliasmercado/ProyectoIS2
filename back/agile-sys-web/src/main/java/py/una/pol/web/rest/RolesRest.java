@@ -1,8 +1,8 @@
 package py.una.pol.web.rest;
 
+import py.una.pol.ejb.bean.RolBean;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
-import py.una.pol.ejb.bean.RolBean;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
