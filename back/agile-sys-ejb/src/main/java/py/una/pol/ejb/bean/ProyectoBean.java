@@ -7,7 +7,7 @@ import py.una.pol.ejb.dao.ProyectoDao;
 import py.una.pol.ejb.dto.ProyectoResponseDto;
 import py.una.pol.ejb.enums.GenericMessage;
 import py.una.pol.ejb.utils.AgileSysException;
-import py.una.pol.ejb.model.Proyectos;
+import py.una.pol.ejb.model.Proyecto;
 
 @Stateless
 public class ProyectoBean {
@@ -16,12 +16,12 @@ public class ProyectoBean {
 
     public ProyectoResponseDto enviarProyecto(Integer idProyecto) throws AgileSysException {
         ProyectoResponseDto response = null;
-        Proyectos proyecto = proyectoDao.findByProyecto(idProyecto);
+        Proyecto proyecto = proyectoDao.findByProyecto(idProyecto);
 
         if (proyecto != null) {
-            if (proyecto.getIdEstados().getIdEstados() == 2)
+            if (proyecto.getIdEstado().getIdEstado() == 2)
                 throw new AgileSysException(GenericMessage.PROYECTO_FINALIZADO);
-            if (proyecto.getIdEstados().getIdEstados() == 3)
+            if (proyecto.getIdEstado().getIdEstado() == 3)
                 throw new AgileSysException(GenericMessage.PROYECTO_CANCELADO);
             response = new ProyectoResponseDto();
             response.setNombre(proyecto.getNombreProyecto());

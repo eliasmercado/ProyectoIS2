@@ -5,6 +5,8 @@
  */
 package py.una.pol.ejb.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,23 +35,22 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author isaux
  */
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findByIdUsuario", query = "SELECT u FROM Usuarios u WHERE u.idUsuario = :idUsuario"),
-    @NamedQuery(name = "Usuarios.findByUsuario", query = "SELECT u FROM Usuarios u WHERE u.usuario = :usuario"),
-    @NamedQuery(name = "Usuarios.findByUsuarioPassword", query = "SELECT u FROM Usuarios u WHERE u.usuario = :usuario and u.password = :password"),
-    @NamedQuery(name = "Usuarios.findByPassword", query = "SELECT u FROM Usuarios u WHERE u.password = :password"),
-    @NamedQuery(name = "Usuarios.findByNombres", query = "SELECT u FROM Usuarios u WHERE u.nombres = :nombres"),
-    @NamedQuery(name = "Usuarios.findByApellidos", query = "SELECT u FROM Usuarios u WHERE u.apellidos = :apellidos"),
-    @NamedQuery(name = "Usuarios.findByEmail", query = "SELECT u FROM Usuarios u WHERE u.email = :email"),
-    @NamedQuery(name = "Usuarios.findByEstado", query = "SELECT u FROM Usuarios u WHERE u.estado = :estado"),
-    @NamedQuery(name = "Usuarios.findByTelefono", query = "SELECT u FROM Usuarios u WHERE u.telefono = :telefono"),
-    @NamedQuery(name = "Usuarios.findByFechaCreacion", query = "SELECT u FROM Usuarios u WHERE u.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "Usuarios.findByFechaBaja", query = "SELECT u FROM Usuarios u WHERE u.fechaBaja = :fechaBaja"),
-    @NamedQuery(name = "Usuarios.findByAdministrador", query = "SELECT u FROM Usuarios u WHERE u.administrador = :administrador")})
-public class Usuarios implements Serializable {
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario"),
+    @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario"),
+    @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password"),
+    @NamedQuery(name = "Usuario.findByNombres", query = "SELECT u FROM Usuario u WHERE u.nombres = :nombres"),
+    @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"),
+    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
+    @NamedQuery(name = "Usuario.findByEstado", query = "SELECT u FROM Usuario u WHERE u.estado = :estado"),
+    @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
+    @NamedQuery(name = "Usuario.findByFechaCreacion", query = "SELECT u FROM Usuario u WHERE u.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "Usuario.findByFechaBaja", query = "SELECT u FROM Usuario u WHERE u.fechaBaja = :fechaBaja"),
+    @NamedQuery(name = "Usuario.findByUsuarioPassword", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario and u.password = :password")})
+public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -86,7 +89,6 @@ public class Usuarios implements Serializable {
     @Column(name = "estado")
     private boolean estado;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 2147483647)
     @Column(name = "telefono")
     private String telefono;
@@ -95,26 +97,23 @@ public class Usuarios implements Serializable {
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha_baja")
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "administrador")
-    private boolean administrador;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<UsuarioProyecto> usuarioProyectoCollection;
+    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Rol idRol;
 
-    public Usuarios() {
+    public Usuario() {
     }
 
-    public Usuarios(Integer idUsuario) {
+    public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public Usuarios(Integer idUsuario, String usuario, String password, String nombres, String apellidos, String email, boolean estado, String telefono, Date fechaCreacion, Date fechaBaja, boolean administrador) {
+    public Usuario(Integer idUsuario, String usuario, String password, String nombres, String apellidos, String email, boolean estado, String telefono, Date fechaCreacion) {
         this.idUsuario = idUsuario;
         this.usuario = usuario;
         this.password = password;
@@ -124,8 +123,6 @@ public class Usuarios implements Serializable {
         this.estado = estado;
         this.telefono = telefono;
         this.fechaCreacion = fechaCreacion;
-        this.fechaBaja = fechaBaja;
-        this.administrador = administrador;
     }
 
     public Integer getIdUsuario() {
@@ -208,14 +205,6 @@ public class Usuarios implements Serializable {
         this.fechaBaja = fechaBaja;
     }
 
-    public boolean getAdministrador() {
-        return administrador;
-    }
-
-    public void setAdministrador(boolean administrador) {
-        this.administrador = administrador;
-    }
-
     @XmlTransient
     public Collection<UsuarioProyecto> getUsuarioProyectoCollection() {
         return usuarioProyectoCollection;
@@ -224,6 +213,16 @@ public class Usuarios implements Serializable {
     public void setUsuarioProyectoCollection(Collection<UsuarioProyecto> usuarioProyectoCollection) {
         this.usuarioProyectoCollection = usuarioProyectoCollection;
     }
+
+    public Rol getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(Rol idRol) {
+        this.idRol = idRol;
+    }
+
+
 
     @Override
     public int hashCode() {
@@ -235,10 +234,10 @@ public class Usuarios implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuarios)) {
+        if (!(object instanceof Usuario)) {
             return false;
         }
-        Usuarios other = (Usuarios) object;
+        Usuario other = (Usuario) object;
         if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
             return false;
         }
@@ -247,7 +246,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "py.una.pol.ejb.model.Usuarios[ idUsuario=" + idUsuario + " ]";
+        return "py.una.pol.ejb.model.Usuario[ idUsuario=" + idUsuario + " ]";
     }
     
 }

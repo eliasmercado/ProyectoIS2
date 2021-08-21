@@ -29,6 +29,11 @@ public class AgileSysException extends Exception {
         this.descripcion = message.getDescripcion();
     }
 
+    public AgileSysException(GenericMessage message, String msg) {
+        super(message.getDescripcion() + ". " + msg);
+        this.descripcion = message.getDescripcion();
+    }
+
     public String getDescripcion() {
         return descripcion;
     }

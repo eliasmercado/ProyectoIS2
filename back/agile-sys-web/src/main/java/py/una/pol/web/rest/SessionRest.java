@@ -1,18 +1,17 @@
 package py.una.pol.web.rest;
 
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
+import py.una.pol.ejb.enums.GenericMessage;
 import py.una.pol.ejb.utils.AgileSysException;
 import py.una.pol.ejb.bean.SessionBean;
 import py.una.pol.ejb.dto.LoginDto;
 import py.una.pol.ejb.dto.LoginResponseDto;
 import py.una.pol.ejb.dto.ResponseDto;
 import py.una.pol.ejb.dto.MessageDto;
+
+import java.net.HttpURLConnection;
 
 @Path("/login")
 public class SessionRest {
@@ -42,6 +41,9 @@ public class SessionRest {
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
             response.setError(msg);
+
+            if(e.getDescripcion().equals(GenericMessage.USER_NOT_FOUND))
+                throw new WebApplicationException(e.getDescripcion(), HttpURLConnection.HTTP_NOT_FOUND);
         }
 
         return response;

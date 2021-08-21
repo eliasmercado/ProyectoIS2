@@ -2,14 +2,13 @@ package py.una.pol.ejb.bean;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.PathParam;
 
 import py.una.pol.ejb.dao.UsuarioDao;
 import py.una.pol.ejb.dao.UsuarioProyectoDao;
 import py.una.pol.ejb.dto.LoginDto;
 import py.una.pol.ejb.dto.LoginResponseDto;
 import py.una.pol.ejb.enums.GenericMessage;
-import py.una.pol.ejb.model.Usuarios;
+import py.una.pol.ejb.model.Usuario;
 import py.una.pol.ejb.utils.AgileSysException;
 import py.una.pol.ejb.model.UsuarioProyecto;
 
@@ -25,8 +24,8 @@ public class SessionBean {
     
 
     public LoginResponseDto login(LoginDto loginDto) throws AgileSysException {
-        LoginResponseDto response = null;
-        Usuarios usuario = usuarioDao.findByUsuarioPassword(loginDto.getUsuario(), loginDto.getPassword());
+        LoginResponseDto response;
+        Usuario usuario = usuarioDao.findByUsuarioPassword(loginDto.getUsuario(), loginDto.getPassword());
 
         if (usuario != null) {
             if (!usuario.getEstado())
@@ -36,8 +35,14 @@ public class SessionBean {
             response.setIdUsuario(usuario.getIdUsuario());
             response.setNombres(usuario.getNombres());
             response.setApellidos(usuario.getApellidos());
+            if(usuario.getIdRol() == null){
+                response.setIdRol(0);
+                response.setRol("");
+            }else{
+                response.setIdRol(usuario.getIdRol().getIdRol());
+                response.setRol(usuario.getIdRol().getDescripcionRol());
+            }
             response.setEmail(usuario.getEmail());
-            response.setEsAdmin(usuario.getAdministrador());
             UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoByIdUsuario(usuario.getIdUsuario());
             if (usuarioProyecto != null)
                 response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());

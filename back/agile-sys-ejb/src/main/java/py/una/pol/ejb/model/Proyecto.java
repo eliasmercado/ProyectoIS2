@@ -33,16 +33,16 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author isaux
  */
 @Entity
-@Table(name = "proyectos")
+@Table(name = "proyecto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Proyectos.findAll", query = "SELECT p FROM Proyectos p"),
-    @NamedQuery(name = "Proyectos.findByIdProyecto", query = "SELECT p FROM Proyectos p WHERE p.idProyecto = :idProyecto"),
-    @NamedQuery(name = "Proyectos.findByNombreProyecto", query = "SELECT p FROM Proyectos p WHERE p.nombreProyecto = :nombreProyecto"),
-    @NamedQuery(name = "Proyectos.findByFechaInicio", query = "SELECT p FROM Proyectos p WHERE p.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "Proyectos.findByFechaFin", query = "SELECT p FROM Proyectos p WHERE p.fechaFin = :fechaFin"),
-    @NamedQuery(name = "Proyectos.findByDescripcionProyecto", query = "SELECT p FROM Proyectos p WHERE p.descripcionProyecto = :descripcionProyecto")})
-public class Proyectos implements Serializable {
+    @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p"),
+    @NamedQuery(name = "Proyecto.findByIdProyecto", query = "SELECT p FROM Proyecto p WHERE p.idProyecto = :idProyecto"),
+    @NamedQuery(name = "Proyecto.findByNombreProyecto", query = "SELECT p FROM Proyecto p WHERE p.nombreProyecto = :nombreProyecto"),
+    @NamedQuery(name = "Proyecto.findByFechaInicio", query = "SELECT p FROM Proyecto p WHERE p.fechaInicio = :fechaInicio"),
+    @NamedQuery(name = "Proyecto.findByFechaFin", query = "SELECT p FROM Proyecto p WHERE p.fechaFin = :fechaFin"),
+    @NamedQuery(name = "Proyecto.findByDescripcionProyecto", query = "SELECT p FROM Proyecto p WHERE p.descripcionProyecto = :descripcionProyecto")})
+public class Proyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,8 +60,6 @@ public class Proyectos implements Serializable {
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
@@ -72,22 +70,21 @@ public class Proyectos implements Serializable {
     private String descripcionProyecto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProyecto")
     private Collection<UsuarioProyecto> usuarioProyectoCollection;
-    @JoinColumn(name = "id_estados", referencedColumnName = "id_estados")
+    @JoinColumn(name = "id_estado", referencedColumnName = "id_estado")
     @ManyToOne(optional = false)
-    private Estados idEstados;
+    private Estado idEstado;
 
-    public Proyectos() {
+    public Proyecto() {
     }
 
-    public Proyectos(Integer idProyecto) {
+    public Proyecto(Integer idProyecto) {
         this.idProyecto = idProyecto;
     }
 
-    public Proyectos(Integer idProyecto, String nombreProyecto, Date fechaInicio, Date fechaFin, String descripcionProyecto) {
+    public Proyecto(Integer idProyecto, String nombreProyecto, Date fechaInicio, String descripcionProyecto) {
         this.idProyecto = idProyecto;
         this.nombreProyecto = nombreProyecto;
         this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
         this.descripcionProyecto = descripcionProyecto;
     }
 
@@ -140,12 +137,12 @@ public class Proyectos implements Serializable {
         this.usuarioProyectoCollection = usuarioProyectoCollection;
     }
 
-    public Estados getIdEstados() {
-        return idEstados;
+    public Estado getIdEstado() {
+        return idEstado;
     }
 
-    public void setIdEstados(Estados idEstados) {
-        this.idEstados = idEstados;
+    public void setIdEstado(Estado idEstado) {
+        this.idEstado = idEstado;
     }
 
     @Override
@@ -158,10 +155,10 @@ public class Proyectos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Proyectos)) {
+        if (!(object instanceof Proyecto)) {
             return false;
         }
-        Proyectos other = (Proyectos) object;
+        Proyecto other = (Proyecto) object;
         if ((this.idProyecto == null && other.idProyecto != null) || (this.idProyecto != null && !this.idProyecto.equals(other.idProyecto))) {
             return false;
         }
@@ -170,7 +167,7 @@ public class Proyectos implements Serializable {
 
     @Override
     public String toString() {
-        return "py.una.pol.ejb.model.Proyectos[ idProyecto=" + idProyecto + " ]";
+        return "py.una.pol.ejb.model.Proyecto[ idProyecto=" + idProyecto + " ]";
     }
     
 }

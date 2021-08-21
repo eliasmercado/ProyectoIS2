@@ -1,4 +1,6 @@
+
 package py.una.pol.ejb.dto;
+
 
 public class ResponseDto<T> {
   
@@ -32,6 +34,4 @@ public class ResponseDto<T> {
 
 
 
-    
-    
 }

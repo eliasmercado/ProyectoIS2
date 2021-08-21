@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import py.una.pol.ejb.model.Usuarios;
+import py.una.pol.ejb.model.Usuario;
 
 @Stateless
-public class UsuarioDao extends GenericDao<Usuarios> {
+public class UsuarioDao extends GenericDao<Usuario> {
 
     @PersistenceContext(unitName = "py.una.pol_agile-sys-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -21,27 +21,37 @@ public class UsuarioDao extends GenericDao<Usuarios> {
     }
 
     public UsuarioDao() {
-        super(Usuarios.class);
+        super(Usuario.class);
     }
 
-    public Usuarios findByUsuarioPassword(String usuario, String password) {
-        TypedQuery<Usuarios> query = em.createNamedQuery("Usuarios.findByUsuarioPassword", Usuarios.class)
+    public Usuario findByUsuarioPassword(String usuario, String password) {
+        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByUsuarioPassword", Usuario.class)
                 .setParameter("usuario", usuario).setParameter("password", password);
-        List<Usuarios> results = query.getResultList();
+        List<Usuario> results = query.getResultList();
         if (results.size() > 0)
             return results.get(0);
         else
             return null;
     }
 
-    public Usuarios findByUsuario(String usuario) {
-        TypedQuery<Usuarios> query = em.createNamedQuery("Usuarios.findByUsuario", Usuarios.class)
+    public Usuario findByUsuario(String usuario) {
+        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByUsuario", Usuario.class)
                 .setParameter("usuario", usuario);
-        List<Usuarios> results = query.getResultList();
+        List<Usuario> results = query.getResultList();
         if (results.size() > 0)
             return results.get(0);
         else
             return null;
     }
+
+    public List<Usuario> findUsuarios() {
+        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findAll", Usuario.class);
+        List<Usuario> results = query.getResultList();
+        if (results.size() > 0)
+            return results;
+        else
+            return null;
+    }
+
 
 }
