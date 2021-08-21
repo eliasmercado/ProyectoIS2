@@ -14,7 +14,9 @@
                   {{ $store.state.LoginStore.nombres.split(" ")[0] }}
                   {{ $store.state.LoginStore.apellidos.split(" ")[0] }}
                 </v-list-item-title>
-                <v-list-item-subtitle>{{ rolUsuario }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{
+                  $store.state.LoginStore.rol
+                }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -59,7 +61,6 @@
         </v-navigation-drawer>
 
         <v-toolbar
-          app
           extended
           extension-height="40"
           color="appBarMasterLayout"
@@ -98,17 +99,18 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
-    idRol: 0,
-    rolUsuario: "",
-    items: [
+    modulos: [
       {
         id: 1,
         title: "SEGURIDAD",
         childItems: [
-          { icon: "mdi-account", text: "Usuarios", to: "" },
-          { icon: "mdi-account-key", text: "Permisos", to: "" },
-          { icon: "mdi-account-cog", text: "Roles", to: "" },
-          { icon: "mdi-account-plus", text: "Asignar Roles", to: "" },
+          { icon: "mdi-account", text: "Usuarios", to: "/seguridad/usuarios" },
+          {
+            icon: "mdi-account-key",
+            text: "Permisos",
+            to: "/seguridad/permisos",
+          },
+          { icon: "mdi-account-cog", text: "Roles", to: "/seguridad/roles" },
         ],
       },
 
@@ -137,34 +139,49 @@ export default {
         ],
       },
     ],
+
+    items: [],
   }),
 
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "getMenuPermiso"]),
 
     logoutUser() {
       this.logout();
     },
 
-    cargarRolUsuario() {
-      let idProyecto = this.$store.state.LoginStore.idProyecto;
-      let idUsuario = this.$store.state.LoginStore.idUsuario;
-      let url = `/v1/rol-proyecto/${idProyecto}/${idUsuario}`;
+    async verificarPermisoModulos() {
+      let idRol = this.$store.state.LoginStore.idRol;
+      let modulosPermiso = [];
 
-      this.axios
-        .get(url)
-        .then((result) => {
-          this.rolUsuario = result.data.data.descripcionRol;
-          this.idRol = result.data.data.idRol;
+      await this.axios
+        .get("/v1/modulo-usuario/" + idRol.toString())
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            modulosPermiso = response.data.data;
+          }
         })
         .catch((error) => {
-          console.error(error);
+          console.error("Ocurrio un error inesperado", error);
         });
+
+      this.modulos.forEach((modulo) => {
+        modulosPermiso.forEach((moduloPermiso) => {
+          if (
+            moduloPermiso.nombreModulo.toUpperCase() ==
+            modulo.title.toUpperCase()
+          ) {
+            this.items.push(modulo);
+          }
+        });
+      });
     },
   },
 
   mounted() {
-    this.cargarRolUsuario();
+    this.verificarPermisoModulos();
   },
 };
 </script>

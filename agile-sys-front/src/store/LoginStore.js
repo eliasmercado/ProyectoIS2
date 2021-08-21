@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from "@/router/index";
 
-let apiUrl = "http://localhost:8080/agile-sys-web";
+let apiUrl = "http://localhost:8180/agile-sys-web";
 
 const state = {
   idUsuario: null,
@@ -9,8 +9,10 @@ const state = {
   nombres: "",
   apellidos: "",
   email: "",
+  idRol: null,
+  rol: "",
   idProyecto: null,
-  esAdmin: false,
+  menuPermiso: [],
   error: false,
   errorMessage: "",
 };
@@ -22,7 +24,8 @@ const mutations = {
     state.nombres = payload.nombres;
     state.apellidos = payload.apellidos;
     state.email = payload.email;
-    state.esAdmin = payload.esAdmin;
+    state.idRol = payload.idRol;
+    state.rol = payload.rol;
     state.idProyecto = payload.idProyecto;
   },
 
@@ -37,15 +40,21 @@ const mutations = {
     state.nombres = "";
     state.apellidos = "";
     state.email = "";
-    state.esAdmin = false;
+    state.idRol = null;
+    state.rol = "";
     state.idProyecto = null;
     state.error = false;
     state.errorMessage = "";
+    state.menuPermiso = [];
+  },
+
+  SAVE_MENU(state, payload) {
+    state.menuPermiso = payload;
   },
 };
 
 const actions = {
-  authUser({ commit }, credentials) {
+  authUser({ commit, dispatch }, credentials) {
     return new Promise((resolve, reject) => {
       axios
         .post(apiUrl + "/api/v1/login", credentials)
@@ -68,6 +77,25 @@ const actions = {
   logout({ commit }) {
     commit("LOGOUT");
     router.push("/login").catch();
+  },
+
+  getMenuPermiso({ commit }, idRol) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(apiUrl + "/api/v1/modulo-usuario/" + idRol)
+        .then((response) => {
+          if ("error" in response.data) {
+            commit("AUTH_ERROR", response.data.error.message);
+            reject();
+          } else {
+            commit("SAVE_MENU", response.data.data);
+            resolve();
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    });
   },
 };
 

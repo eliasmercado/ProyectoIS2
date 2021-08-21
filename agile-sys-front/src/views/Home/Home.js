@@ -17,10 +17,12 @@ export default {
 
       this.axios
         .get(url)
-        .then((result) => {
-          this.nombreProyecto = result.data.data.nombre;
-          this.descripcionProyecto = result.data.data.descripcion;
-          this.fechaInicioProyecto = result.data.data.fechaInicio;
+        .then((response) => {
+          if (!"error" in response.data) {
+            this.nombreProyecto = response.data.data.nombre;
+            this.descripcionProyecto = response.data.data.descripcion;
+            this.fechaInicioProyecto = response.data.data.fechaInicio;
+          }
         })
         .catch((error) => {
           console.error(error);
