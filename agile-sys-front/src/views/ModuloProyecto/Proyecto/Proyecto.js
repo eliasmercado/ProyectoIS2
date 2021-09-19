@@ -124,8 +124,24 @@ export default {
 
     async saveEditItem() {
       let idProyecto = this.editedItem.idProyecto;
+      var data = {
+        nombre: this.editedItem.nombre,
+        fechaInicio: this.editedItem.fechaInicio,
+        descripcion: this.editedItem.descripcion,
+      };
 
-      Object.assign(this.projects[this.editedIndex], this.editedItem);
+      await this.axios
+        .put("/v1/proyecto/" + idProyecto.toString(), data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            Object.assign(this.projects[this.editedIndex], this.editedItem);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
 
     async saveNewItem() {
