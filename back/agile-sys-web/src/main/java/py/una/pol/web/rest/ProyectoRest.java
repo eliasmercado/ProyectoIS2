@@ -91,7 +91,7 @@ public class ProyectoRest {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{idProyecto}")
-    public ResponseDto updateProyecto(@PathParam("id_proyecto") Integer id_proyecto,
+    public ResponseDto updateProyecto(@PathParam("idProyecto") Integer id_proyecto,
             ProyectoGenericDto proyectoGenericDto) {
 
         ResponseDto response;
@@ -115,7 +115,7 @@ public class ProyectoRest {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{idProyecto}")
-    public ResponseDto updateProyecto(@PathParam("id_proyecto") Integer id_proyecto) {
+    public ResponseDto updateProyecto(@PathParam("idProyecto") Integer id_proyecto) {
 
         ResponseDto response;
 

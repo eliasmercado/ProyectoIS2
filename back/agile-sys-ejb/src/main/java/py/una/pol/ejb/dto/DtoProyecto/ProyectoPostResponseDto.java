@@ -1,11 +1,11 @@
 package py.una.pol.ejb.dto.DtoProyecto;
 
 public class ProyectoPostResponseDto {
-   
+
     private Integer idProyecto;
     private String message;
 
-    public Integer getProyecto() {
+    public Integer getIdProyecto() {
         return idProyecto;
     }
 
@@ -23,9 +23,6 @@ public class ProyectoPostResponseDto {
 
     @Override
     public String toString() {
-        return "PermisoPostResponseDto{" +
-                "idPermiso=" + idProyecto +
-                ", message='" + message + '\'' +
-                '}';
+        return "PermisoPostResponseDto{" + "idPermiso=" + idProyecto + ", message='" + message + '\'' + '}';
     }
 }
