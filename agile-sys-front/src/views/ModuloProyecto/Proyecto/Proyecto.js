@@ -35,11 +35,20 @@ export default {
       usuarios: [],
     },
     nameRules: [(v) => !!v || "Nombre es requerido"],
+    descripcionRules: [(v) => !!v || "Descripción es requerido"],
+    menu: false,
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
   }),
 
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
+    },
+
+    computedDateFormatted() {
+      return this.formatDate(this.date);
     },
   },
 
@@ -164,6 +173,14 @@ export default {
         .catch((error) => {
           console.error("Ocurrio un error inesperado", error);
         });
+    },
+
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month, day] = date.split("-");
+      this.editedItem.fechaInicio = `${day}/${month}/${year}`;
+      return this.editedItem.fechaInicio;
     },
   },
 };

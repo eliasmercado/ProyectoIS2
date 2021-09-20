@@ -20,7 +20,7 @@
                 <v-card-text>
                   <v-container>
                     <v-row>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12" sm="12" md="12">
                         <v-text-field
                           autocomplete="off"
                           v-model="editedItem.nombre"
@@ -28,22 +28,43 @@
                           :rules="nameRules"
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12" sm="12" md="12">
                         <v-text-field
                           autocomplete="off"
                           v-model="editedItem.descripcion"
                           label="Descripción"
+                          :rules="descripcionRules"
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field
-                          autocomplete="off"
-                          v-model="editedItem.fechaInicio"
-                          label="Fecha de Inicio"
-                        ></v-text-field>
+                      <v-col cols="12" sm="12" md="12">
+                        <v-menu
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          max-width="290px"
+                          min-width="auto"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="computedDateFormatted"
+                              label="Fecha de Inicio"
+                              persistent-hint
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              v-bind="attrs"
+                              v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="date"
+                            no-title
+                            @input="menu = false"
+                          ></v-date-picker>
+                        </v-menu>
                       </v-col>
 
-                      <v-col cols="12" sm="6" md="12">
+                      <v-col cols="12" sm="12" md="12">
                         <v-combobox
                           v-model="editedItem.usuarios"
                           :items="itemsMiembros"
