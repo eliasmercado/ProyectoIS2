@@ -11,7 +11,6 @@ import Permisos from "@/views/ModuloSeguridad/Permisos/Permisos.vue";
 import Roles from "@/views/ModuloSeguridad/Roles/Roles.vue";
 import MasterLayout from "@/layouts/MasterLayout.vue";
 import LoginLayout from "@/layouts/LoginLayout.vue";
-import HomeLayout from "@/layouts/HomeLayout.vue";
 import store from "@/store/index";
 import Proyecto from "@/views/ModuloProyecto/Proyecto/Proyecto.vue";
 
@@ -20,7 +19,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    component: HomeLayout,
+    component: MasterLayout,
     children: [
       {
         path: "/",
@@ -28,13 +27,6 @@ const routes = [
         component: Home,
         meta: { requiresAuth: true },
       },
-    ],
-  },
-
-  {
-    path: "/",
-    component: MasterLayout,
-    children: [
       {
         path: "/seguridad/usuarios",
         name: "Usuarios",
