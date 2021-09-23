@@ -224,7 +224,11 @@ export default {
       await this.axios
         .put("/v1/rol/" + idRol.toString(), data)
         .then((response) => {
-          Object.assign(this.roles[this.editedIndex], this.editedItem);
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            Object.assign(this.roles[this.editedIndex], this.editedItem);
+          }
         })
         .catch((error) => {
           console.error("Ocurrio un error inesperado", error);
@@ -239,8 +243,12 @@ export default {
       await this.axios
         .post("/v1/rol/", data)
         .then((response) => {
-          this.editedItem.idUsuario = response.data.data.idRol;
-          this.roles.push(this.editedItem);
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.editedItem.idUsuario = response.data.data.idRol;
+            this.roles.push(this.editedItem);
+          }
         })
         .catch((error) => {
           console.error("Ocurrio un error inesperado", error);
