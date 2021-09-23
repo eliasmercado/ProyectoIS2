@@ -3,6 +3,7 @@ package py.una.pol.ejb.dto.DtoProyecto;
 public class ProyectoUsuarioDto {
 
     private Integer idUsuario;
+    private Integer idUsuarioProyecto;
     private String nombres;
     private String apellidos;
     public Integer getIdUsuario() {
@@ -23,11 +24,19 @@ public class ProyectoUsuarioDto {
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
+    
+    public Integer getIdUsuarioProyecto() {
+        return idUsuarioProyecto;
+    }
+    public void setIdUsuarioProyecto(Integer idUsuarioProyecto) {
+        this.idUsuarioProyecto = idUsuarioProyecto;
+    }
     @Override
     public String toString() {
-        return "ProyectoUsuarioDto [apellidos=" + apellidos + ", idUsuario=" + idUsuario + ", nombres=" + nombres + "]";
+        return "ProyectoUsuarioDto [apellidos=" + apellidos + ", idUsuario=" + idUsuario + ", idUsuarioProyecto="
+                + idUsuarioProyecto + ", nombres=" + nombres + "]";
     }
-
+    
     
     
 }
