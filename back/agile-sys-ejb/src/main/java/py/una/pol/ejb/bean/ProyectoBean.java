@@ -59,6 +59,7 @@ public class ProyectoBean {
                     dto = new ProyectoResponseDto();
                     dto.setIdProyecto(proyecto.getIdProyecto());
                     dto.setNombre(proyecto.getNombreProyecto());
+                    dto.setDescripcion(proyecto.getDescripcionProyecto());
                     dto.setFechaInicio(DateHelper.getDateISO8601(proyecto.getFechaInicio()));
                     if (proyecto.getFechaFin() != null)
                         dto.setFechaFin(DateHelper.getDateISO8601(proyecto.getFechaFin()));
@@ -71,6 +72,7 @@ public class ProyectoBean {
                         for (UsuarioProyecto user : listUsuProy) {
                             if(user.getIdUsuario().getEstado()){
                                 ProyectoUsuarioDto upDto = new ProyectoUsuarioDto();
+                                upDto.setIdUsuarioProyecto(user.getIdUsuarioProyecto());
                                 upDto.setIdUsuario(user.getIdUsuario().getIdUsuario());
                                 upDto.setNombres(user.getIdUsuario().getNombres());
                                 upDto.setApellidos(user.getIdUsuario().getApellidos());
