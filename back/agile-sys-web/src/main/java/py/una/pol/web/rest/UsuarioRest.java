@@ -3,6 +3,9 @@ package py.una.pol.web.rest;
 
 import py.una.pol.ejb.bean.UsuarioBean;
 import py.una.pol.ejb.dto.*;
+import py.una.pol.ejb.dto.DtoUsuario.UsuarioPostResponseDto;
+import py.una.pol.ejb.dto.DtoUsuario.UsuarioRequestDto;
+import py.una.pol.ejb.dto.DtoUsuario.UsuarioResponseDto;
 import py.una.pol.ejb.utils.AgileSysException;
 
 import javax.ejb.EJB;

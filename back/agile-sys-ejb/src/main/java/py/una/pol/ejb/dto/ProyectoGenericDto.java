@@ -1,14 +1,13 @@
 package py.una.pol.ejb.dto;
 
-import java.util.Date;
 
-public class ProyectoResponseDto {
+public class ProyectoGenericDto {
 
     private String nombre;
-    private Date fechaInicio;
+    private String fechaInicio;
     private String descripcion;
 
-    public ProyectoResponseDto() {
+    public ProyectoGenericDto() {
     }
 
     public String getNombre() {
@@ -19,11 +18,11 @@ public class ProyectoResponseDto {
         this.nombre = nombre;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 

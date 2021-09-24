@@ -45,4 +45,12 @@ public class UsuarioProyectoDao extends GenericDao<UsuarioProyecto> {
         else
             return null;
     }
+
+    public List<UsuarioProyecto> findUsuariosByIdProyecto(Integer idProyecto) {
+        TypedQuery<UsuarioProyecto> query = em
+                .createNamedQuery("UsuarioProyecto.findUsuariosByIdProyecto", UsuarioProyecto.class)
+                .setParameter("idProyecto", idProyecto);
+        List<UsuarioProyecto> results = query.getResultList();
+        return results;
+    }
 }

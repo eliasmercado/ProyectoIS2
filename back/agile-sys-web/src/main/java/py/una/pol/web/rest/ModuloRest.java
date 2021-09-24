@@ -2,11 +2,9 @@ package py.una.pol.web.rest;
 
 
 import py.una.pol.ejb.bean.ModuloBean;
-import py.una.pol.ejb.bean.RolPermisoBean;
 import py.una.pol.ejb.dto.MessageDto;
 import py.una.pol.ejb.dto.ModuloDto;
 import py.una.pol.ejb.dto.ResponseDto;
-import py.una.pol.ejb.dto.RolPermisoRequestDto;
 import py.una.pol.ejb.utils.AgileSysException;
 
 import javax.ejb.EJB;
