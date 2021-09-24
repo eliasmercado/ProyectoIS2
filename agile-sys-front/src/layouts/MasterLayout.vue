@@ -61,6 +61,31 @@
         </v-navigation-drawer>
 
         <v-toolbar
+          v-if="$route.name == 'Home'"
+          flat
+          color="appBarHomeLayout"
+          dark
+        >
+          <v-app-bar-nav-icon
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
+
+          <v-toolbar-title>
+            <v-avatar tile> <img src="@/assets/logo-AS.png" /> </v-avatar>
+            <span class="text-h5 textStyle font-weight-bold ml-2"
+              >Agile Sys</span
+            >
+          </v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <v-btn @click="logoutUser" icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+        </v-toolbar>
+
+        <v-toolbar
+          v-else
           extended
           extension-height="40"
           color="appBarMasterLayout"
@@ -83,8 +108,10 @@
             <v-icon>mdi-logout</v-icon>
           </v-btn>
         </v-toolbar>
+        
+        <router-view v-if="$route.name == 'Home'"></router-view>
 
-        <v-container>
+        <v-container v-else>
           <router-view></router-view>
         </v-container>
       </v-app>
@@ -118,12 +145,7 @@ export default {
         id: 2,
         title: "PROYECTO",
         childItems: [
-          { icon: "mdi-clipboard-edit", text: "Administrar", to: "" },
-          {
-            icon: "mdi-account-multiple-plus",
-            text: "Agregar Miembros",
-            to: "",
-          },
+          { icon: "mdi-clipboard-edit", text: "Administrar", to: "/proyecto/administrar" },
         ],
       },
 
@@ -190,6 +212,10 @@ export default {
 $nav-bar-color: #263238;
 $app-bar-color: #1976d2;
 .appBarMasterLayout {
+  background: $app-bar-color !important;
+  max-height: 10%;
+}
+.appBarHomeLayout {
   background: $app-bar-color !important;
   max-height: 10%;
 }

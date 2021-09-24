@@ -5,7 +5,6 @@
  */
 package py.una.pol.ejb.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -4,6 +4,9 @@ package py.una.pol.ejb.bean;
 import py.una.pol.ejb.dao.RolDao;
 import py.una.pol.ejb.dao.UsuarioDao;
 import py.una.pol.ejb.dto.*;
+import py.una.pol.ejb.dto.DtoUsuario.UsuarioPostResponseDto;
+import py.una.pol.ejb.dto.DtoUsuario.UsuarioRequestDto;
+import py.una.pol.ejb.dto.DtoUsuario.UsuarioResponseDto;
 import py.una.pol.ejb.enums.GenericMessage;
 
 import py.una.pol.ejb.model.Usuario;

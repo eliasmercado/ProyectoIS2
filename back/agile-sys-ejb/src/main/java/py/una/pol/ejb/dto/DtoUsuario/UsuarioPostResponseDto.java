@@ -1,4 +1,4 @@
-package py.una.pol.ejb.dto;
+package py.una.pol.ejb.dto.DtoUsuario;
 
 public class UsuarioPostResponseDto {
 
