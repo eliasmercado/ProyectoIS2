@@ -57,7 +57,7 @@
                             ></v-text-field>
                           </template>
                           <v-date-picker
-                            v-model="date"
+                            v-model="editedItem.fechaInicio"
                             no-title
                             @input="menu = false"
                           ></v-date-picker>
@@ -66,7 +66,7 @@
 
                       <v-col cols="12" sm="12" md="12">
                         <v-combobox
-                          v-model="editedItem.usuarios"
+                          v-model="accionesMiembrosProyecto"
                           :items="itemsMiembros"
                           label="Agregar Miembros"
                           multiple
@@ -136,6 +136,10 @@
             <span>{{ usuario.nombres }} {{ usuario.apellidos }}</span>
           </v-tooltip>
         </span>
+      </template>
+
+      <template v-slot:[`item.fechaInicio`]="{ item }">
+        <div>{{ formatDate(item.fechaInicio) }}</div>
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
