@@ -84,6 +84,7 @@ export default {
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
+        idProyecto: this.$store.state.LoginStore.idProyecto,
       };
 
       console.log(data);
