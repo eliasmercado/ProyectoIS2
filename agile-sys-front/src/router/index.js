@@ -52,10 +52,10 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
-        path: "/backlog",
+        path: "/desarrollo/backlog",
         name: "Backlog",
         component: Backlog,
-        meta: { requiresAuth: true, requiresProject: true },
+        meta: { requiresAuth: true },
       },
       {
         path: "/board",
