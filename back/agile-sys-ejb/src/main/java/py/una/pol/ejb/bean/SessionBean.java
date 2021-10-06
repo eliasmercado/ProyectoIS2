@@ -45,7 +45,8 @@ public class SessionBean {
             response.setEmail(usuario.getEmail());
             UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoByIdUsuario(usuario.getIdUsuario());
             if (usuarioProyecto != null)
-                response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());
+                if(usuarioProyecto.getIdProyecto().getIdEstado().getDescripcionEstado().equals("Iniciado"))
+                    response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());
             else
                 response.setIdProyecto(0);
         } else if (usuarioDao.findByUsuario(loginDto.getUsuario()) == null) {
