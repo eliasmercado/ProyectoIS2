@@ -111,12 +111,7 @@ export default {
         id: 2,
         title: "PROYECTO",
         childItems: [
-          { icon: "mdi-clipboard-edit", text: "Administrar", to: "" },
-          {
-            icon: "mdi-account-multiple-plus",
-            text: "Agregar Miembros",
-            to: "",
-          },
+          { icon: "mdi-clipboard-edit", text: "Administrar", to: "/proyecto/administrar" },
         ],
       },
 
