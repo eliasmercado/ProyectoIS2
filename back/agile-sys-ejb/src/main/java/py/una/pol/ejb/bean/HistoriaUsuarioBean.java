@@ -19,6 +19,11 @@ import py.una.pol.ejb.model.HistoriaUsuario;
 import py.una.pol.ejb.model.Proyecto;
 import py.una.pol.ejb.model.Sprint;
 import py.una.pol.ejb.model.Usuario;
+import py.una.pol.ejb.dto.HistoriaUsuarioResponseDto;
+import py.una.pol.ejb.dto.MessageDto;
+
+import java.util.List;
+import java.util.ArrayList;
 
 
 @Stateless
@@ -77,6 +82,36 @@ public class HistoriaUsuarioBean {
         throw new AgileSysException(GenericMessage.US_NOT_FOUND);
     }
 
-   
+    public List<HistoriaUsuarioResponseDto> getHistoriaUsuarioProyecto(Integer idProyecto) throws AgileSysException {
+        List<HistoriaUsuarioResponseDto> response = new ArrayList<>();
+        List<HistoriaUsuario> listHistorias = historiaUsuarioDao.findByIdProyectoSprintNull(idProyecto);
+        if (listHistorias != null) {
+            for (HistoriaUsuario historia : listHistorias) {
+                HistoriaUsuarioResponseDto historiaResponseDto = new HistoriaUsuarioResponseDto();
+                historiaResponseDto.setIdHistoriaUsuario(historia.getIdHistoriaUsuario());
+                historiaResponseDto.setNombre(historia.getNombreHistoria());
+                historiaResponseDto.setDescripcion(historia.getDescripcionHistoria());
+                response.add(historiaResponseDto);
+            }
+        } else {
+            throw new AgileSysException("No existen historias de usuario");
+        }
+        return response;
+    }
 
+    public MessageDto deleteHistoriaUsuario(Integer idHistoriaUsuario) throws AgileSysException{
+        MessageDto response = new MessageDto();
+        HistoriaUsuario historiaUsuario = historiaUsuarioDao.findByIdHistoriaUsuario(idHistoriaUsuario);
+        if (historiaUsuario != null) {
+            try {
+                historiaUsuarioDao.remove(historiaUsuario);
+                response.setMessage("Historia de Usuario eliminada con exito");
+            } catch (Exception e) {
+                throw new AgileSysException("No se puede eliminar la historia: " + e.getMessage());
+            }
+        } else {
+            throw new AgileSysException("No se encontro la Historia de Usuario");
+        }
+        return response;
+    }
 }

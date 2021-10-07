@@ -36,7 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HistoriaUsuario.findByIdHistoriaUsuario", query = "SELECT h FROM HistoriaUsuario h WHERE h.idHistoriaUsuario = :idHistoriaUsuario"),
     @NamedQuery(name = "HistoriaUsuario.findByNombreHistoria", query = "SELECT h FROM HistoriaUsuario h WHERE h.nombreHistoria = :nombreHistoria"),
     @NamedQuery(name = "HistoriaUsuario.findByDescripcionHistoria", query = "SELECT h FROM HistoriaUsuario h WHERE h.descripcionHistoria = :descripcionHistoria"),
-    @NamedQuery(name = "HistoriaUsuario.findByFechaCreacion", query = "SELECT h FROM HistoriaUsuario h WHERE h.fechaCreacion = :fechaCreacion")})
+    @NamedQuery(name = "HistoriaUsuario.findByFechaCreacion", query = "SELECT h FROM HistoriaUsuario h WHERE h.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "HistoriaUsuario.findByIdProyectoSprintNull", query = "SELECT h FROM HistoriaUsuario h WHERE h.idProyecto = :idProyecto and h.idSprint is NULL")
+})
 public class HistoriaUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

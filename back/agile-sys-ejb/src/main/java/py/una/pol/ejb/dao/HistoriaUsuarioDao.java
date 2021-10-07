@@ -34,4 +34,14 @@ public class HistoriaUsuarioDao extends GenericDao<HistoriaUsuario> {
         else
             return null;
     }
+
+    public List<HistoriaUsuario> findByIdProyectoSprintNull(Integer idProyecto) {
+        TypedQuery<HistoriaUsuario> query = em.createNamedQuery("HistoriaUsuario.findByIdProyectoSprintNull", HistoriaUsuario.class)
+            .setParameter("idProyecto", idProyecto);
+        List<HistoriaUsuario> results = query.getResultList();
+        if (results.size() > 0)
+            return results;
+        else
+            return null;
+    }
 }
