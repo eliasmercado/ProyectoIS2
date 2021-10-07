@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import py.una.pol.ejb.model.HistoriaUsuario;
 
-import py.una.pol.ejb.model.HistoriaUsuario;
+
 
 @Stateless
 public class HistoriaUsuarioDao extends GenericDao<HistoriaUsuario> {

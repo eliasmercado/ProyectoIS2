@@ -42,9 +42,10 @@ public class HistoriaUsuarioBean {
             historiaUsuario.setNombreHistoria(request.getNombre());
             historiaUsuario.setDescripcionHistoria(request.getDescripcion());
             historiaUsuario.setFechaCreacion(new Date());
-            historiaUsuario.setIdProyecto(new Proyecto(request.getIdProyecto()));;
+            historiaUsuario.setIdProyecto(new Proyecto(request.getIdProyecto()));
+            historiaUsuarioDao.create(historiaUsuario);
             response.setIdHistoriaUsuario(historiaUsuario.getIdHistoriaUsuario());
-            response.setMessage(GenericMessage.USER_CREATED.getDescripcion());
+            response.setMessage(GenericMessage.US_CREATED.getDescripcion());
         }catch (Exception e){
             throw new AgileSysException(GenericMessage.US_NOT_CREATED, e.getMessage());
         }
@@ -63,7 +64,8 @@ public class HistoriaUsuarioBean {
                     historiaUsuario.setIdSprint(new Sprint(request.getIdSprint()));
                 else
                     historiaUsuario.setIdSprint(null);
-                if(request.getIdFase() != null)
+               
+                    if(request.getIdFase() != null)
                     historiaUsuario.setIdFase(new Fase(request.getIdFase()));
                 else
                     historiaUsuario.setIdFase(null);
@@ -72,8 +74,10 @@ public class HistoriaUsuarioBean {
                     historiaUsuario.setIdUsuarioResponsable(new Usuario(request.getIdUsuarioResponsable()));
                 else
                     historiaUsuario.setIdUsuarioResponsable(null);
+        
                 historiaUsuarioDao.edit(historiaUsuario);
-                response.setMessage(GenericMessage.PROJECT_UPDATED.getDescripcion());
+                response.setIdHistoriaUsuario(historiaUsuario.getIdHistoriaUsuario());
+                response.setMessage(GenericMessage.US_UPDATED.getDescripcion());
                 return response;
         }catch (Exception e){
             throw new AgileSysException(GenericMessage.US_NOT_UPDATED, e.getMessage());

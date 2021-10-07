@@ -27,7 +27,18 @@
       
   
   
-  <modules></modules>
+  <modules>
+              
+    
+    <module>agile-sys-ear</module>
+              
+    
+    <module>agile-sys-ejb</module>
+          
+    
+    <module>agile-sys-web</module>
+      
+  </modules>
     
 
 </project>
