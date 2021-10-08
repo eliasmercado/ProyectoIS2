@@ -89,6 +89,7 @@ public class HistoriaUsuarioBean {
     public List<HistoriaUsuarioResponseDto> getHistoriaUsuarioProyecto(Integer idProyecto) throws AgileSysException {
         List<HistoriaUsuarioResponseDto> response = new ArrayList<>();
         List<HistoriaUsuario> listHistorias = historiaUsuarioDao.findByIdProyectoSprintNull(idProyecto);
+        System.out.print(listHistorias);
         if (listHistorias != null) {
             for (HistoriaUsuario historia : listHistorias) {
                 HistoriaUsuarioResponseDto historiaResponseDto = new HistoriaUsuarioResponseDto();
