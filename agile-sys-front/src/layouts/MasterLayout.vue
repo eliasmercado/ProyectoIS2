@@ -153,7 +153,7 @@ export default {
         id: 3,
         title: "DESARROLLO",
         childItems: [
-          { icon: "mdi-clipboard-text", text: "Backlog", to: "/backlog" },
+          { icon: "mdi-clipboard-text", text: "Backlog", to: "/desarrollo/backlog" },
           { icon: "mdi-view-week-outline", text: "Tablero", to: "/board" },
           { icon: "mdi-account-group", text: "Miembros", to: "/members" },
           { icon: "mdi-cog", text: "Settings", to: "/settings" },
