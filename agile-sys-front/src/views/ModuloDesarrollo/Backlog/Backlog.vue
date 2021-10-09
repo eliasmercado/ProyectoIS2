@@ -46,7 +46,7 @@
     </v-dialog>
 
     <v-card max-width="auto" class="mt-2">
-      <v-list v-for="historia in historiasUsuario" :key="historia.id">
+      <v-list v-for="historia in historiasUsuario" :key="historia.idHistoriaUsuario">
         <v-list-item>
           <v-list-item-avatar size="30">
             <v-icon color="primary"> mdi-book </v-icon>
@@ -54,7 +54,7 @@
 
           <v-list-item-content>
             <v-list-item-title
-              ><span class="font-weight-medium">US-{{ historia.id }} - </span
+              ><span class="font-weight-medium">US-{{ historia.idHistoriaUsuario }} - </span
               ><span> {{ historia.nombre }}</span></v-list-item-title
             >
           </v-list-item-content>

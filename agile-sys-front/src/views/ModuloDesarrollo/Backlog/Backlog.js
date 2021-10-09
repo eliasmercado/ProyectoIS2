@@ -5,41 +5,30 @@ export default {
     validForm: true,
     editedIndex: -1,
     editedItem: {
-      id: 0,
+      idHistoriaUsuario: 0,
       nombre: "",
       descripcion: "",
     },
     defaultItem: {
-      id: 0,
+      idHistoriaUsuario: 0,
       nombre: "",
       descripcion: "",
     },
-    historiasUsuario: [
-      {
-        id: 1,
-        nombre: "Primera Historia",
-        descripcion: "",
-      },
-      {
-        id: 2,
-        nombre: "Segunda Historia",
-        descripcion: "",
-      },
-      {
-        id: 3,
-        nombre: "Tercera Historia",
-        descripcion: "",
-      },
-      {
-        id: 4,
-        nombre: "Cuarta Historia",
-        descripcion: "",
-      },
-    ],
+    historiasUsuario: [],
     nameRules: [(v) => !!v || "Nombre es requerido"],
   }),
 
+  created() {
+    this.initialize();
+  },
+
   methods: {
+    initialize() {
+      this.axios
+        .get("/v1/historiaUsuario/" + this.$store.state.LoginStore.idProyecto)
+        .then((response) => (this.historiasUsuario = response.data.data));
+    },
+
     editItem(item) {
       this.editedIndex = this.historiasUsuario.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -55,41 +44,64 @@ export default {
       this.$refs.form.resetValidation();
     },
 
-    save() {
+    async save() {
       if (!this.$refs.form.validate()) return;
       if (this.editedIndex > -1) {
         //Edita la historia
-        this.saveEditItem();
+        await this.saveEditItem();
       } else {
         //Inserta la historia
-        this.saveNewItem();
+        await this.saveNewItem();
       }
       this.$refs.form.resetValidation();
       this.close();
     },
 
-    saveEditItem() {
-      let idHistoria = this.editedItem.id;
+    async saveEditItem() {
+      let idHistoriaUsuario = this.editedItem.idHistoriaUsuario;
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
       };
-      console.log(data);
-      console.log(idHistoria);
 
-      Object.assign(this.historiasUsuario[this.editedIndex], this.editedItem);
+      await this.axios
+        .put("/v1/historiaUsuario/" + idHistoriaUsuario.toString(), data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            Object.assign(
+              this.historiasUsuario[this.editedIndex],
+              this.editedItem
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
 
-    saveNewItem() {
+    async saveNewItem() {
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
         idProyecto: this.$store.state.LoginStore.idProyecto,
       };
 
-      console.log(data);
-      this.editedItem.id = 5;
-      this.historiasUsuario.push(this.editedItem);
+      await this.axios
+        .post("/v1/historiaUsuario/", data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.editedItem.idHistoriaUsuario =
+              response.data.data.idHistoriaUsuario;
+            this.historiasUsuario.push(this.editedItem);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
 
     getDeleteItemIndex(item) {
@@ -97,14 +109,22 @@ export default {
       this.dialogEliminar = true;
     },
 
-    deleteItem() {
+    async deleteItem() {
       var itemList = this.historiasUsuario[this.deletedIndex];
-      let idHistoria = itemList.id;
+      let idHistoriaUsuario = itemList.idHistoriaUsuario;
 
-      console.log(itemList);
-      console.log(idHistoria);
-
-      this.historiasUsuario.splice(this.deletedIndex, 1);
+      await this.axios
+        .delete("/v1/historiaUsuario/" + idHistoriaUsuario.toString())
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.historiasUsuario.splice(this.deletedIndex, 1);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
 
       this.dialogEliminar = false;
     },

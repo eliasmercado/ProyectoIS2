@@ -24,9 +24,9 @@ public class UsuarioProyectoDao extends GenericDao<UsuarioProyecto> {
         super(UsuarioProyecto.class);
     }
 
-    public UsuarioProyecto findProyectoByIdUsuario(Integer idUsuario) {
+    public UsuarioProyecto findProyectoIniciadoByIdUsuario(Integer idUsuario) {
         TypedQuery<UsuarioProyecto> query = em
-                .createNamedQuery("UsuarioProyecto.findProyectoByIdUsuario", UsuarioProyecto.class)
+                .createNamedQuery("UsuarioProyecto.findProyectoIniciadoByIdUsuario", UsuarioProyecto.class)
                 .setParameter("idUsuario", idUsuario);
         List<UsuarioProyecto> results = query.getResultList();
         if (results.size() > 0)

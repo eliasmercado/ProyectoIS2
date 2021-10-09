@@ -43,11 +43,12 @@ public class SessionBean {
                 response.setRol(usuario.getIdRol().getDescripcionRol());
             }
             response.setEmail(usuario.getEmail());
-            UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoByIdUsuario(usuario.getIdUsuario());
+            UsuarioProyecto usuarioProyecto = usuarioProyectoDao.findProyectoIniciadoByIdUsuario(usuario.getIdUsuario());
+            System.out.println("PROYECTO --- " + usuarioProyecto.getIdProyecto());
             if (usuarioProyecto != null)
-                response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());
-            else
-                response.setIdProyecto(0);
+                if(usuarioProyecto.getIdProyecto().getIdEstado().getDescripcionEstado().equals("Iniciado"))
+                    response.setIdProyecto(usuarioProyecto.getIdProyecto().getIdProyecto());
+           
         } else if (usuarioDao.findByUsuario(loginDto.getUsuario()) == null) {
             throw new AgileSysException(GenericMessage.USER_NOT_FOUND);
         } else
