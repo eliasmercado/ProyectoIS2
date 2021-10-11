@@ -30,7 +30,7 @@ public enum GenericMessage {
     USER_CREATED("Usuario creado con exito"),
     PROJECT_CREATED("Proyecto creado con exito"),
     USER_UPDATED("Usuario modificado con exito"),
-    US_CREATED("Historia de Usuario modificada con exito"),
+    US_CREATED("Historia de Usuario agregada con exito"),
     PROJECT_UPDATED("Proyecto modificado con exito"),
     US_UPDATED("Historia de Usuario modificada con exito"),
     USER_DELETED("Usuario eliminado con exito"),
