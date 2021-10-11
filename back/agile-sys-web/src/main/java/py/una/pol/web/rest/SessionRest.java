@@ -29,7 +29,7 @@ public class SessionRest {
     @Produces("application/json")
     @Consumes("application/json")
     public ResponseDto login(LoginDto loginDto) {
-        ResponseDto response;
+        ResponseDto response = null;
 
         try {
             LoginResponseDto loginResponseDto = sessionBean.login(loginDto);
@@ -41,9 +41,8 @@ public class SessionRest {
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
             response.setError(msg);
-
-            if(e.getDescripcion().equals(GenericMessage.USER_NOT_FOUND))
-                throw new WebApplicationException(e.getDescripcion(), HttpURLConnection.HTTP_NOT_FOUND);
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         return response;
