@@ -12,15 +12,46 @@ export default {
       {
         id: 1,
         idUsuarioAsignado: 1,
-        nombre: "Plans 2015",
+        nombre: "Historia 1",
         fase: "TO DO",
+      },
+      {
+        id: 2,
+        idUsuarioAsignado: 1,
+        nombre: "Historia 2",
+        fase: "TO DO",
+      },      
+      
+      {
+        id: 3,
+        idUsuarioAsignado: 1,
+        nombre: "Historia 3",
+        fase: "TO DO",
+      },
+      {
+        id: 4,
+        idUsuarioAsignado: 1,
+        nombre: "Historia 4",
+        fase: "TO DO",
+      },
+      {
+        id: 5,
+        idUsuarioAsignado: 1,
+        nombre: "Historia 5",
+        fase: "DOING",
+      },
+      {
+        id: 6,
+        idUsuarioAsignado: 1,
+        nombre: "Historia 6",
+        fase: "DONE",
       },
     ],
     usuarios: [
       {
         idUsuario: 1,
-        nombre: "John",
-        apellido: "Heart",
+        nombre: "Mario",
+        apellido: "Villalba",
       },
     ],
 
@@ -50,7 +81,7 @@ export default {
       e.fromData.splice(e.fromIndex, 1);
       e.toData.splice(e.toIndex, 0, e.itemData);
       this.historiaActual = e.itemData;
-      this.dialog = true;
+      //this.dialog = true;
     },
     actualizarHistoria() {
       console.log(this.historiaActual);
@@ -87,7 +118,7 @@ export default {
 
   mounted() {
     this.usuarios.forEach((usuario) => {
-      this.usuariosMap[usuario.idUsuario] = usuario.nombre;
+      this.usuariosMap[usuario.idUsuario] = usuario.nombre + " " + usuario.apellido;
     });
     this.actualizarKanban();
   },
