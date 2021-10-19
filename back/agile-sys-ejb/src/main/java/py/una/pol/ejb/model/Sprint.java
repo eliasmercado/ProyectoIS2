@@ -44,17 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sprint.findByFechaFin", query = "SELECT s FROM Sprint s WHERE s.fechaFin = :fechaFin")})
 public class Sprint implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_sprint")
-    private Integer idSprint;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "codigo")
-    private String codigo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
@@ -70,6 +59,18 @@ public class Sprint implements Serializable {
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
+    @Size(max = 2147483647)
+    @Column(name = "codigo")
+    private String codigo;
+    @Column(name = "completado")
+    private Boolean completado;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_sprint")
+    private Integer idSprint;
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
@@ -102,13 +103,6 @@ public class Sprint implements Serializable {
         this.idSprint = idSprint;
     }
 
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
 
     public String getNombreSprint() {
         return nombreSprint;
@@ -118,13 +112,6 @@ public class Sprint implements Serializable {
         this.nombreSprint = nombreSprint;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public Date getFechaInicio() {
         return fechaInicio;
@@ -182,6 +169,30 @@ public class Sprint implements Serializable {
     @Override
     public String toString() {
         return "py.una.pol.ejb.model.Sprint[ idSprint=" + idSprint + " ]";
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Boolean getCompletado() {
+        return completado;
+    }
+
+    public void setCompletado(Boolean completado) {
+        this.completado = completado;
     }
     
 }
