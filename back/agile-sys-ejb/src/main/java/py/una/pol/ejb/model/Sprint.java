@@ -149,6 +149,9 @@ public class Sprint implements Serializable {
     }
 
     public String formatDateISO(Date date) {
+        if(date == null){
+            return "";
+        }
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         return dateFormat.format(date);
     }

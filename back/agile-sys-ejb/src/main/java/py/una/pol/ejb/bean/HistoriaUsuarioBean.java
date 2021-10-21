@@ -97,9 +97,16 @@ public class HistoriaUsuarioBean {
                 historiaResponseDto.setNombre(historia.getNombreHistoria());
                 historiaResponseDto.setDescripcion(historia.getDescripcionHistoria());
                 historiaResponseDto.setFechaCreacion(historia.sendFechaCreacionFormat());
-                historiaResponseDto.setIdUsuarioResponsable(historia.getIdHistoriaUsuario());
-                historiaResponseDto.setIdSprint(historia.getIdSprint().getIdSprint());
-                historiaResponseDto.setIdFase(historia.getIdFase().getIdFase());
+                if(historia.getIdUsuarioResponsable() != null)
+                    historiaResponseDto.setIdUsuarioResponsable(historia.getIdUsuarioResponsable().getIdUsuario());
+
+                if(historia.getIdSprint() != null) //validacion pq osino explota
+                    historiaResponseDto.setIdSprint(historia.getIdSprint().getIdSprint());
+
+
+                if(historia.getIdFase() != null)//validacion pq osino explota
+                    historiaResponseDto.setIdFase(historia.getIdFase().getIdFase());
+
                 response.add(historiaResponseDto);
             }
         } else {
@@ -109,7 +116,13 @@ public class HistoriaUsuarioBean {
     }
 
     public List<HistoriaUsuarioResponseDto> getHistoriaUsuarioProyectoAndSprint(int idProyecto, int idSprint) throws AgileSysException {
-        List<HistoriaUsuarioResponseDto> listaHistoriasUsuario = this.getHistoriaUsuarioProyecto(idProyecto);
+
+        List<HistoriaUsuarioResponseDto> listaHistoriasUsuario = new ArrayList<>();
+        try {
+           listaHistoriasUsuario = this.getHistoriaUsuarioProyecto(idProyecto);
+       }catch (AgileSysException ae){
+           return listaHistoriasUsuario;
+       }
         List<HistoriaUsuarioResponseDto> newListaHistoriasUsuario = new ArrayList<>();
         for (HistoriaUsuarioResponseDto historia : listaHistoriasUsuario) {
             if (historia.getIdSprint() == idSprint)

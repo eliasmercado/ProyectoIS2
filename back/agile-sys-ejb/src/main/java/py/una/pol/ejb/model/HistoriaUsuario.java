@@ -153,7 +153,10 @@ public class HistoriaUsuario implements Serializable {
     }
 
     public String sendFechaCreacionFormat() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        if(this.fechaCreacion == null){
+            return "";
+        }
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(this.fechaCreacion);
     }
 
