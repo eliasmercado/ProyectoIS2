@@ -6,6 +6,8 @@
 package py.una.pol.ejb.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -37,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HistoriaUsuario.findByNombreHistoria", query = "SELECT h FROM HistoriaUsuario h WHERE h.nombreHistoria = :nombreHistoria"),
     @NamedQuery(name = "HistoriaUsuario.findByDescripcionHistoria", query = "SELECT h FROM HistoriaUsuario h WHERE h.descripcionHistoria = :descripcionHistoria"),
     @NamedQuery(name = "HistoriaUsuario.findByFechaCreacion", query = "SELECT h FROM HistoriaUsuario h WHERE h.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "HistoriaUsuario.findByIdProyectoSprintNull", query = "SELECT h FROM HistoriaUsuario h WHERE h.idProyecto.idProyecto = :idProyecto and h.idSprint is NULL")
+    @NamedQuery(name = "HistoriaUsuario.findByIdProyectoSprint", query = "SELECT h FROM HistoriaUsuario h WHERE h.idProyecto.idProyecto = :idProyecto")
 })
 public class HistoriaUsuario implements Serializable {
 
@@ -148,6 +150,11 @@ public class HistoriaUsuario implements Serializable {
 
     public void setIdUsuarioResponsable(Usuario idUsuarioResponsable) {
         this.idUsuarioResponsable = idUsuarioResponsable;
+    }
+
+    public String sendFechaCreacionFormat() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        return dateFormat.format(this.fechaCreacion);
     }
 
     @Override

@@ -6,6 +6,8 @@
 package py.una.pol.ejb.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -144,6 +146,11 @@ public class Sprint implements Serializable {
 
     public void setHistoriaUsuarioCollection(Collection<HistoriaUsuario> historiaUsuarioCollection) {
         this.historiaUsuarioCollection = historiaUsuarioCollection;
+    }
+
+    public String formatDateISO(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        return dateFormat.format(date);
     }
 
     @Override
