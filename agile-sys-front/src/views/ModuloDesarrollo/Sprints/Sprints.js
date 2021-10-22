@@ -283,7 +283,6 @@ export default {
     },
 
     async iniciarSprint() {
-      console.log(this.sprintActual.historiasUsuario);
       if (this.sprintActual.historiasUsuario.length == 0) {
         alert("No se puede iniciar un sprint sin historias de usuario.");
         return;
