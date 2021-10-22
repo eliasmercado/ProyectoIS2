@@ -1,7 +1,5 @@
 package py.una.pol.ejb.bean;
 
-
-
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.enums.GenericMessage;
 
@@ -13,17 +11,13 @@ import py.una.pol.ejb.utils.DateHelper;
 
 import py.una.pol.ejb.dao.SprintDao;
 
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
-
 
 @Stateless
 public class SprintBean {
     @EJB
     SprintDao sprintDao;
-
 
     public SprintResponseDto createSprint(SprintRequestDto sprintRequestDto) throws AgileSysException {
         SprintResponseDto response = new SprintResponseDto();
@@ -34,6 +28,8 @@ public class SprintBean {
             sprint.setFechaInicio(DateHelper.stringToDate(sprintRequestDto.getFechaInicio()));
             sprint.setFechaFin(DateHelper.stringToDate(sprintRequestDto.getFechaFin()));
             sprint.setIdProyecto(new Proyecto(sprintRequestDto.getIdProyecto()));
+            sprint.setCompletado(false);
+            sprint.setIniciado(false);
             sprintDao.create(sprint);
             response.setIdSprint(sprint.getIdSprint());
             response.setMessage("Sprint creado con éxito.");
@@ -54,6 +50,7 @@ public class SprintBean {
                 sprint.setFechaInicio(DateHelper.stringToDate(sprintRequestDto.getFechaInicio()));
                 sprint.setFechaFin(DateHelper.stringToDate(sprintRequestDto.getFechaFin()));
                 sprint.setCompletado(sprintRequestDto.getCompletado());
+                sprint.setIniciado(sprintRequestDto.getIniciado());
                 sprintDao.edit(sprint);
                 response.setMessage("Sprint modificado con éxito");
             } catch (Exception e) {
@@ -65,5 +62,4 @@ public class SprintBean {
         return response;
     }
 
-  
 }

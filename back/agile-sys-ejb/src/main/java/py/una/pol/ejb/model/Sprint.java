@@ -34,14 +34,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "sprint")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Sprint.findAll", query = "SELECT s FROM Sprint s"),
-    @NamedQuery(name = "Sprint.findByIdSprint", query = "SELECT s FROM Sprint s WHERE s.idSprint = :idSprint"),
-    @NamedQuery(name = "Sprint.findByCodigo", query = "SELECT s FROM Sprint s WHERE s.codigo = :codigo"),
-    @NamedQuery(name = "Sprint.findByNombreSprint", query = "SELECT s FROM Sprint s WHERE s.nombreSprint = :nombreSprint"),
-    @NamedQuery(name = "Sprint.findByDescripcion", query = "SELECT s FROM Sprint s WHERE s.descripcion = :descripcion"),
-    @NamedQuery(name = "Sprint.findByFechaInicio", query = "SELECT s FROM Sprint s WHERE s.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "Sprint.findByFechaFin", query = "SELECT s FROM Sprint s WHERE s.fechaFin = :fechaFin")})
+@NamedQueries({ @NamedQuery(name = "Sprint.findAll", query = "SELECT s FROM Sprint s"),
+        @NamedQuery(name = "Sprint.findByIdSprint", query = "SELECT s FROM Sprint s WHERE s.idSprint = :idSprint"),
+        @NamedQuery(name = "Sprint.findByCodigo", query = "SELECT s FROM Sprint s WHERE s.codigo = :codigo"),
+        @NamedQuery(name = "Sprint.findByNombreSprint", query = "SELECT s FROM Sprint s WHERE s.nombreSprint = :nombreSprint"),
+        @NamedQuery(name = "Sprint.findByDescripcion", query = "SELECT s FROM Sprint s WHERE s.descripcion = :descripcion"),
+        @NamedQuery(name = "Sprint.findByFechaInicio", query = "SELECT s FROM Sprint s WHERE s.fechaInicio = :fechaInicio"),
+        @NamedQuery(name = "Sprint.findByFechaFin", query = "SELECT s FROM Sprint s WHERE s.fechaFin = :fechaFin") })
 public class Sprint implements Serializable {
 
     @Basic(optional = false)
@@ -62,8 +61,14 @@ public class Sprint implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "codigo")
     private String codigo;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "completado")
-    private Boolean completado;
+    private boolean completado;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "iniciado")
+    private boolean iniciado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -101,24 +106,6 @@ public class Sprint implements Serializable {
 
     public void setIdSprint(Integer idSprint) {
         this.idSprint = idSprint;
-    }
-
-
-    public String getNombreSprint() {
-        return nombreSprint;
-    }
-
-    public void setNombreSprint(String nombreSprint) {
-        this.nombreSprint = nombreSprint;
-    }
-
-
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
     }
 
     public Date getFechaFin() {
@@ -160,7 +147,8 @@ public class Sprint implements Serializable {
             return false;
         }
         Sprint other = (Sprint) object;
-        if ((this.idSprint == null && other.idSprint != null) || (this.idSprint != null && !this.idSprint.equals(other.idSprint))) {
+        if ((this.idSprint == null && other.idSprint != null)
+                || (this.idSprint != null && !this.idSprint.equals(other.idSprint))) {
             return false;
         }
         return true;
@@ -171,12 +159,28 @@ public class Sprint implements Serializable {
         return "py.una.pol.ejb.model.Sprint[ idSprint=" + idSprint + " ]";
     }
 
+    public String getNombreSprint() {
+        return nombreSprint;
+    }
+
+    public void setNombreSprint(String nombreSprint) {
+        this.nombreSprint = nombreSprint;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     public String getCodigo() {
@@ -187,12 +191,20 @@ public class Sprint implements Serializable {
         this.codigo = codigo;
     }
 
-    public Boolean getCompletado() {
+    public boolean getCompletado() {
         return completado;
     }
 
-    public void setCompletado(Boolean completado) {
+    public void setCompletado(boolean completado) {
         this.completado = completado;
     }
-    
+
+    public boolean getIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+
 }

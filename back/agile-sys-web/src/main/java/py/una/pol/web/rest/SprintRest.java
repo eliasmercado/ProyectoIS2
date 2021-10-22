@@ -1,6 +1,5 @@
 package py.una.pol.web.rest;
 
-import py.una.pol.ejb.bean.RolBean;
 import py.una.pol.ejb.bean.SprintBean;
 import py.una.pol.ejb.dto.*;
 import py.una.pol.ejb.utils.AgileSysException;
@@ -13,7 +12,6 @@ import java.util.List;
 public class SprintRest {
     @EJB
     SprintBean sprintBean;
-    
 
     @POST
     @Consumes("application/json")
@@ -24,7 +22,7 @@ public class SprintRest {
             SprintResponseDto sprintResponseDto = sprintBean.createSprint(sprintRequestDto);
             response = new ResponseDto<RolPostResponseDto>();
             response.setData(sprintResponseDto);
-        } catch(AgileSysException e) {
+        } catch (AgileSysException e) {
             response = new ResponseDto<>();
             MessageDto msg = new MessageDto();
             msg.setMessage(e.getDescripcion());
