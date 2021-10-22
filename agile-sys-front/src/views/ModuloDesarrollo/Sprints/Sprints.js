@@ -53,49 +53,22 @@ export default {
   },
 
   methods: {
-    initialize() {
-      this.backlog = [
-        {
-          id: 1,
-          descripcion: "Historia 1",
-        },
-        {
-          id: 2,
-          descripcion: "Historia 2",
-        },
-        {
-          id: 3,
-          descripcion: "Historia 3",
-        },
-      ];
+    async initialize() {
+      await this.axios
+        .get("/v1/historiaUsuario/" + this.$store.state.LoginStore.idProyecto)
+        .then(
+          (response) =>
+            (this.backlog = response.data.data.filter((x) => x.idSprint == 0))
+        );
 
-      this.sprints = [
-        {
-          id: 1,
-          nombre: "Sprint 1",
-          fechaInicio: "2021-10-11",
-          fechaFin: "2021-10-11",
-          historias: [{ id: 1, descripcion: "Historia 1" }],
-        },
-        {
-          id: 2,
-          nombre: "Sprint 2",
-          fechaInicio: "2021-10-11",
-          fechaFin: "09-11-2021",
-          historias: [{ id: 2, descripcion: "Historia 2" }],
-        },
-        {
-          id: 3,
-          nombre: "Sprint 3",
-          fechaInicio: "2021-10-11",
-          fechaFin: "2021-10-11",
-          historias: [],
-        },
-      ];
+      await this.axios
+        .get("/v1/sprint")
+        .then((response) => (this.sprints = response.data.data));
     },
 
     editItem(item) {
       try {
+        console.log(item);
         this.dialog = true;
         this.editedIndex = this.sprints.indexOf(item);
         this.editedItem = Object.assign({}, item);
@@ -107,20 +80,77 @@ export default {
       e.itemData = this[e.fromData][e.fromIndex];
     },
 
-    onAdd(e) {
-      let idHistoria = e.itemData;
-      let idSprint = this.sprintActual.id;
-      const data = [...this[e.toData]];
-      data.splice(e.toIndex, 0, e.itemData);
-      this[e.toData] = data;
-      this.sprintActual.historias = data;
+    async onAdd(e) {
+      let historiaUsuario = e.itemData;
+      let idSprint = this.sprintActual.idSprint;
+
+      var body = {
+        nombre: historiaUsuario.nombre,
+        descripcion: historiaUsuario.descripcion,
+        idSprint: idSprint,
+      };
+
+      await this.axios
+        .put(
+          "/v1/historiaUsuario/" + historiaUsuario.idHistoriaUsuario.toString(),
+          body
+        )
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            const data = [...this[e.toData]];
+            data.splice(e.toIndex, 0, e.itemData);
+            this[e.toData] = data;
+            this.backlog.historias = this[e.toData];
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
 
     onRemove(e) {
       const data = [...this[e.fromData]];
       data.splice(e.fromIndex, 1);
       this[e.fromData] = data;
-      this.backlog = data;
+      this.sprintActual.historias = this[e.fromData];
+    },
+
+    async onAddBacklog(e) {
+      let historiaUsuario = e.itemData;
+
+      var body = {
+        nombre: historiaUsuario.nombre,
+        descripcion: historiaUsuario.descripcion,
+        idSprint: null,
+      };
+
+      await this.axios
+        .put(
+          "/v1/historiaUsuario/" + historiaUsuario.idHistoriaUsuario.toString(),
+          body
+        )
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            const data = [...this[e.toData]];
+            data.splice(e.toIndex, 0, e.itemData);
+            this[e.toData] = data;
+            this.sprintActual.historias = this[e.toData];
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    onRemoveBacklog(e) {
+      const data = [...this[e.fromData]];
+      data.splice(e.fromIndex, 1);
+      this[e.fromData] = data;
+      this.backlog = this[e.fromData];
     },
 
     existeSprintIniciado() {
@@ -133,14 +163,8 @@ export default {
       if (
         this.sprints.filter(
           (x) =>
-            fechaActual >=
-              new Date(new Date(this.formatDateSprint(x.fechaInicio)))
-                .toISOString()
-                .substr(0, 10) &&
-            fechaActual <=
-              new Date(new Date(this.formatDateSprint(x.fechaFin)))
-                .toISOString()
-                .substr(0, 10)
+            fechaActual >= new Date(this.formatDateSprint(x.fechaInicio)) &&
+            fechaActual <= new Date(this.formatDateSprint(x.fechaFin))
         ).length > 0
       )
         return true;
@@ -155,22 +179,19 @@ export default {
         .substr(0, 10);
       if (
         fechaActual >=
-          new Date(
-            new Date(this.formatDateSprint(this.sprintActual.fechaInicio))
-          )
-            .toISOString()
-            .substr(0, 10) &&
+          new Date(this.formatDateSprint(this.sprintActual.fechaInicio)) &&
         fechaActual <=
-          new Date(new Date(this.formatDateSprint(this.sprintActual.fechaFin)))
-            .toISOString()
-            .substr(0, 10)
+          new Date(this.formatDateSprint(this.sprintActual.fechaFin))
       )
         return true;
       return false;
     },
 
     formatDate(date) {
+      console.log(date);
       if (!date) return null;
+
+      date = new Date(date).toISOString().substring(0, 10);
 
       const [year, month, day] = date.split("-");
       return `${day}/${month}/${year}`;
@@ -178,6 +199,7 @@ export default {
 
     formatDateSprint(date) {
       if (!date) return null;
+      date = new Date(date).toISOString().substring(0, 10);
 
       const [year, month, day] = date.split("-");
       return `${day}/${month}/${year}`;
@@ -205,32 +227,60 @@ export default {
     },
 
     async saveEditItem() {
-      let idSprint = this.sprintActual.id;
+      let idSprint = this.sprintActual.idSprint;
 
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
-        fechaInicio: this.editedItem.fechaInicio,
-        fechaFin: this.editedItem.fechaFin,
+        fechaInicio: this.formatDate(this.editedItem.fechaInicio),
+        fechaFin: this.formatDate(this.editedItem.fechaFin),
       };
 
-      console.log("idSprint " + idSprint);
-      console.log(data);
-      Object.assign(this.sprints[this.editedIndex], this.editedItem);
+      await this.axios
+        .put("/v1/sprint/" + idSprint, data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            Object.assign(this.sprints[this.editedIndex], this.editedItem);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
 
     async saveNewItem() {
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
-        fechaInicio: this.editedItem.fechaInicio,
-        fechaFin: this.editedItem.fechaFin,
+        fechaInicio: this.formatDate(this.editedItem.fechaInicio),
+        fechaFin: this.formatDate(this.editedItem.fechaFin),
         idProyecto: this.$store.state.LoginStore.idProyecto,
       };
+
       console.log(data);
-      this.editedItem.historias = [];
-      this.editedItem.id = 5;
-      this.sprints.push(this.editedItem);
+
+      await this.axios
+        .post("/v1/sprint/", data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.editedItem.historiasActual = [];
+            this.editedItem.idSprint = response.data.data.idSprint;
+            this.editedItem.fechaInicio = new Date(
+              this.editedItem.fechaInicio
+            ).toISOString();
+            this.editedItem.fechaFin = new Date(
+              this.editedItem.fechaFin
+            ).toISOString();
+            this.sprints.push(this.editedItem);
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
   },
 
@@ -247,7 +297,7 @@ export default {
         this.validacionIniciar = true;
       }
 
-      this.historiasActual = this.sprintActual.historias;
+      this.historiasActual = this.sprintActual.historiasUsuario;
     },
 
     dialog(val) {

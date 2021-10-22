@@ -137,8 +137,8 @@
             data="backlog"
             :allow-reordering="true"
             :on-drag-start="onDragStart"
-            :on-add="onAdd"
-            :on-remove="onRemove"
+            :on-add="onAddBacklog"
+            :on-remove="onRemoveBacklog"
             group="tasks"
           />
         </DxList>

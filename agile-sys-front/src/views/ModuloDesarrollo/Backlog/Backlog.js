@@ -26,7 +26,7 @@ export default {
     initialize() {
       this.axios
         .get("/v1/historiaUsuario/" + this.$store.state.LoginStore.idProyecto)
-        .then((response) => (this.historiasUsuario = response.data.data));
+        .then((response) => (this.historiasUsuario = response.data.data.filter(x => x.idSprint == 0)));
     },
 
     editItem(item) {
