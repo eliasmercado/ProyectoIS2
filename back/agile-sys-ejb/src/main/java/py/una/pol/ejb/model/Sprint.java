@@ -6,6 +6,8 @@
 package py.una.pol.ejb.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -64,11 +66,11 @@ public class Sprint implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "completado")
-    private boolean completado;
+    private Boolean completado;
     @Basic(optional = false)
     @NotNull
     @Column(name = "iniciado")
-    private boolean iniciado;
+    private Boolean iniciado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -133,6 +135,14 @@ public class Sprint implements Serializable {
         this.historiaUsuarioCollection = historiaUsuarioCollection;
     }
 
+    public String formatDateISO(Date date) {
+        if (date == null) {
+            return "";
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        return dateFormat.format(date);
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -191,19 +201,19 @@ public class Sprint implements Serializable {
         this.codigo = codigo;
     }
 
-    public boolean getCompletado() {
+    public Boolean getCompletado() {
         return completado;
     }
 
-    public void setCompletado(boolean completado) {
+    public void setCompletado(Boolean completado) {
         this.completado = completado;
     }
 
-    public boolean getIniciado() {
+    public Boolean getIniciado() {
         return iniciado;
     }
 
-    public void setIniciado(boolean iniciado) {
+    public void setIniciado(Boolean iniciado) {
         this.iniciado = iniciado;
     }
 

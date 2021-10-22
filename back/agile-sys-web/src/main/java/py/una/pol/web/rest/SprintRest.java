@@ -12,6 +12,24 @@ import java.util.List;
 public class SprintRest {
     @EJB
     SprintBean sprintBean;
+    
+    @GET
+    @Produces("application/json")
+    public ResponseDto getSprint() {
+        ResponseDto response;
+        try {
+            List<SprintGetResponseDto> sprints = sprintBean.getSprints();
+            response = new ResponseDto<List<SprintGetResponseDto>>();
+            response.setData(sprints);
+        } catch (AgileSysException e) {
+            response = new ResponseDto<>();
+            MessageDto msg = new MessageDto();
+            msg.setMessage(e.getDescripcion());
+            response.setError(msg);
+        }
+
+        return response;
+    }
 
     @POST
     @Consumes("application/json")
@@ -51,4 +69,22 @@ public class SprintRest {
         return response;
     }
 
+    @DELETE
+    @Produces("application/json")
+    @Path("/{idSprint}")
+    public ResponseDto deleteSprint(@PathParam("idSprint") Integer idSprint) {
+        ResponseDto response;
+        MessageDto messageDto;
+        try {
+            messageDto = sprintBean.deleteSprint(idSprint);
+            response = new ResponseDto<MessageDto>();
+            response.setData(messageDto);
+        } catch (AgileSysException e) {
+            response = new ResponseDto<>();
+            messageDto = new MessageDto();
+            messageDto.setMessage(e.getDescripcion());
+            response.setError(messageDto);
+        }
+        return response;
+    }
 }

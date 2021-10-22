@@ -88,7 +88,7 @@ public class HistoriaUsuarioBean {
 
     public List<HistoriaUsuarioResponseDto> getHistoriaUsuarioProyecto(Integer idProyecto) throws AgileSysException {
         List<HistoriaUsuarioResponseDto> response = new ArrayList<>();
-        List<HistoriaUsuario> listHistorias = historiaUsuarioDao.findByIdProyectoSprintNull(idProyecto);
+        List<HistoriaUsuario> listHistorias = historiaUsuarioDao.findByIdProyectoSprint(idProyecto);
         System.out.print(listHistorias);
         if (listHistorias != null) {
             for (HistoriaUsuario historia : listHistorias) {
@@ -96,12 +96,39 @@ public class HistoriaUsuarioBean {
                 historiaResponseDto.setIdHistoriaUsuario(historia.getIdHistoriaUsuario());
                 historiaResponseDto.setNombre(historia.getNombreHistoria());
                 historiaResponseDto.setDescripcion(historia.getDescripcionHistoria());
+                historiaResponseDto.setFechaCreacion(historia.sendFechaCreacionFormat());
+                if(historia.getIdUsuarioResponsable() != null)
+                    historiaResponseDto.setIdUsuarioResponsable(historia.getIdUsuarioResponsable().getIdUsuario());
+
+                if(historia.getIdSprint() != null) //validacion pq osino explota
+                    historiaResponseDto.setIdSprint(historia.getIdSprint().getIdSprint());
+
+
+                if(historia.getIdFase() != null)//validacion pq osino explota
+                    historiaResponseDto.setIdFase(historia.getIdFase().getIdFase());
+
                 response.add(historiaResponseDto);
             }
         } else {
             throw new AgileSysException("No existen historias de usuario");
         }
         return response;
+    }
+
+    public List<HistoriaUsuarioResponseDto> getHistoriaUsuarioProyectoAndSprint(int idProyecto, int idSprint) throws AgileSysException {
+
+        List<HistoriaUsuarioResponseDto> listaHistoriasUsuario = new ArrayList<>();
+        try {
+           listaHistoriasUsuario = this.getHistoriaUsuarioProyecto(idProyecto);
+       }catch (AgileSysException ae){
+           return listaHistoriasUsuario;
+       }
+        List<HistoriaUsuarioResponseDto> newListaHistoriasUsuario = new ArrayList<>();
+        for (HistoriaUsuarioResponseDto historia : listaHistoriasUsuario) {
+            if (historia.getIdSprint() == idSprint)
+                newListaHistoriasUsuario.add(historia);
+        }
+        return newListaHistoriasUsuario;
     }
 
     public MessageDto deleteHistoriaUsuario(Integer idHistoriaUsuario) throws AgileSysException{
