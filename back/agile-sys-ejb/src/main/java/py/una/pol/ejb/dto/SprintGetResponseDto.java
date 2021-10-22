@@ -7,10 +7,14 @@ public class SprintGetResponseDto {
     private String nombre;
     private String descripcion;
     private String fechaInicio;
-    private String fechafin;
+    private String fechaFin;
     private int idProyecto;
     private List<HistoriaUsuarioResponseDto> historiasUsuario;
+    private Boolean completado;
 
+
+    public Boolean getCompletado() {return completado;}
+    public void setCompletado(Boolean completado) {this.completado = completado;}
     public int getIdSprint() {
         return idSprint;
     }
@@ -35,11 +39,11 @@ public class SprintGetResponseDto {
     public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
-    public String getFechafin() {
-        return fechafin;
+    public String getFechaFin() {
+        return fechaFin;
     }
-    public void setFechafin(String fechafin) {
-        this.fechafin = fechafin;
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
     }
     public int getIdProyecto() {
         return idProyecto;
@@ -56,8 +60,8 @@ public class SprintGetResponseDto {
 
     @Override
     public String toString() {
-        return "SprintGetResponseDto [descripcion=" + descripcion + ", fechaInicio=" + fechaInicio + ", fechafin="
-                + fechafin + ", historiasUsuario=" + historiasUsuario + ", idProyecto=" + idProyecto + ", idSprint="
-                + idSprint + ", nombre=" + nombre + "]";
+        return "SprintGetResponseDto [descripcion=" + descripcion + ", fechaInicio=" + fechaInicio + ", fechaFin="
+                + fechaFin + ", historiasUsuario=" + historiasUsuario + ", idProyecto=" + idProyecto + ", idSprint="
+                + idSprint + ", nombre=" + nombre +  ", completado=" + completado + "]";
     }    
 }

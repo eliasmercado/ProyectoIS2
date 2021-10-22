@@ -38,13 +38,19 @@ public class SprintBean {
                 sprintGetResponseDto.setNombre(sprint.getNombreSprint());
                 sprintGetResponseDto.setDescripcion(sprint.getDescripcion());
                 sprintGetResponseDto.setFechaInicio(sprint.formatDateISO(sprint.getFechaInicio()));
-                sprintGetResponseDto.setFechafin(sprint.formatDateISO(sprint.getFechaFin()));
+                sprintGetResponseDto.setFechaFin(sprint.formatDateISO(sprint.getFechaFin()));
                 sprintGetResponseDto.setIdProyecto(sprint.getIdProyecto().getIdProyecto());
                 sprintGetResponseDto.setHistoriasUsuario(
                     historiaUsuarioBean.getHistoriaUsuarioProyectoAndSprint(
                         sprint.getIdProyecto().getIdProyecto(), sprint.getIdSprint()
                     )
                 );
+
+                if(sprint.getCompletado() != null)
+                    sprintGetResponseDto.setCompletado(sprint.getCompletado());
+                else
+                    sprintGetResponseDto.setCompletado(false);
+
                 sprintsResponse.add(sprintGetResponseDto);
             }
         } else {
