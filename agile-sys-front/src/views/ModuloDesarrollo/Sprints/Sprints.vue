@@ -1,5 +1,5 @@
 <template>
-  <div id="list-demo">
+  <div>
     <v-row>
       <v-col>
         <v-select
@@ -75,7 +75,7 @@
                         ></v-date-picker>
                       </v-menu>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12">
+                    <!-- <v-col cols="12" sm="12" md="12">
                       <v-menu
                         v-model="menu1"
                         :close-on-content-click="false"
@@ -101,7 +101,7 @@
                           @input="menu1 = false"
                         ></v-date-picker>
                       </v-menu>
-                    </v-col>
+                    </v-col> -->
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -116,6 +116,11 @@
             </v-form>
           </v-card>
         </v-dialog>
+      </v-col>
+      <v-col>
+        <v-btn color="primary" dark class="mt-5" small
+          >Finalizar Proyecto</v-btn
+        >
       </v-col>
     </v-row>
     <br />

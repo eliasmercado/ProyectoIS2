@@ -8,11 +8,13 @@ export default {
       idHistoriaUsuario: 0,
       nombre: "",
       descripcion: "",
+      idFase: 0,
     },
     defaultItem: {
       idHistoriaUsuario: 0,
       nombre: "",
       descripcion: "",
+      idFase: 0,
     },
     historiasUsuario: [],
     nameRules: [(v) => !!v || "Nombre es requerido"],
@@ -35,7 +37,6 @@ export default {
             );
           }
         });
-
     },
 
     editItem(item) {
@@ -68,9 +69,11 @@ export default {
 
     async saveEditItem() {
       let idHistoriaUsuario = this.editedItem.idHistoriaUsuario;
+
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
+        idFase: this.editedItem.idFase,
       };
 
       await this.axios
@@ -105,6 +108,7 @@ export default {
           } else {
             this.editedItem.idHistoriaUsuario =
               response.data.data.idHistoriaUsuario;
+            this.editedItem.idFase = 1; //1 es fase TO DO
             this.historiasUsuario.push(this.editedItem);
           }
         })

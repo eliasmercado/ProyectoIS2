@@ -54,21 +54,26 @@ export default {
 
   methods: {
     async initialize() {
+      this.sprintActuaL = null;
       await this.axios
         .get("/v1/historiaUsuario/" + this.$store.state.LoginStore.idProyecto)
-        .then(
-          (response) =>
-            (this.backlog = response.data.data.filter((x) => x.idSprint == 0))
-        );
+        .then((response) => {
+          if ("error" in response.data) {
+            this.backlog = [];
+          } else {
+            this.backlog = response.data.data.filter((x) => x.idSprint == 0);
+          }
+        });
 
       await this.axios
         .get("/v1/sprint")
-        .then(
-          (response) =>
-            (this.sprints = response.data.data.filter(
-              (x) => x.idProyecto == this.$store.state.LoginStore.idProyecto
-            ))
-        );
+        .then((response) => (this.sprints = response.data.data));
+
+      this.sprints = this.sprints.filter(
+        (x) =>
+          x.idProyecto == this.$store.state.LoginStore.idProyecto &&
+          !x.completado
+      );
     },
 
     editItem(item) {
@@ -92,6 +97,7 @@ export default {
         nombre: historiaUsuario.nombre,
         descripcion: historiaUsuario.descripcion,
         idSprint: idSprint,
+        idFase: historiaUsuario.idFase,
       };
 
       await this.axios
@@ -106,7 +112,7 @@ export default {
             const data = [...this[e.toData]];
             data.splice(e.toIndex, 0, e.itemData);
             this[e.toData] = data;
-            this.backlog.historias = this[e.toData];
+            this.sprintActual.historiasUsuario = data;
           }
         })
         .catch((error) => {
@@ -118,7 +124,7 @@ export default {
       const data = [...this[e.fromData]];
       data.splice(e.fromIndex, 1);
       this[e.fromData] = data;
-      this.sprintActual.historias = this[e.fromData];
+      this.sprintActual.historiasUsuario = data.length == 0 ? [] : data;
     },
 
     async onAddBacklog(e) {
@@ -128,6 +134,7 @@ export default {
         nombre: historiaUsuario.nombre,
         descripcion: historiaUsuario.descripcion,
         idSprint: null,
+        idFase: historiaUsuario.idFase,
       };
 
       await this.axios
@@ -142,7 +149,7 @@ export default {
             const data = [...this[e.toData]];
             data.splice(e.toIndex, 0, e.itemData);
             this[e.toData] = data;
-            this.sprintActual.historias = this[e.toData];
+            this.backlog = data;
           }
         })
         .catch((error) => {
@@ -154,7 +161,7 @@ export default {
       const data = [...this[e.fromData]];
       data.splice(e.fromIndex, 1);
       this[e.fromData] = data;
-      this.backlog = this[e.fromData];
+      this.backlog = data.length == 0 ? [] : data;
     },
 
     existeSprintIniciado() {
@@ -164,33 +171,22 @@ export default {
         .toISOString()
         .substr(0, 10);
 
-      if (
-        this.sprints.filter(
-          (x) =>
-            fechaActual >=
-              new Date(x.fechaInicio).toISOString().substr(0, 10) &&
-            fechaActual <= new Date(x.fechaFin).toISOString().substr(0, 10)
-        ).length > 0
-      )
-        return true;
+      for (var index in this.sprints) {
+        if (this.sprints[index].iniciado && !this.sprints[index].completado)
+          return true;
+      }
       return false;
     },
 
     existeSprintIniciadoBySprint() {
-      let fechaActual = new Date(
-        Date.now() - new Date().getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .substr(0, 10);
-
-      if (
-        fechaActual >=
-          new Date(this.sprintActual.fechaInicio).toISOString().substr(0, 10) &&
-        fechaActual <=
-          new Date(this.sprintActual.fechaFin).toISOString().substr(0, 10)
-      )
+      if (this.sprintActual.iniciado && !this.sprintActual.completado)
         return true;
       return false;
+    },
+
+    sumarDias(fecha, dias) {
+      fecha.setDate(fecha.getDate() + dias);
+      return fecha.toISOString().substr(0, 10);
     },
 
     formatDate(date) {
@@ -232,13 +228,17 @@ export default {
     },
 
     async saveEditItem() {
-      let idSprint = this.sprintActual.idSprint;
+      let idSprint = this.editedItem.idSprint;
 
       var data = {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
         fechaInicio: this.formatDate(this.editedItem.fechaInicio),
-        fechaFin: this.formatDate(this.editedItem.fechaFin),
+        fechaFin: this.formatDate(
+          this.sumarDias(new Date(this.editedItem.fechaInicio), 14)
+        ),
+        iniciado: this.editedItem.iniciado,
+        completado: this.editedItem.completado,
       };
 
       await this.axios
@@ -248,6 +248,8 @@ export default {
             console.error(response.data.error.message);
           } else {
             Object.assign(this.sprints[this.editedIndex], this.editedItem);
+            this.sprintActual = this.editedItem;
+            this.initialize();
           }
         })
         .catch((error) => {
@@ -260,54 +262,14 @@ export default {
         nombre: this.editedItem.nombre,
         descripcion: this.editedItem.descripcion,
         fechaInicio: this.formatDate(this.editedItem.fechaInicio),
-        fechaFin: this.formatDate(this.editedItem.fechaFin),
+        fechaFin: this.formatDate(
+          this.sumarDias(new Date(this.editedItem.fechaInicio), 14)
+        ),
         idProyecto: this.$store.state.LoginStore.idProyecto,
       };
 
       await this.axios
         .post("/v1/sprint/", data)
-        .then((response) => {
-          if ("error" in response.data) {
-            console.error(response.data.error.message);
-          } else {
-            this.editedItem.historiasActual = [];
-            this.editedItem.idSprint = response.data.data.idSprint;
-            this.editedItem.fechaInicio = new Date(
-              this.editedItem.fechaInicio
-            ).toISOString();
-            this.editedItem.fechaFin = new Date(
-              this.editedItem.fechaFin
-            ).toISOString();
-            this.sprints.push(this.editedItem);
-          }
-        })
-        .catch((error) => {
-          console.error("Ocurrio un error inesperado", error);
-        });
-    },
-
-    async iniciarSprint() {
-      if (this.sprintActual.historiasUsuario.length == 0) {
-        console.log("No se puede iniciar un sprint sin historias de usuario.");
-        return;
-      }
-      let idSprint = this.sprintActual.idSprint;
-
-      let fechaActual = new Date(
-        Date.now() - new Date().getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .substr(0, 10);
-
-      var data = {
-        nombre: this.sprintActual.nombre,
-        descripcion: this.sprintActual.descripcion,
-        fechaInicio: this.formatDate(fechaActual),
-        fechaFin: this.formatDate(this.editedItem.fechaFin),
-      };
-
-      await this.axios
-        .put("/v1/sprint/" + idSprint, data)
         .then((response) => {
           if ("error" in response.data) {
             console.error(response.data.error.message);
@@ -320,11 +282,85 @@ export default {
         });
     },
 
-    completarSprint() {},
-  },
+    async iniciarSprint() {
+      console.log(this.sprintActual.historiasUsuario);
+      if (this.sprintActual.historiasUsuario.length == 0) {
+        alert("No se puede iniciar un sprint sin historias de usuario.");
+        return;
+      }
 
-  watch: {
-    sprintActual() {
+      let idSprint = this.sprintActual.idSprint;
+
+      let fechaActual = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+
+      var data = {
+        nombre: this.sprintActual.nombre,
+        descripcion: this.sprintActual.descripcion,
+        fechaInicio: this.formatDate(fechaActual),
+        fechaFin: this.sumarDias(new Date(fechaActual), 14),
+        iniciado: true,
+        completado: this.sprintActual.completado,
+      };
+
+      await this.axios
+        .put("/v1/sprint/" + idSprint, data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.sprintActual.fechaInicio = fechaActual;
+            this.sprintActual.iniciado = true;
+            this.recargarValidaciones();
+            this.initialize();
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    async completarSprint() {
+      let idSprint = this.sprintActual.idSprint;
+
+      var data = {
+        nombre: this.sprintActual.nombre,
+        descripcion: this.sprintActual.descripcion,
+        fechaInicio: this.formatDate(this.sprintActual.fechaInicio),
+        fechaFin: this.formatDate(
+          this.sumarDias(new Date(this.editedItem.fechaInicio), 14)
+        ),
+        iniciado: this.sprintActual.iniciado,
+        completado: true,
+      };
+
+      await this.axios
+        .put("/v1/sprint/" + idSprint, data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.sprintActual.completado = true;
+            this.recargarValidaciones();
+            this.sprintActual = null;
+            this.initialize();
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    recargarValidaciones() {
+      if (!this.sprintActual) {
+        this.validacionCompletar = false;
+        this.validacionIniciar = true;
+        return;
+      }
+
       if (this.existeSprintIniciadoBySprint()) {
         this.validacionCompletar = true;
         this.validacionIniciar = false;
@@ -337,6 +373,12 @@ export default {
       }
 
       this.historiasActual = this.sprintActual.historiasUsuario;
+    },
+  },
+
+  watch: {
+    sprintActual() {
+      this.recargarValidaciones();
     },
 
     dialog(val) {
