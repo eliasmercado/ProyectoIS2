@@ -156,9 +156,15 @@
             class="mr-2"
             color="primary"
             x-small
+            @click="iniciarSprint"
             >Iniciar Sprint</v-btn
           >
-          <v-btn v-if="validacionCompletar" class="mr-2" color="primary" x-small
+          <v-btn
+            @click="completarSprint"
+            v-if="validacionCompletar"
+            class="mr-2"
+            color="primary"
+            x-small
             >Completar Sprint</v-btn
           >
           <v-btn

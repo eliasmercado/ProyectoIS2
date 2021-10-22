@@ -63,12 +63,16 @@ export default {
 
       await this.axios
         .get("/v1/sprint")
-        .then((response) => (this.sprints = response.data.data));
+        .then(
+          (response) =>
+            (this.sprints = response.data.data.filter(
+              (x) => x.idProyecto == this.$store.state.LoginStore.idProyecto
+            ))
+        );
     },
 
     editItem(item) {
       try {
-        console.log(item);
         this.dialog = true;
         this.editedIndex = this.sprints.indexOf(item);
         this.editedItem = Object.assign({}, item);
@@ -163,8 +167,9 @@ export default {
       if (
         this.sprints.filter(
           (x) =>
-            fechaActual >= new Date(this.formatDateSprint(x.fechaInicio)) &&
-            fechaActual <= new Date(this.formatDateSprint(x.fechaFin))
+            fechaActual >=
+              new Date(x.fechaInicio).toISOString().substr(0, 10) &&
+            fechaActual <= new Date(x.fechaFin).toISOString().substr(0, 10)
         ).length > 0
       )
         return true;
@@ -177,18 +182,18 @@ export default {
       )
         .toISOString()
         .substr(0, 10);
+
       if (
         fechaActual >=
-          new Date(this.formatDateSprint(this.sprintActual.fechaInicio)) &&
+          new Date(this.sprintActual.fechaInicio).toISOString().substr(0, 10) &&
         fechaActual <=
-          new Date(this.formatDateSprint(this.sprintActual.fechaFin))
+          new Date(this.sprintActual.fechaFin).toISOString().substr(0, 10)
       )
         return true;
       return false;
     },
 
     formatDate(date) {
-      console.log(date);
       if (!date) return null;
 
       date = new Date(date).toISOString().substring(0, 10);
@@ -259,8 +264,6 @@ export default {
         idProyecto: this.$store.state.LoginStore.idProyecto,
       };
 
-      console.log(data);
-
       await this.axios
         .post("/v1/sprint/", data)
         .then((response) => {
@@ -282,6 +285,42 @@ export default {
           console.error("Ocurrio un error inesperado", error);
         });
     },
+
+    async iniciarSprint() {
+      if (this.sprintActual.historiasUsuario.length == 0) {
+        console.log("No se puede iniciar un sprint sin historias de usuario.");
+        return;
+      }
+      let idSprint = this.sprintActual.idSprint;
+
+      let fechaActual = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+
+      var data = {
+        nombre: this.sprintActual.nombre,
+        descripcion: this.sprintActual.descripcion,
+        fechaInicio: this.formatDate(fechaActual),
+        fechaFin: this.formatDate(this.editedItem.fechaFin),
+      };
+
+      await this.axios
+        .put("/v1/sprint/" + idSprint, data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.initialize();
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
+
+    completarSprint() {},
   },
 
   watch: {
