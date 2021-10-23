@@ -6,6 +6,7 @@ public class ProyectoGenericDto {
     private String nombre;
     private String fechaInicio;
     private String descripcion;
+    private String fechaFin;
 
     public ProyectoGenericDto() {
     }
@@ -34,9 +35,20 @@ public class ProyectoGenericDto {
         this.descripcion = descripcion;
     }
 
+    
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
     @Override
     public String toString() {
-        return "ProyectoResponseDto [descripcion=" + descripcion + ", fechaInicio=" + fechaInicio + ", nombre=" + nombre
-                + "]";
+        return "ProyectoGenericDto [descripcion=" + descripcion + ", fechaFin=" + fechaFin + ", fechaInicio="
+                + fechaInicio + ", nombre=" + nombre + "]";
     }
+
+    
 }
