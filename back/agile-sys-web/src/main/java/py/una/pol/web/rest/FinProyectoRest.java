@@ -35,7 +35,7 @@ public class FinProyectoRest {
         ResponseDto response;
 
         try {
-            ProyectoPostResponseDto proyectoResp = proyectoBean.updateProyecto(id_proyecto, proyectoGenericDto);
+            ProyectoPostResponseDto proyectoResp = proyectoBean.finalizarProyecto(id_proyecto, proyectoGenericDto);
             response = new ResponseDto<ProyectoResponseDto>();
             response.setData(proyectoResp);
 
