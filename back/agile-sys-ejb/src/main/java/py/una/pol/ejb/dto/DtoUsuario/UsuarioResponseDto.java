@@ -13,6 +13,8 @@ public class UsuarioResponseDto implements Serializable {
     private String email;
     private String telefono;
     private RolDto rol;
+    private Integer idProyecto;
+
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -70,16 +72,21 @@ public class UsuarioResponseDto implements Serializable {
         this.rol = rol;
     }
 
+    
+    public Integer getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(Integer idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+
     @Override
     public String toString() {
-        return "UsuarioResponseDto{" +
-                "idUsuario=" + idUsuario +
-                ", usuario='" + usuario + '\'' +
-                ", nombres='" + nombres + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", email='" + email + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", rol=" + rol +
-                '}';
+        return "UsuarioResponseDto [apellidos=" + apellidos + ", email=" + email + ", idProyecto=" + idProyecto
+                + ", idUsuario=" + idUsuario + ", nombres=" + nombres + ", rol=" + rol + ", telefono=" + telefono
+                + ", usuario=" + usuario + "]";
     }
+
+    
 }
