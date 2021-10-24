@@ -7,63 +7,55 @@ export default {
     DxSortable,
   },
   data: () => ({
+    comentario: "",
     dialog: false,
-    historias: [
-      {
-        id: 1,
-        idUsuarioAsignado: 1,
-        nombre: "Historia 1",
-        fase: "TO DO",
-      },
-      {
-        id: 2,
-        idUsuarioAsignado: 1,
-        nombre: "Historia 2",
-        fase: "TO DO",
-      },      
-      
-      {
-        id: 3,
-        idUsuarioAsignado: 1,
-        nombre: "Historia 3",
-        fase: "TO DO",
-      },
-      {
-        id: 4,
-        idUsuarioAsignado: 1,
-        nombre: "Historia 4",
-        fase: "TO DO",
-      },
-      {
-        id: 5,
-        idUsuarioAsignado: 1,
-        nombre: "Historia 5",
-        fase: "DOING",
-      },
-      {
-        id: 6,
-        idUsuarioAsignado: 1,
-        nombre: "Historia 6",
-        fase: "DONE",
-      },
-    ],
-    usuarios: [
-      {
-        idUsuario: 1,
-        nombre: "Mario",
-        apellido: "Villalba",
-      },
-    ],
-
+    historias: [],
+    usuarios: [],
+    statuses: ["TO DO", "DOING", "DONE"],
+    statusesBD: [],
     usuariosMap: {},
     lists: [],
-    statuses: ["TO DO", "DOING", "DONE"],
     indexAnterior: null,
     indexActual: null,
     historiaActual: {},
+    sprint: [],
   }),
 
   methods: {
+    async initializeUsuarios() {
+      await this.axios
+        .get("/v1/usuario/")
+        .then((response) => (this.usuarios = response.data.data));
+
+      this.usuarios.forEach((usuario) => {
+        this.usuariosMap[usuario.idUsuario] =
+          usuario.nombres + " " + usuario.apellidos;
+      });
+    },
+
+    async initialize() {
+      await this.axios
+        .get("/v1/fase/")
+        .then((response) => (this.statusesBD = response.data.data.sort()));
+
+      await this.axios
+        .get("/v1/sprint")
+        .then(
+          (response) =>
+            (this.sprint = response.data.data.filter(
+              (x) => x.idProyecto == this.$store.state.LoginStore.idProyecto
+            ))
+        );
+
+      this.sprint = this.sprint.filter((x) => x.iniciado && !x.completado)[0];
+
+      for (var k in this.sprint.historiasUsuario) {
+        this.historias.push(this.sprint.historiasUsuario[k]);
+      }
+
+      this.actualizarKanban();
+    },
+
     onListReorder(e) {
       const list = this.lists.splice(e.fromIndex, 1)[0];
       this.lists.splice(e.toIndex, 0, list);
@@ -71,29 +63,67 @@ export default {
       const status = this.statuses.splice(e.fromIndex, 1)[0];
       this.statuses.splice(e.toIndex, 0, status);
     },
+
     onTaskDragStart(e, listIndex) {
       this.indexActual = listIndex;
       e.itemData = e.fromData[e.fromIndex];
     },
+
     onTaskDrop(e, listIndex) {
+      if (
+        e.itemData.idUsuarioResponsable !=
+        this.$store.state.LoginStore.idUsuario
+      )
+        return;
+
       this.indexAnterior = this.indexActual;
       this.indexActual = listIndex;
       e.fromData.splice(e.fromIndex, 1);
       e.toData.splice(e.toIndex, 0, e.itemData);
       this.historiaActual = e.itemData;
-      //this.dialog = true;
+      this.dialog = true;
     },
-    actualizarHistoria() {
-      console.log(this.historiaActual);
-      if (this.indexActual % 2 == 0) {
-        this.revertirCambio();
-      }
-      this.dialog = false;
+
+    async actualizarHistoria() {
+      let idHistoriaUsuario = this.historiaActual.idHistoriaUsuario;
+      let idFase = this.obtenerIdFaseByFase(this.statuses[this.indexActual]);
+
+      var data = {
+        nombre: this.historiaActual.nombre,
+        descripcion: this.historiaActual.descripcion,
+        idFase: idFase,
+        idSprint: this.historiaActual.idSprint,
+        idUsuarioResponsable: this.historiaActual.idUsuarioResponsable,
+      };
+
+      await this.axios
+        .put("/v1/historiaUsuario/" + idHistoriaUsuario.toString(), data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.dialog = false;
+            this.comentario = "";
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
     },
+
+    obtenerIdFaseByFase(fase) {
+      return this.statusesBD.filter(
+        (x) => x.fase.toUpperCase() == fase.toUpperCase()
+      )[0].idFase;
+    },
+
     revertirCambio() {
-      let item = this.lists[this.indexAnterior];
+      /*       let item = this.lists[this.indexAnterior];
+      console.log("item" + item);
+      console.log("index actual" + this.indexActual);
+      console.log("index anterior" + this.indexAnterior);
       this.lists[this.indexAnterior] = this.lists[this.indexActual];
-      this.lists[this.indexActual] = item;
+      this.lists[this.indexActual] = item; */
     },
 
     getStatus(historia, estado) {
@@ -105,21 +135,29 @@ export default {
       return status.get(estado.toUpperCase());
     },
 
+    obtenerFaseByIdFase(idFase) {
+      return this.statusesBD.filter((x) => x.idFase == idFase)[0].fase;
+    },
+
     actualizarKanban() {
       this.statuses.forEach((status) => {
         this.lists.push(
           this.historias.filter(
-            (historia) => historia.fase.toUpperCase() === status.toUpperCase()
+            (historia) =>
+              this.obtenerFaseByIdFase(historia.idFase).toUpperCase() ===
+              status.toUpperCase()
           )
         );
       });
     },
+
+    verDetallesHistoria(historia) {
+      console.log(historia);
+    }
   },
 
   mounted() {
-    this.usuarios.forEach((usuario) => {
-      this.usuariosMap[usuario.idUsuario] = usuario.nombre + " " + usuario.apellido;
-    });
-    this.actualizarKanban();
+    this.initializeUsuarios();
+    this.initialize();
   },
 };
