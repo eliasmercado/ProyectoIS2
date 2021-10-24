@@ -57,6 +57,7 @@
                           autocomplete="off"
                           v-model="editedItem.telefono"
                           label="Teléfono"
+                          :rules="phoneRules"
                         ></v-text-field>
                       </v-col>
 
