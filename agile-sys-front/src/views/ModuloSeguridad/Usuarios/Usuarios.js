@@ -46,6 +46,9 @@ export default {
       (v) => !!v || "Usuario es requerido",
       (v) => v.length <= 10 || "Debe tener un máximo de 40 caracteres",
     ],
+    phoneRules: [
+      (v) => !!v || "Teléfono es requerido",
+    ],
   }),
 
   computed: {
