@@ -444,6 +444,7 @@ export default {
     },
 
     computedDateFormattedFecInicio() {
+      this.editedItem.fechaFin = this.sumarDias(new Date(this.editedItem.fechaInicio), 14);
       return this.formatDate(this.editedItem.fechaInicio);
     },
 
