@@ -6,6 +6,8 @@
 package py.una.pol.ejb.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -34,27 +36,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "sprint")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Sprint.findAll", query = "SELECT s FROM Sprint s"),
-    @NamedQuery(name = "Sprint.findByIdSprint", query = "SELECT s FROM Sprint s WHERE s.idSprint = :idSprint"),
-    @NamedQuery(name = "Sprint.findByCodigo", query = "SELECT s FROM Sprint s WHERE s.codigo = :codigo"),
-    @NamedQuery(name = "Sprint.findByNombreSprint", query = "SELECT s FROM Sprint s WHERE s.nombreSprint = :nombreSprint"),
-    @NamedQuery(name = "Sprint.findByDescripcion", query = "SELECT s FROM Sprint s WHERE s.descripcion = :descripcion"),
-    @NamedQuery(name = "Sprint.findByFechaInicio", query = "SELECT s FROM Sprint s WHERE s.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "Sprint.findByFechaFin", query = "SELECT s FROM Sprint s WHERE s.fechaFin = :fechaFin")})
+@NamedQueries({ @NamedQuery(name = "Sprint.findAll", query = "SELECT s FROM Sprint s"),
+        @NamedQuery(name = "Sprint.findByIdSprint", query = "SELECT s FROM Sprint s WHERE s.idSprint = :idSprint"),
+        @NamedQuery(name = "Sprint.findByCodigo", query = "SELECT s FROM Sprint s WHERE s.codigo = :codigo"),
+        @NamedQuery(name = "Sprint.findByNombreSprint", query = "SELECT s FROM Sprint s WHERE s.nombreSprint = :nombreSprint"),
+        @NamedQuery(name = "Sprint.findByDescripcion", query = "SELECT s FROM Sprint s WHERE s.descripcion = :descripcion"),
+        @NamedQuery(name = "Sprint.findByFechaInicio", query = "SELECT s FROM Sprint s WHERE s.fechaInicio = :fechaInicio"),
+        @NamedQuery(name = "Sprint.findByFechaFin", query = "SELECT s FROM Sprint s WHERE s.fechaFin = :fechaFin") })
 public class Sprint implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_sprint")
-    private Integer idSprint;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "codigo")
-    private String codigo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
@@ -70,6 +60,24 @@ public class Sprint implements Serializable {
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
+    @Size(max = 2147483647)
+    @Column(name = "codigo")
+    private String codigo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "completado")
+    private Boolean completado;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "iniciado")
+    private Boolean iniciado;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_sprint")
+    private Integer idSprint;
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
@@ -102,12 +110,63 @@ public class Sprint implements Serializable {
         this.idSprint = idSprint;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public Date getFechaFin() {
+        return fechaFin;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public Proyecto getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(Proyecto idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+
+    @XmlTransient
+    public Collection<HistoriaUsuario> getHistoriaUsuarioCollection() {
+        return historiaUsuarioCollection;
+    }
+
+    public void setHistoriaUsuarioCollection(Collection<HistoriaUsuario> historiaUsuarioCollection) {
+        this.historiaUsuarioCollection = historiaUsuarioCollection;
+    }
+
+    public String formatDateISO(Date date) {
+        if (date == null) {
+            return "";
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        return dateFormat.format(date);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idSprint != null ? idSprint.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Sprint)) {
+            return false;
+        }
+        Sprint other = (Sprint) object;
+        if ((this.idSprint == null && other.idSprint != null)
+                || (this.idSprint != null && !this.idSprint.equals(other.idSprint))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "py.una.pol.ejb.model.Sprint[ idSprint=" + idSprint + " ]";
     }
 
     public String getNombreSprint() {
@@ -134,54 +193,28 @@ public class Sprint implements Serializable {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public Proyecto getIdProyecto() {
-        return idProyecto;
+    public Boolean getCompletado() {
+        return completado;
     }
 
-    public void setIdProyecto(Proyecto idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setCompletado(Boolean completado) {
+        this.completado = completado;
     }
 
-    @XmlTransient
-    public Collection<HistoriaUsuario> getHistoriaUsuarioCollection() {
-        return historiaUsuarioCollection;
+    public Boolean getIniciado() {
+        return iniciado;
     }
 
-    public void setHistoriaUsuarioCollection(Collection<HistoriaUsuario> historiaUsuarioCollection) {
-        this.historiaUsuarioCollection = historiaUsuarioCollection;
+    public void setIniciado(Boolean iniciado) {
+        this.iniciado = iniciado;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idSprint != null ? idSprint.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sprint)) {
-            return false;
-        }
-        Sprint other = (Sprint) object;
-        if ((this.idSprint == null && other.idSprint != null) || (this.idSprint != null && !this.idSprint.equals(other.idSprint))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "py.una.pol.ejb.model.Sprint[ idSprint=" + idSprint + " ]";
-    }
-    
 }

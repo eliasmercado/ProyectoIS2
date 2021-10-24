@@ -38,13 +38,17 @@ public enum GenericMessage {
     USER_ALREADY_EXISTS("El usuario ya existe en el sistema"),
     PROYECTO_CANCELADO("El proyecto se encuentra cancelado"),
     ROLES_LIST_EMPTY("No existe ningun rol"),
+    FASES_LIST_EMPTY("No existe ninguna fase"),
     MODULOS_LIST_EMPTY("No existe ningun modulo"),
     ROLPERMISO_CREATED("Se asigno el permiso con exito"),
     ROL_NOT_CREATED("NO se pudo crear el rol"),
-    ROL_NOT_UPDATED("NO se pudo actualizar el rol"),
+    ROL_NOT_UPDATED("NO se pudo actualizar el Rol"),
+    SPRINT_NOT_UPDATED("NO se pudo actualizar el Sprint"),
     ROL_NOT_FOUND("Rol inexistente"),
+    SPRINT_NOT_FOUND("No existe el Sprint"),
     ROLPERMISO_ALREADY_EXISTS("Ya existe el RolPermiso en el sistema"),
-    ROLPERMISO_NOT_CREATED("No se pudo crear el RolUsuario");
+    ROLPERMISO_NOT_CREATED("No se pudo crear el RolUsuario"),
+    SPRINT_NOT_CREATED("No se pudo crear el Sprint");
 
     private final String descripcion;
 

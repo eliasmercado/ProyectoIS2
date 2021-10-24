@@ -145,4 +145,23 @@ public class ProyectoBean {
             throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
     }
 
+    public ProyectoPostResponseDto finalizarProyecto(Integer idProyecto, ProyectoGenericDto proyectoDto) throws AgileSysException {
+        ProyectoPostResponseDto response = new ProyectoPostResponseDto();
+        Proyecto proyecto = proyectoDao.findByProyecto(idProyecto);
+       
+        if(proyecto != null){
+            try{
+                proyecto.setFechaFin(DateHelper.stringToDate(proyectoDto.getFechaFin()));
+                proyecto.setIdEstado(new Estado(2));
+                proyectoDao.edit(proyecto);
+                response.setMessage("Proyecto finalizado con exito");
+                return response;
+        }catch (Exception e){
+            throw new AgileSysException(GenericMessage.PROJECT_NOT_UPDATED, e.getMessage());
+        } 
+    }else   
+        throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
+    }
+
+
 }
