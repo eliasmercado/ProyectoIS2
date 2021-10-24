@@ -154,10 +154,8 @@ export default {
         title: "DESARROLLO",
         childItems: [
           { icon: "mdi-clipboard-text", text: "Backlog", to: "/desarrollo/backlog" },
-          { icon: "mdi-view-week-outline", text: "Tablero", to: "/board" },
-          { icon: "mdi-account-group", text: "Miembros", to: "/members" },
-          { icon: "mdi-cog", text: "Settings", to: "/settings" },
-          { icon: "mdi-help-circle", text: "Ayuda", to: "/help" },
+          { icon: "mdi-view-week-outline", text: "Tablero", to: "/desarrollo/board" },
+          { icon: "mdi-clipboard-clock", text: "Sprints", to: "/desarrollo/sprints" },
         ],
       },
     ],

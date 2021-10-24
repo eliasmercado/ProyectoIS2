@@ -3,8 +3,7 @@ import Vue from "vue";
 import Home from "@/views/Home/Home.vue";
 import Backlog from "@/views/ModuloDesarrollo/Backlog/Backlog.vue";
 import Board from "@/views/ModuloDesarrollo/Board/Board.vue";
-import Members from "@/views/ModuloDesarrollo/Members/Members.vue";
-import Settings from "@/views/ModuloDesarrollo/Settings/Settings.vue";
+import Sprints from "@/views/ModuloDesarrollo/Sprints/Sprints.vue";
 import Login from "@/views/Login.vue";
 import Usuarios from "@/views/ModuloSeguridad/Usuarios/Usuarios.vue";
 import Permisos from "@/views/ModuloSeguridad/Permisos/Permisos.vue";
@@ -55,24 +54,18 @@ const routes = [
         path: "/desarrollo/backlog",
         name: "Backlog",
         component: Backlog,
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true, requiresProject: true },
       },
       {
-        path: "/board",
+        path: "/desarrollo/board",
         name: "Board",
         component: Board,
         meta: { requiresAuth: true, requiresProject: true },
       },
       {
-        path: "/members",
-        name: "Members",
-        component: Members,
-        meta: { requiresAuth: true, requiresProject: true },
-      },
-      {
-        path: "/settings",
-        name: "Settings",
-        component: Settings,
+        path: "/desarrollo/sprints",
+        name: "Sprints",
+        component: Sprints,
         meta: { requiresAuth: true, requiresProject: true },
       },
     ],
