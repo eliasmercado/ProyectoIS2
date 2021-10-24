@@ -7,6 +7,10 @@ export default {
   },
   data: () => ({
     dialog: false,
+    dialogMiembros: false,
+    idUsuarioResponsable: null,
+    eventoActual: null,
+    usuariosMiembros: [],
     validForm: true,
     nameRules: [(v) => !!v || "Nombre es requerido"],
     descripcionRules: [(v) => !!v || "Descripción es requerido"],
@@ -18,6 +22,7 @@ export default {
       .substr(0, 10),
     backlog: [],
     sprints: [],
+    sprintsCompletados: [],
     sprintActual: null,
     historiasActual: [],
     validacionIniciar: null,
@@ -33,6 +38,7 @@ export default {
         .toISOString()
         .substr(0, 10),
       idProyecto: "",
+      idUsuarioResponsable: null,
     },
     defaultItem: {
       id: 0,
@@ -45,6 +51,7 @@ export default {
         .toISOString()
         .substr(0, 10),
       idProyecto: "",
+      idUsuarioResponsable: null,
     },
   }),
 
@@ -69,11 +76,26 @@ export default {
         .get("/v1/sprint")
         .then((response) => (this.sprints = response.data.data));
 
+      this.sprintsCompletados = this.sprints.filter(
+        (x) =>
+          x.idProyecto == this.$store.state.LoginStore.idProyecto &&
+          x.completado
+      );
+
       this.sprints = this.sprints.filter(
         (x) =>
           x.idProyecto == this.$store.state.LoginStore.idProyecto &&
           !x.completado
       );
+
+      await this.axios
+        .get("/v1/usuario")
+        .then(
+          (response) =>
+            (this.usuariosMiembros = response.data.data.filter(
+              (x) => x.idProyecto == this.$store.state.LoginStore.idProyecto
+            ))
+        );
     },
 
     editItem(item) {
@@ -89,7 +111,21 @@ export default {
       e.itemData = this[e.fromData][e.fromIndex];
     },
 
-    async onAdd(e) {
+    onAdd(e) {
+      this.eventoActual = e;
+      this.dialogMiembros = true;
+    },
+
+    agregarMiembros() {
+      if (this.idUsuarioResponsable == null) {
+        alert("Por favor agregue el responsable de la historia.");
+        return;
+      }
+      this.sprintActual.idUsuarioResponsable = this.idUsuarioResponsable;
+      this.actualizarHistoria(this.eventoActual);
+    },
+
+    async actualizarHistoria(e) {
       let historiaUsuario = e.itemData;
       let idSprint = this.sprintActual.idSprint;
 
@@ -98,6 +134,7 @@ export default {
         descripcion: historiaUsuario.descripcion,
         idSprint: idSprint,
         idFase: historiaUsuario.idFase,
+        idUsuarioResponsable: this.sprintActual.idUsuarioResponsable,
       };
 
       await this.axios
@@ -113,6 +150,8 @@ export default {
             data.splice(e.toIndex, 0, e.itemData);
             this[e.toData] = data;
             this.sprintActual.historiasUsuario = data;
+            this.dialogMiembros = false;
+            this.idUsuarioResponsable = null;
           }
         })
         .catch((error) => {
@@ -322,7 +361,21 @@ export default {
         });
     },
 
+    verificarFaseHistorias(historias) {
+      for (var index in historias) {
+        if (historias[index].idFase != 3) return true;
+      }
+      return false;
+    },
+
     async completarSprint() {
+      if (this.verificarFaseHistorias(this.sprintActual.historiasUsuario)) {
+        alert(
+          "Se deben finalizar todas las historias de usuario para completar el sprint."
+        );
+        return;
+      }
+
       let idSprint = this.sprintActual.idSprint;
 
       var data = {
