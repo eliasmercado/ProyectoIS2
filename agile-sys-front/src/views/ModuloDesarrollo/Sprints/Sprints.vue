@@ -60,7 +60,13 @@
                             offset-y
                             max-width="290px"
                             min-width="auto"
-                            :disabled="sprintActual ? sprintActual.iniciado ? true : false : false"
+                            :disabled="
+                              sprintActual
+                                ? sprintActual.iniciado
+                                  ? true
+                                  : false
+                                : false
+                            "
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
@@ -126,7 +132,12 @@
             </v-dialog>
           </v-col>
           <v-col>
-            <v-btn color="primary" dark class="mt-5" small
+            <v-btn
+              @click="dialogFinProyecto = true"
+              color="primary"
+              dark
+              class="mt-5"
+              small
               >Finalizar Proyecto</v-btn
             >
           </v-col>
@@ -182,11 +193,19 @@
                   >Completar Sprint</v-btn
                 >
                 <v-btn
-                  class="mr-5"
+                  class="mr-2"
                   color="primary"
                   x-small
                   @click="editItem(sprintActual)"
                   >Editar</v-btn
+                >
+
+                <v-btn
+                  class="mr-5"
+                  color="primary"
+                  x-small
+                  @click="dialogEliminar = true"
+                  >Eliminar</v-btn
                 >
               </v-row>
               <br />
@@ -278,6 +297,36 @@
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="agregarMiembros"
             >Aceptar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogEliminar" persistent width="560">
+      <v-card>
+        <v-card-title class="headline"
+          >Está seguro que desea eliminar este elemento?</v-card-title
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="deleteItem">Aceptar</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogEliminar = false"
+            >Cancelar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+     <v-dialog v-model="dialogFinProyecto" persistent width="560">
+      <v-card>
+        <v-card-title class="headline"
+          >Está seguro que desea finalizar el proyecto?</v-card-title
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="finalizarProyecto">Aceptar</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogFinProyecto = false"
+            >Cancelar</v-btn
           >
         </v-card-actions>
       </v-card>

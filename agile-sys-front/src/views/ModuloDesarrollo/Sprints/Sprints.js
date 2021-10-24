@@ -1,4 +1,5 @@
 import DxList, { DxItemDragging } from "devextreme-vue/list";
+import { mapMutations } from "vuex";
 
 export default {
   components: {
@@ -8,6 +9,8 @@ export default {
   data: () => ({
     dialog: false,
     dialogMiembros: false,
+    dialogEliminar: false,
+    dialogFinProyecto: false,
     idUsuarioResponsable: null,
     eventoActual: null,
     usuariosMiembros: [],
@@ -60,6 +63,8 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["FIN_PROYECTO"]),
+
     async initialize() {
       this.sprintActuaL = null;
       await this.axios
@@ -321,6 +326,30 @@ export default {
         });
     },
 
+    async deleteItem() {
+      if (this.sprintActual.historiasUsuario.length > 0) {
+        alert("El sprint no tiene que tener historias de usuario.");
+        return;
+      }
+
+      let idSprint = this.sprintActual.idSprint;
+      await this.axios
+        .delete("/v1/sprint/" + idSprint)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.sprintActual = null;
+            this.initialize();
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+
+      this.dialogEliminar = false;
+    },
+
     async iniciarSprint() {
       if (this.sprintActual.historiasUsuario.length == 0) {
         alert("No se puede iniciar un sprint sin historias de usuario.");
@@ -426,6 +455,41 @@ export default {
 
       this.historiasActual = this.sprintActual.historiasUsuario;
     },
+
+    async finalizarProyecto() {
+      for(var index in this.sprints) {
+        if (!this.sprints[index].completado) {
+          alert("Debe finalizar todos los sprints antes de finalizar el proyecto.");
+          return;
+        }
+      }
+
+      let idProyecto = this.$store.state.LoginStore.idProyecto;
+      let fechaActual = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+
+      var data = {
+        fechaFin: this.formatDate(fechaActual),
+      };
+
+      await this.axios
+        .put("/v1/finProyecto/" + idProyecto, data)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.FIN_PROYECTO();
+            this.$router.push({ path: "/" });
+            this.dialogFinProyecto = false;
+          }
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error inesperado", error);
+        });
+    },
   },
 
   watch: {
@@ -444,7 +508,10 @@ export default {
     },
 
     computedDateFormattedFecInicio() {
-      this.editedItem.fechaFin = this.sumarDias(new Date(this.editedItem.fechaInicio), 14);
+      this.editedItem.fechaFin = this.sumarDias(
+        new Date(this.editedItem.fechaInicio),
+        14
+      );
       return this.formatDate(this.editedItem.fechaInicio);
     },
 

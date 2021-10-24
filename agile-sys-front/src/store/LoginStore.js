@@ -51,6 +51,10 @@ const mutations = {
   SAVE_MENU(state, payload) {
     state.menuPermiso = payload;
   },
+
+  FIN_PROYECTO(state) {
+    state.idProyecto = 0;
+  }
 };
 
 const actions = {

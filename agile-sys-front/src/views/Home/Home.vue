@@ -59,7 +59,7 @@
       </v-col>
     </v-row>
 
-    <v-row justify="center">
+    <v-row v-else justify="center">
       <div class="text-h4 font-weight-medium" style="color: #ffff">
         No tenes proyectos activos
       </div>
