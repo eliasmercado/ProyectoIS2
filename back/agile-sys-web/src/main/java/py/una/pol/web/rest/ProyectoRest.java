@@ -46,6 +46,24 @@ public class ProyectoRest {
 
     @GET
     @Produces("application/json")
+    @Path("/terminado/{idUsuario}")
+    public ResponseDto enviarProyectosTerminados(@PathParam("idUsuario") Integer idUsuario) {
+        ResponseDto response;
+        try {
+            List<ProyectoResponseDto> proyectoResponse = proyectoBean.enviarProyectosTerminados(idUsuario);
+            response = new ResponseDto<List<ProyectoGenericDto>>();
+            response.setData(proyectoResponse);
+        } catch (AgileSysException e) {
+            response = new ResponseDto<>();
+            MessageDto msg = new MessageDto();
+            msg.setMessage(e.getDescripcion());
+            response.setError(msg);
+        }
+        return response;
+    }
+
+    @GET
+    @Produces("application/json")
     public ResponseDto getProyectos() {
 
         ResponseDto response;

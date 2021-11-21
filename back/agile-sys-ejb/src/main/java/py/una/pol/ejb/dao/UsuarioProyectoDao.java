@@ -35,6 +35,17 @@ public class UsuarioProyectoDao extends GenericDao<UsuarioProyecto> {
             return null;
     }
 
+    public List<UsuarioProyecto> findProyectoTerminadoByIdUsuario(Integer idUsuario) {
+        TypedQuery<UsuarioProyecto> query = em
+                .createNamedQuery("UsuarioProyecto.findProyectoTerminadoByIdUsuario", UsuarioProyecto.class)
+                .setParameter("idUsuario", idUsuario);
+        List<UsuarioProyecto> results = query.getResultList();
+        if (results.size() > 0)
+            return results;
+        else
+            return null;
+    }
+
     public UsuarioProyecto findProyectoByIdUsuarioIdProyecto(Integer idProyecto, Integer idUsuario) {
         TypedQuery<UsuarioProyecto> query = em
                 .createNamedQuery("UsuarioProyecto.findProyectoByIdUsuarioIdProyecto", UsuarioProyecto.class)

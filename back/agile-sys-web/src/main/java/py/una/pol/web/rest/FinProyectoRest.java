@@ -1,12 +1,8 @@
 package py.una.pol.web.rest;
 
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -29,7 +25,7 @@ public class FinProyectoRest {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{idProyecto}")
-    public ResponseDto updateProyecto(@PathParam("idProyecto") Integer id_proyecto,
+    public ResponseDto finalizarProyecto(@PathParam("idProyecto") Integer id_proyecto,
             ProyectoGenericDto proyectoGenericDto) {
 
         ResponseDto response;
