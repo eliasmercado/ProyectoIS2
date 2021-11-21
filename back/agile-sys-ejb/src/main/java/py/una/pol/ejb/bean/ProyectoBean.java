@@ -70,7 +70,7 @@ public class ProyectoBean {
                     System.out.println("listUsuProy size: " + listUsuProy.size());
                     if (listUsuProy != null) {
                         for (UsuarioProyecto user : listUsuProy) {
-                            if(user.getIdUsuario().getEstado()){
+                            if (user.getIdUsuario().getEstado()) {
                                 ProyectoUsuarioDto upDto = new ProyectoUsuarioDto();
                                 upDto.setIdUsuarioProyecto(user.getIdUsuarioProyecto());
                                 upDto.setIdUsuario(user.getIdUsuario().getIdUsuario());
@@ -82,18 +82,38 @@ public class ProyectoBean {
                     }
                     dto.setUsuarios(usuarios);
                     response.add(dto);
-                }           
+                }
             }
-        } 
+        }
         return response;
     }
 
+    public List<ProyectoResponseDto> enviarProyectosTerminados(Integer idUsuario) throws AgileSysException {
+        List<ProyectoResponseDto> response = new ArrayList<>();
+        List<UsuarioProyecto> proyectos = usuarioProyectoDao.findProyectoTerminadoByIdUsuario(idUsuario);
+        ProyectoResponseDto dto = null;
+
+        if (proyectos != null) {
+            for (UsuarioProyecto proyecto : proyectos) {
+
+                dto = new ProyectoResponseDto();
+                dto.setIdProyecto(proyecto.getIdProyecto().getIdProyecto());
+                dto.setNombre(proyecto.getIdProyecto().getNombreProyecto());
+                dto.setDescripcion(proyecto.getIdProyecto().getDescripcionProyecto());
+                if (proyecto.getIdProyecto().getFechaFin() != null)
+                    dto.setFechaFin(DateHelper.getDateISO8601(proyecto.getIdProyecto().getFechaFin()));
+                response.add(dto);
+
+            }
+        }
+        return response;
+    }
 
     public ProyectoPostResponseDto postProyecto(ProyectoGenericDto proyectoGenericDto) throws AgileSysException {
         ProyectoPostResponseDto response = new ProyectoPostResponseDto();
         Proyecto proyecto = new Proyecto();
-  
-        try{
+
+        try {
             proyecto = new Proyecto();
             proyecto.setDescripcionProyecto(proyectoGenericDto.getDescripcion());
             proyecto.setNombreProyecto(proyectoGenericDto.getNombre());
@@ -102,66 +122,67 @@ public class ProyectoBean {
             proyectoDao.create(proyecto);
             response.setIdProyecto(proyecto.getIdProyecto());
             response.setMessage(GenericMessage.USER_CREATED.getDescripcion());
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AgileSysException(GenericMessage.PROJECT_NOT_CREATED, e.getMessage());
         }
         return response;
     }
 
-    public ProyectoPostResponseDto updateProyecto(Integer idProyecto, ProyectoGenericDto proyectoDto) throws AgileSysException {
+    public ProyectoPostResponseDto updateProyecto(Integer idProyecto, ProyectoGenericDto proyectoDto)
+            throws AgileSysException {
         ProyectoPostResponseDto response = new ProyectoPostResponseDto();
         Proyecto proyecto = proyectoDao.findByProyecto(idProyecto);
-       
-        if(proyecto != null){
-            try{
+
+        if (proyecto != null) {
+            try {
                 proyecto.setDescripcionProyecto(proyectoDto.getDescripcion());
                 proyecto.setNombreProyecto(proyectoDto.getNombre());
                 proyecto.setFechaInicio(DateHelper.stringToDate(proyectoDto.getFechaInicio()));
                 proyectoDao.edit(proyecto);
                 response.setMessage(GenericMessage.PROJECT_UPDATED.getDescripcion());
                 return response;
-        }catch (Exception e){
-            throw new AgileSysException(GenericMessage.PROJECT_NOT_UPDATED, e.getMessage());
-        } 
-    }else   
-        throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
+            } catch (Exception e) {
+                throw new AgileSysException(GenericMessage.PROJECT_NOT_UPDATED, e.getMessage());
+            }
+        } else
+            throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
     }
 
     public ProyectoPostResponseDto deleteProyecto(Integer idProyecto) throws AgileSysException {
         ProyectoPostResponseDto response = new ProyectoPostResponseDto();
         Proyecto proyecto = proyectoDao.findByProyecto(idProyecto);
-        
-        if(proyecto != null){   
-            try{
+
+        if (proyecto != null) {
+            try {
                 proyecto.setIdEstado(new Estado(3));
                 proyectoDao.edit(proyecto);
                 response.setMessage(GenericMessage.PROJECT_DELETED.getDescripcion());
                 return response;
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new AgileSysException(GenericMessage.PROJECT_NOT_DELETED, e.getMessage());
             }
-        
-        }else
+
+        } else
             throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
     }
 
-    public ProyectoPostResponseDto finalizarProyecto(Integer idProyecto, ProyectoGenericDto proyectoDto) throws AgileSysException {
+    public ProyectoPostResponseDto finalizarProyecto(Integer idProyecto, ProyectoGenericDto proyectoDto)
+            throws AgileSysException {
         ProyectoPostResponseDto response = new ProyectoPostResponseDto();
         Proyecto proyecto = proyectoDao.findByProyecto(idProyecto);
-       
-        if(proyecto != null){
-            try{
+
+        if (proyecto != null) {
+            try {
                 proyecto.setFechaFin(DateHelper.stringToDate(proyectoDto.getFechaFin()));
                 proyecto.setIdEstado(new Estado(2));
                 proyectoDao.edit(proyecto);
                 response.setMessage("Proyecto finalizado con exito");
                 return response;
-        }catch (Exception e){
-            throw new AgileSysException(GenericMessage.PROJECT_NOT_UPDATED, e.getMessage());
-        } 
-    }else   
-        throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
+            } catch (Exception e) {
+                throw new AgileSysException(GenericMessage.PROJECT_NOT_UPDATED, e.getMessage());
+            }
+        } else
+            throw new AgileSysException(GenericMessage.PROYECTO_NOT_FOUND);
     }
-
 
 }
