@@ -1,7 +1,10 @@
 import axios from "axios";
 import router from "@/router/index";
 
-let apiUrl = "http://localhost:8180/agile-sys-web";
+let apiUrl =
+  process.env.NODE_ENV == "development"
+    ? "http://localhost:8180/agile-sys-web"
+    : "http://192.81.215.102:8080/agile-sys-web";
 
 const state = {
   idUsuario: null,
@@ -54,7 +57,7 @@ const mutations = {
 
   FIN_PROYECTO(state) {
     state.idProyecto = 0;
-  }
+  },
 };
 
 const actions = {

@@ -1,5 +1,5 @@
-import 'devextreme/dist/css/dx.common.css';
-import 'devextreme/dist/css/dx.light.css';
+import "devextreme/dist/css/dx.common.css";
+import "devextreme/dist/css/dx.light.css";
 import Vue from "vue";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
@@ -12,7 +12,10 @@ import store from "./store/index";
 Vue.use(Vuex);
 Vue.use(Vueaxios, axios);
 
-const baseURL = "http://localhost:8180/agile-sys-web/api";
+const baseURL =
+  process.env.NODE_ENV == "development"
+    ? "http://localhost:8180/agile-sys-web/api"
+    : "http://192.81.215.102:8080/agile-sys-web/api";
 
 axios.defaults.baseURL = baseURL;
 
