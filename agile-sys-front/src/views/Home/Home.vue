@@ -27,14 +27,14 @@
               </div>
               <v-card-text>
                 <p>
-                  {{ new Date().toISOString(fechaInicioProyecto).slice(0, 10) }}
+                  {{ fechaInicioProyecto }}
                 </p>
                 <div class="text--primary text-body-1">
                   {{ descripcionProyecto }}
                 </div>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="primary accent-4" to="/backlog">
+                <v-btn text color="primary accent-4" to="/desarrollo/backlog">
                   IR AL PROYECTO
                 </v-btn>
               </v-card-actions>
@@ -50,9 +50,29 @@
               <div class="white--text align-end" style="background: #009688">
                 <v-card-title>Mis asignaciones</v-card-title>
               </div>
-              <v-card-text>
-                <div class="text--primary"></div>
-              </v-card-text>
+              <v-virtual-scroll
+                bench="0"
+                :items="asignacionesEnCurso"
+                height="231"
+                item-height="64"
+              >
+                <template v-slot:default="{ item }">
+                  <v-list-item :key="item.idHistoriaUsuario">
+                    <v-list-item-avatar size="30">
+                      <v-icon color="primary"> mdi-book </v-icon>
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        <strong>US-{{ item.idHistoriaUsuario }} -</strong>
+                        {{ item.nombre }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider></v-divider>
+                </template>
+              </v-virtual-scroll>
             </v-card>
           </template>
         </v-hover>
@@ -70,16 +90,62 @@
     <br />
     <v-row justify="center">
       <v-card width="90%" class="rounded-xl">
-        <v-tabs v-model="tab" background-color="primary" dark>
+        <v-tabs v-if="verTabs" v-model="tab" background-color="primary" dark>
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
           </v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
-          <v-tab-item v-for="item in items" :key="item.tab">
+          <v-tab-item>
             <v-card flat>
-              <v-card-text>{{ item.content }}</v-card-text>
+              <v-virtual-scroll
+                bench="0"
+                :items="proyectosTerminados"
+                max-height="300"
+                item-height="64"
+              >
+                <template v-slot:default="{ item }">
+                  <v-list-item :key="item.idProyecto">
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        <strong>US-{{ item.nombre }} -</strong>
+                        {{ item.descripcion }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider></v-divider>
+                </template>
+              </v-virtual-scroll>
+            </v-card>
+          </v-tab-item>
+
+          <v-tab-item>
+            <v-card flat>
+              <v-virtual-scroll
+                bench="0"
+                :items="asignacionesTerminadas"
+                max-height="300"
+                item-height="64"
+              >
+                <template v-slot:default="{ item }">
+                  <v-list-item :key="item.idHistoriaUsuario">
+                    <v-list-item-avatar size="30">
+                      <v-icon color="primary"> mdi-book </v-icon>
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        <strong>US-{{ item.idHistoriaUsuario }} -</strong>
+                        {{ item.nombre }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider></v-divider>
+                </template>
+              </v-virtual-scroll>
             </v-card>
           </v-tab-item>
         </v-tabs-items>
