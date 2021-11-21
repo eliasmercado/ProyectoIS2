@@ -78,7 +78,7 @@ export default {
     async initializeMembers() {
       await this.axios
         .get("/v1/usuario/")
-        .then((response) => (this.itemsMiembros = response.data.data));
+        .then((response) => (this.itemsMiembros = response.data.data.filter(x => x.idProyecto == 0)));
     },
 
     editItem(item) {
