@@ -1,6 +1,7 @@
 export default {
   data: () => ({
     tab: null,
+    verTabs: false,
     nombreProyecto: "",
     descripcionProyecto: "",
     fechaInicioProyecto: "",
@@ -31,16 +32,31 @@ export default {
             this.asignacionesTerminadas = [];
             console.error(response.data.error.message);
           } else {
-            console.log(response.data.data);
-            asignaciones = response.data.data.filter(x => x.idUsuarioResponsable == this.$store.state.LoginStore.idUsuario);
+            asignaciones = response.data.data.filter(
+              (x) =>
+                x.idUsuarioResponsable == this.$store.state.LoginStore.idUsuario
+            );
           }
         });
 
-        this.asignacionesEnCurso = asignaciones.filter(x => this.obtenerFaseByIdFase(x.idFase).toUpperCase() != "DONE");
-        this.asignacionesTerminadas = asignaciones.filter(x => this.obtenerFaseByIdFase(x.idFase).toUpperCase() === "DONE");
+      await this.axios
+        .get("/v1/proyecto/terminado/" + this.$store.state.LoginStore.idUsuario)
+        .then((response) => {
+          if ("error" in response.data) {
+            console.error(response.data.error.message);
+          } else {
+            this.proyectosTerminados = response.data.data;
+          }
+        });
 
-        console.log(this.asignacionesEnCurso);
-        console.log(this.asignacionesTerminadas);
+      this.asignacionesEnCurso = asignaciones.filter(
+        (x) => this.obtenerFaseByIdFase(x.idFase).toUpperCase() != "DONE"
+      );
+      this.asignacionesTerminadas = asignaciones.filter(
+        (x) => this.obtenerFaseByIdFase(x.idFase).toUpperCase() === "DONE"
+      );
+
+      this.verTabs = true;
     },
 
     async cargarProyectoActivo() {
@@ -78,7 +94,7 @@ export default {
       return `${day}/${month}/${year}`;
     },
   },
-
+  
   mounted() {
     this.cargarProyectoActivo();
     this.initialize();

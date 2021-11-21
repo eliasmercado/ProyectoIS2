@@ -90,7 +90,7 @@
     <br />
     <v-row justify="center">
       <v-card width="90%" class="rounded-xl">
-        <v-tabs v-model="tab" background-color="primary" dark>
+        <v-tabs v-if="verTabs" v-model="tab" background-color="primary" dark>
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
           </v-tab>
@@ -99,7 +99,25 @@
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-card flat>
-              <v-card-text>proyectos terminados</v-card-text>
+              <v-virtual-scroll
+                bench="0"
+                :items="proyectosTerminados"
+                max-height="300"
+                item-height="64"
+              >
+                <template v-slot:default="{ item }">
+                  <v-list-item :key="item.idProyecto">
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        <strong>US-{{ item.nombre }} -</strong>
+                        {{ item.descripcion }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider></v-divider>
+                </template>
+              </v-virtual-scroll>
             </v-card>
           </v-tab-item>
 
